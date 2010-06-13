@@ -3,9 +3,9 @@
 #+AUTHORS: Yaakov, Jaromil, Hellekin
 #+LOCATION: Amsterdam
 
-* Notes
+* Vision
 
-autonomous, resilient, growth
+autonomous, resilient, growth, organic
 
 support people to organize themselves
 without the need of a larger organisation among them
@@ -23,6 +23,36 @@ that organises your life for you
 one of the reasons most people end up working there
 (tanti amici...)
 
+often organisation is secondary to the goals of an organisation and
+this is where people fall short. the autonomous cell must be able to
+self organize on reflex, on demand, and without concious thought. this
+will enable the autonomous, fully actualised man to bring his
+secondary skills to focus on his primary goals like a well trained
+samurai. we must be a catalyst to bring this change to the self
+organized autonomous cells
+
+* Purpose
+
+the traditional unix community is known for their terse communication
+and self made mind set. for them, unix is the primary goal and the
+primary focus. for many others, these goals are only secondary to
+achieving their primary goals, and we must show them the way to
+internalising this way into their very systems. for this reason we
+shall see the formation of a guide to implementing Getting Things Done
+via traditional unixs utilities, primarily org-mode of emacs.
+
+* Goals
+
+  - prileminary RFCs for the unix community to include
+
+  - a repository of code the autonomous cell may need to implement this
+
+  - a howto book published for our target audience
+
+  - a publishing system for a federated distributed wiki based on
+    org-mode and git for the development of this project
+
+* Notes
 
 ** Skillsets
 
