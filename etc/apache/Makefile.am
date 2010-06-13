@@ -8,14 +8,14 @@ www.$(DOMAIN): www.in
 	@cat "`echo ${@} | cut -d. -f1`.in" | sed -e "s@%autorg_path%@$(AUTORG_PATH)@g" \
 		-e "s@%domain%@$(DOMAIN)@g"                  \
 		> "`echo ${@}|cut -d. -f1`.$(DOMAIN)"
-	@touch $(AUTORG_PATH)/triggers/apache_reload
+	@touch $(AUTORG_PATH)/triggers/apache_reload.do
 	@echo "generated `echo ${@}|cut -d. -f1`.$(DOMAIN)"
 
 apache.$(DOMAIN).conf: apache.conf.in
 	@cat "`echo ${@} | cut -d. -f1`.conf.in" | sed -e "s@%autorg_path%@$(AUTORG_PATH)@g" \
 		-e "s@%domain%@$(DOMAIN)@g"                  \
 		> "`echo ${@}|cut -d. -f1`.$(DOMAIN).conf"
-	@touch $(AUTORG_PATH)/triggers/apache_reload
+	@touch $(AUTORG_PATH)/triggers/apache_reload.do
 	@echo "generated `echo ${@}|cut -d. -f1`.$(DOMAIN).conf"
 
 all: $(VHOSTS) $(CONF)
