@@ -6,7 +6,7 @@ test:
 	@echo "make sure your /etc/hosts is configured accordingly"
 	@echo "sudo sh -c 'echo \"127.0.0.1 autorg.$(DOMAIN)\" >> /etc/hosts'"
 	@echo
-	sudo mkdir -p /var/run/apache2
+	sudo mkdir -p /var/run/apache2 log/
 	sudo apache2 -f etc/apache/apache.$(DOMAIN).conf
 	@sleep 1
 	@echo
