@@ -30,7 +30,7 @@ config.sub
 configure
 config.h.in
 depcomp
-elisp/*batch.el
+elisp/*el
 install-sh
 libtool
 ltmain.sh

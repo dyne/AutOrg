@@ -1,0 +1,6 @@
+AutOrg is a publishing system for federated distributed documents
+based on emacs org-mode and git. It is ready to be built and run on a
+local desktop as well deployed on a web-server; it renders all pages
+locally, ready for server-side publishing.
+
+
