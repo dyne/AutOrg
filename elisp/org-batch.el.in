@@ -1,7 +1,7 @@
 ;; emacs org-mode batch configuration
 
 ;; local emacs extensions
-(add-to-list 'load-path "%dyne_path%/elisp/org-mode")
+(add-to-list 'load-path "%autorg_path%/elisp/org-mode")
 
 '(org-modules (quote (org-bbdb org-bibtex org-info org-jsinfo org-irc org-w3m org-mouse org-eval org-eval-light org-exp-bibtex org-man org-mtags org-panel org-R org-special-blocks org-exp-blocks)))
 
