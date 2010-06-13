@@ -1,0 +1,7 @@
+(add-to-list 'org-protocol-project-alist
+	     '(("Autorg"
+		:base-url "http://autorg.%domain%:80/"
+		:working-directory "%autorg_path%/pub/"
+		:online-suffix ".html"
+		:working-suffix ".org"
+		)))
