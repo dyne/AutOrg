@@ -1,6 +1,11 @@
 \#*
 .\#*
 *~
+*.sh
+*.html
+*.pdf
+*.txt
+*.tex
 *.log
 *.conf
 *.cron
