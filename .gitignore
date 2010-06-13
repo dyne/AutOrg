@@ -2,6 +2,7 @@
 .\#*
 *~
 *.sh
+*.do
 *.html
 *.pdf
 *.txt

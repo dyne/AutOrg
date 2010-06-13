@@ -1,0 +1,25 @@
+#+TITLE: AutOrg -= TODO 
+#+DATE: <2010-06-13 Sun>
+
+* AutOrg
+:PROPERTIES:
+:CATEGORY: AutOrg
+:END:
+
+** Make push/pull to website
+
+It should be possible to configure a remote git account to which the
+pages get pushed and pulled
+
+** Org-Protocol
+
+Make a set of procedures and/or autmatizations (scripts?
+instructions?) to setup various external applications to interact with
+autorg via org-protocolo-open-source 
+
+** Correct makefile for pub
+
+Published pages should be recompiled only when the .org file is
+changed, not every time we do a make command. Correct this behaviour
+by writing a good Make.
+

@@ -8,11 +8,16 @@
 	DocumentRoot pub
 	<Directory %autorg_path%/pub/>
 		Options Indexes FollowSymLinks MultiViews
-		AllowOverride None
-		Order allow,deny
-		allow from all
 		DirectoryIndex index
 	</Directory>
+
+	DocumentRoot doc
+	<Directory %autorg_path%/doc/>
+		Options Indexes FollowSymLinks MultiViews
+	</Directory>
+
+	# documentation directory
+	Alias /doc        %autorg_path%/doc
 
 	ErrorDocument 404 /error_404
 

@@ -109,6 +109,7 @@ elisp/Makefile
 etc/Makefile
 etc/apache/Makefile
 pub/Makefile
+doc/Makefile
 ])
 
 AC_OUTPUT
