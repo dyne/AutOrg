@@ -28,9 +28,23 @@ fi
 
 autorg=%autorg_path%
 
+newbuild=$autorg/.new-build.stamp
+oldbuild=$autorg/.old-build.stamp
+
 if [ -z $1 ]; then # no file specified, make all *.org in current dir
+
+    touch $newbuild
+
+    # Determine what to compile:
+    # - first time: all
+    # - then: only updated files
+    if [ -f $oldbuild ]; then
+      files=`find . -type f -name "*.org" -newer $oldbuild -print0`
+    else
+      files=`ls *.org`
+    fi
     
-    for f in `ls *.org`; do
+    for f in $files; do
 	
 	emacs -no-site-file -q -batch \
 	    -l ${autorg}/elisp/org-batch.el --visit $f \
@@ -46,6 +60,8 @@ if [ -z $1 ]; then # no file specified, make all *.org in current dir
 	
 	
     done
+
+    mv $newbuild $oldbuild
 
 else
 
