@@ -19,14 +19,14 @@
 # small shell script to compile .org pages into html, pdf and txt
 # using emacs, with configs and templates from dyne-web repo
 # note the templating done by a 'sed' command in Makefule
-# %autorg_path% is filled with a PATH value obtained by configure.ac
+# /home/jaromil/web/autorg is filled with a PATH value obtained by configure.ac
 
 if [ "$1" = "-h" ]; then
     echo "usage: org-compile-pages.sh [file.org]"
     exit 1
 fi
 
-autorg=%autorg_path%
+autorg=/home/jaromil/web/autorg
 
 if [ -z $1 ]; then # no file specified, make all *.org in current dir
     

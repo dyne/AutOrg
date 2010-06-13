@@ -61,7 +61,7 @@ dnl ==============================================================
 AM_INIT_AUTOMAKE([dist-bzip2 subdir-objects -Wno-portability])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
-AC_CONFIG_SRCDIR([php/index.php])
+AC_CONFIG_SRCDIR([doc/autonomy-is-organization.org])
 
 dnl Checks for programs.
 AC_PROG_INSTALL
@@ -89,8 +89,8 @@ if test "x${prefix}" = "xNONE"; then
    prefix=`pwd`
 fi
 AC_MSG_RESULT([${prefix}])
-DYNE_PATH="${prefix}"
-AC_SUBST(DYNE_PATH)
+AUTORG_PATH="${prefix}"
+AC_SUBST(AUTORG_PATH)
 
 AC_MSG_CHECKING([for which domain we are configuring])
 AC_ARG_WITH(domain,
@@ -106,6 +106,9 @@ AC_CONFIG_FILES([
 Makefile
 bin/Makefile
 elisp/Makefile
+etc/Makefile
+etc/apache/Makefile
+pub/Makefile
 ])
 
 AC_OUTPUT

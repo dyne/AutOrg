@@ -1,0 +1,5 @@
+#+TITLE: AutOrg - autonomous distributed information system
+#+DATE: <2010-06-13 Sun>
+
+
+* It Works!
