@@ -1,0 +1,57 @@
+#+TITLE: Org for autonomous and resilient growth
+#+DATE: <2010-06-13 Sun>
+#+AUTHORS: Yaakov, Jaromil, Hellekin
+#+LOCATION: Amsterdam
+
+* Notes
+
+autonomous, resilient, growth
+
+support people to organize themselves
+without the need of a larger organisation among them
+empowering potential creatives to feel involved
+and constantly productive, organising themselves
+
+the examples are anarchists in hostile situations
+where being autonomous and efficient for a single cell
+is vital
+
+or players into the economy games, to create companies
+rather than work for large multi-nationals
+where the attractive element is that of a large organisation
+that organises your life for you
+one of the reasons most people end up working there
+(tanti amici...)
+
+
+** Skillsets
+
+| Yaakov   | org-agenda, org-protocol |
+| Jaromil  | org-agenda, org-latex    |
+| Hellekin | org-todo, org-html       |
+
+
+
+required skills: org-mode, mutt, emacs, uzbl and other web browsers
+
+
+** Links
+
+*** Git + Emacs
+http://www.emacswiki.org/emacs/VersionControlAlways
+http://files.taesoo.org/git-emacs/git-emacs.html
+
+
+
+*** Wiki and documents
+
+org-protocol-open-source
+
+A repository of documents collectively edited that everypone possesses
+
+the next step for any information base: everyone has a copy locally
+and editing online happens exchangig via git
+
+publication on the web is automatised (a'la dyne-web)
+
+
