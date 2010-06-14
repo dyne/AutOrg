@@ -1,4 +1,4 @@
-SUBDIRS = elisp etc bin pub doc
+SUBDIRS = etc src
 
 test:
 	@echo

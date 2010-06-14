@@ -119,6 +119,7 @@ etc/Makefile
 etc/apache/Makefile
 pub/Makefile
 doc/Makefile
+src/Makefile
 ])
 
 AC_OUTPUT
