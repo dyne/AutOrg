@@ -1,0 +1,5 @@
+#+STARTUP: overview
+#+STARTUP: hidestars
+#+STARTUP: logdone
+#+TAGS: code(c) sysadm(s) buro(b) dyne(d) fun(f)
+#+SEQ_TODO: TODO(t) NEXT(n) APPT(a) WAITING(w) SOMEDAY(s) | DONE(d) CANCELLED(c) DEFERRED(f)
