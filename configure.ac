@@ -101,6 +101,15 @@ AC_MSG_RESULT([${with_domain}])
 DOMAIN="$with_domain"
 AC_SUBST(DOMAIN)
 
+AC_MSG_CHECKING([which org-mode to use])
+AC_ARG_WITH(org-mode,
+	AS_HELP_STRING([--with-org-mode],[specify where to find org-mode])
+	[with_orgmode=$withval],
+	[with_orgmode=auto])
+AC_MSG_RESULT([${with_orgmode}])
+ORGMODE="$with_orgmode"
+AC_SUBST(ORGMODE)
+
 dnl alphabetic order on dir/subdir, but Makefile sorts before everything
 AC_CONFIG_FILES([
 Makefile
