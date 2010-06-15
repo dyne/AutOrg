@@ -14,6 +14,7 @@
 *.pyc
 *.elc
 *.pid
+*.stamp
 *.tex
 *.tmplc
 *.vhost
@@ -30,12 +31,12 @@ config.sub
 configure
 config.h.in
 depcomp
-elisp/*el
 install-sh
 libtool
 ltmain.sh
 Makefile
 Makefile.in
 missing
+src/*.el
 stamp-h1
 tags
