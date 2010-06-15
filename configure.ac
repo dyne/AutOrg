@@ -103,7 +103,7 @@ AC_SUBST(DOMAIN)
 
 AC_MSG_CHECKING([which org-mode to use])
 AC_ARG_WITH(org-mode,
-	AS_HELP_STRING([--with-org-mode],[specify where to find org-mode])
+	AS_HELP_STRING([--with-org-mode],[specify where to find org-mode]),
 	[with_orgmode=$withval],
 	[with_orgmode=auto])
 AC_MSG_RESULT([${with_orgmode}])
