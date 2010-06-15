@@ -1,0 +1,58 @@
+#!/bin/sh
+#
+# org-compile-pages.sh - export .org pages to HTML, PDF, TEX and TXT.
+#
+# %autorg_path% is filled with a PATH value obtained by configure.ac
+#
+# Copyright 2010 Denis Roio <jaromil@dyne.org>
+#
+# This source code is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Public License as published 
+# by the Free Software Foundation; either version 2 of the License,
+# or (at your option) any later version.
+#
+# This source code is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# Please refer to the GNU Public License for more details.
+#
+# You should have received a copy of the GNU Public License along with
+# this source code; if not, write to:
+# Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA
+
+if [ "$1" = "-h" ]; then
+    echo "Usage: org-compile-pages.sh [file.org]"
+    exit 1
+fi
+
+autorg=%autorg_path%
+
+newbuild=$autorg/src/.new-build.stamp
+oldbuild=$autorg/src/.old-build.stamp
+
+PATH="$autorg/bin:$PATH"
+
+org_export_all()
+{
+    for file in $@; do
+        for fmt in ascii html pdf; do
+            org-export-as $fmt $file
+        done
+    done
+}
+
+if [ -z $1 ]; then # no file specified, make all *.org
+
+    cd $autorg
+
+    find_org_files='find doc pub src -type f -name "*.org"'
+    if [ -f $oldbuild ]; then
+        find_org_files="$find_org_files -newer $oldbuild"
+    fi
+    files=`$find_org_files -print0`
+    touch $newbuild
+    test -z $files || org_export_all $files
+    mv $newbuild $oldbuild
+else
+    org_export_all $1
+fi

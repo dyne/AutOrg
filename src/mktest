@@ -1,0 +1,26 @@
+#!/bin/sh
+#
+# mktest - Launch a test server on localhost:2010
+#
+# TODO: replace with awk server (doesn't require root nor any dependencies)
+
+domain="$1"  # The configured domain (should not be necessary)
+
+echo
+#echo " AutOrg Test Server runs a minimal web server on http://localhost:2010"
+echo
+# FIXME: This should not be necessary for testing.  Use localhost!
+echo "/!\ Make sure your /etc/hosts is configured for $(DOMAIN)!"
+echo "e.g.: sudo sh -c 'echo \"127.0.0.1 autorg.$(DOMAIN)\" >> /etc/hosts'"
+echo
+
+# FIXME: remove the dependency on Apache for testing
+sudo mkdir -p ./log /var/run/apache2
+sudo apache2 -f etc/apache/apache.$(DOMAIN).conf
+
+sleep 1
+echo
+echo "apache2 running with pid `cat etc/apache/test.pid`"
+echo "to stop it, use 'sudo killall apache2' or simply:"
+echo "sudo kill `cat etc/apache/test.pid`"
+echo

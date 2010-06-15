@@ -1,0 +1,36 @@
+#!/bin/bash
+#
+# org-export-as - Export given org file to given format
+#
+# It requires org-batch.el (run make)
+#
+### Examples
+#
+# org-export-as ascii foo.txt    # => foo.org -> foo.txt
+# org-export-as html index.html  # => index.org -> index.html
+# org-export-as pdf foo.pdf      # => foo.org -> foo.pdf (and foo.tex)
+#
+# FIXME: license
+#
+
+### Arguments:
+
+fmt="$1"    # the target format: ascii, html or pdf
+out="$2"    # the target filename: e.g. index.html
+
+### Sanity check
+
+readonly -a formats=(ascii html pdf)
+[[ ${formats[*]} =~ $fmt ]] || { echo "first argument must be one of: ${formats[*]}"; exit 1; }
+
+test -f org-batch.el || { echo "missing elisp: org-batch.el"; exit 1; }
+
+org="${out/.*/.org}"  # the org source filename: e.g. index.org
+test -f $org || { echo "missing org source: $org"; exit 1; }
+
+### Export file
+
+emacs -no-site-file -q -batch -l org-batch.el \
+      --visit $org -f org-export-as-$fmt > $out
+
+echo " II Exported $org to $out"
