@@ -1,6 +1,6 @@
 confs = $(shell ls -t *.el.in | sed 's/el.in/el/g')
 
-scripts = $(shell ls -t *.sh.in | sed 's/sh.in/sh/g')
+# scripts = $(shell ls -t *.sh.in | sed 's/sh.in/sh/g')
 
 pages = $(shell ls -t *.org | sed 's/org/html/g')
 pages += $(shell ls -t *.org | sed 's/org/pdf/g')

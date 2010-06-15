@@ -113,11 +113,8 @@ AC_SUBST(ORGMODE)
 dnl alphabetic order on dir/subdir, but Makefile sorts before everything
 AC_CONFIG_FILES([
 Makefile
-bin/Makefile
-elisp/Makefile
 etc/Makefile
 etc/apache/Makefile
-pub/Makefile
 doc/Makefile
 src/Makefile
 ])

@@ -5,13 +5,12 @@
 	ServerName aut.%domain%
 	ServerAlias aut.dyne.org
 
-	DocumentRoot pub
-	<Directory %autorg_path%/pub/>
+	DocumentRoot src
+	<Directory %autorg_path%/src/>
 		Options Indexes FollowSymLinks MultiViews
 		DirectoryIndex index
 	</Directory>
 
-	DocumentRoot doc
 	<Directory %autorg_path%/doc/>
 		Options Indexes FollowSymLinks MultiViews
 	</Directory>
@@ -19,7 +18,7 @@
 	# documentation directory
 	Alias /doc        %autorg_path%/doc
 
-	ErrorDocument 404 /error_404
+	ErrorDocument 404 /error_404.html
 
    # debug, info, notice, warn, error, crit, alert, emerg.
    LogLevel warn
