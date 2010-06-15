@@ -2,6 +2,8 @@
 
 ;; local emacs extensions
 (add-to-list 'load-path "%orgmode_path%")
+(add-to-list 'load-path "%orgmode_path%/lisp")
+(add-to-list 'load-path "%orgmode_path%/contrib/lisp")
 
 '(org-modules (quote (org-bbdb org-bibtex org-info org-jsinfo
                       org-irc org-w3m org-mouse org-eval
@@ -23,7 +25,6 @@
 
 ;; org mode customisations
 (setq org-export-htmlize-output-type 'css)
-
 
 '(org-export-blocks (quote ((comment org-export-blocks-format-comment t)
 			    (ditaa org-export-blocks-format-ditaa nil)
