@@ -1,0 +1,13 @@
+#!/bin/sh
+
+pages=`ls *html`
+
+index="<html><head><title>test</title></head><body>"
+
+for p in $pages; do
+   index="$index <a href=\"$p\">$p</a><br>"
+done
+index="$index </body></html>"
+
+res=`awk -v page="$index" -f server.awk`
+echo $res
