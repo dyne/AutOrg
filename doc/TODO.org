@@ -5,34 +5,51 @@
 :PROPERTIES:
 :CATEGORY: AutOrg
 :END:
+  
+** TODO Build system
 
-** Build system
+*** DONE Make pub/ the destination directory for generated contents
+    CLOSED: [2010-06-16 Wed 18:27]
+*** DONE Automatically take .org files from org/ if it exists.
+    CLOSED: [2010-06-16 Wed 18:27]
+*** DONE Remove dependency on external scripts
+    CLOSED: [2010-06-16 Wed 18:27]
+*** TODO Have autogen.sh check for dependencies
 
- - Make pub/ the destination directory for generated contents
- - Automatically take .org files from org/ if it exists.
- - Remove dependency on external scripts
- - Ensure portability on mobile devices
+Should be done for distribution with Debian.
 
-** Make push/pull to website
+*** TODO Handle the --with-org-mode=auto
+
+When --with-org-mode is passed to configure, 'auto' is given as the
+load-path.  It should check for the presence of org-mode and use that,
+or ask the user, or fallback to git submodule the org-mode source repo.
+
+*** TODO Ensure portability on mobile devices
+
+AutOrg should run everywhere Emacs does.
+ 
+** TODO Make push/pull to website
 
 A makefile and/or script that takes care of push/pull on remotely
 published git
 
-** Org-Protocol
+** TODO Org-Protocol
 
 Make a set of procedures and/or autmatizations (scripts?
 instructions?) to setup various external applications to interact with
 autorg via org-protocolo-open-source 
 
-** Correct makefile for pub
+*** DONE Correct makefile for pub
+    CLOSED: [2010-06-16 Wed 18:26]
 
 Published pages should be recompiled only when the .org file is
 changed, not every time we do a make command. Correct this behaviour
 by writing a good Make.
 
-** Awk server
+Solution: use org-publish and take advantage of the org-mode cache.
+
+** TODO Awk server
+
 Make a test with awk http server
 
 eventually integrate org-protocol into awk urls
-
-
