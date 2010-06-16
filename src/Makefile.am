@@ -1,22 +1,27 @@
 ELISPSCRIPTS  = $(shell ls -t *.el.in | sed 's/el.in/el/g')
 SHELLSCRIPTS  = $(shell ls -t *.sh.in | sed 's/sh.in/sh/g')
-EXPORT_PAGES  = $(shell ls -t *.org | sed 's/org/html/g')
-EXPORT_PAGES += $(shell ls -t *.org | sed 's/org/pdf/g')
-EXPORT_PAGES += $(shell ls -t *.org | sed 's/org/txt/g')
+# FIXME: use a timestamp for builds: -newer $buildstamp
+ALL_ORG_FILES = $(shell find ../doc ../org -type f -name "*.org" -print 2>/dev/null)
+EXPORT_PAGES  = $(echo $(ALL_ORG_FILES) | sed 's/.org/.html/g')
+EXPORT_PAGES += $(echo $(ALL_ORG_FILES) | sed 's/.org/.pdf/g')
+EXPORT_PAGES += $(echo $(ALL_ORG_FILES) | sed 's/.org/.txt/g')
 
 mkscript = sed \
     -e "s|%autorg_path%|$(AUTORG_PATH)|g" \
     -e "s|%domain%|$(DOMAIN)|g" \
     -e "s|%orgmode_path%|$(ORGMODE)|g"
 
+mkexport = emacs \
+    -no-site-file -q -batch -l src/org-batch.el
+
 %.html : %.org
-	./org-export-as.sh html ${@}
+	$(mkexport) --visit ${@/.*/.org} -f org-export-as-html > ${@/.*/.html}
 
 %.pdf : %.org
-	./org-export-as.sh pdf ${@}
+	$(mkexport) --visit ${@/.*/.org} -f org-export-as-pdf  > ${@/.*/.pdf}
 
 %.txt : %.org
-	./org-export-as.sh ascii ${@}
+	$(mkexport) --visit ${@/.*/.org} -f org-export-as-ascii > ${@/.*/.txt}
 
 %.el : %.el.in
 	$(mkscript) $@.in > $@
@@ -31,15 +36,9 @@ install:
 	@setfacl -m u:www-data:rw /var/lock/aurorg
 	@echo "created /var/lock/autorg"
 
-pages:
-	./org-compile-pages.sh
-	cp *.html *.pdf *.tex *.txt ../pub
-	@echo "Exported updated pages"
-
 all: ${ELISPSCRIPTS} ${SHELLSCRIPTS} ${EXPORT_PAGES}
 
 clean:
 	rm -f *.html *.pdf *.txt *.tex ../pub/*.*
 	rm -f *.el *.sh
 	rm -f *~
-
