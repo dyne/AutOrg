@@ -19,9 +19,8 @@ test:
 	@echo
 
 all:
-	@mkdir pub
-	@if [ ! -r org ]; mkdir -m 0755 org; fi
-	@emacs -batch -Q -l src/org-batch.el -e '(autorg-publish-project "autorg" t)'
+	@mkdir -p org pub
+	@emacs -batch -Q -l src/org-batch.el --eval='(org-publish-batch-project "autorg" t)'
 
 clean:
 	@rm -rf pub
