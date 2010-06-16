@@ -2,6 +2,7 @@
 .\#*
 *~
 *.sh
+!autogen.sh
 *.do
 *.html
 *.pdf
