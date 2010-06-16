@@ -4,3 +4,25 @@ local desktop as well deployed on a web-server; it renders all pages
 locally, ready for server-side publishing.
 
 
+** Organization of the tree
+
+*** doc/
+
+Contains original documentation.
+
+*** etc/
+
+Configuration files for integration with third parties.
+
+*** org/
+
+Optional directory to export ORG files from.  You can symlink an
+existing directory or use a remote repository for these contents.
+
+*** pub/
+
+The build directory: all generated contents go there.
+
+*** src/
+
+Source files necessary to build the application.
