@@ -2,6 +2,7 @@
 
 ;; local emacs extensions
 (add-to-list 'load-path "%orgmode_path%")
+;; in case we're using org-mode source repository
 (add-to-list 'load-path "%orgmode_path%/lisp")
 (add-to-list 'load-path "%orgmode_path%/contrib/lisp")
 
@@ -69,24 +70,60 @@
 (require 'org-publish)
 (setq org-publish-project-alist
       '(
-	("org-notes"
-	 :base-directory "."
+	("autorg-docs"
+	 :base-directory "%autorg_path%/doc"
 	 :base-extension "org"
-	 :publishing-directory "../build"
+	 :publishing-directory "%autorg_path%/pub/doc"
 	 :recursive t
 	 :publishing-function org-publish-org-to-html
 	 :headline-levels 4             ; Just the default for this project.
 	 :auto-preamble t
 	 )
 
-	;; ("org-static"
+        ("autorg-pages"
+	 :base-directory "%autorg_path%/org"
+	 :base-extension "org"
+	 :publishing-directory "%autorg_path%/pub"
+	 :recursive t
+	 :publishing-function org-publish-org-to-html
+	 :headline-levels 4             ; Just the default for this project.
+	 :auto-preamble t
+	 )
+
+        ;; ("org-static"
 	;;  :base-directory "."
 	;;  :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
-	;;  :publishing-directory "../build"
+	;;  :publishing-directory "../pub"
 	;;  :recursive t
 	;;  :publishing-function org-publish-attachment
 	;;  )
-	("org" :components ("org-notes" "org-static"))
 
+        ("autorg" :components ("autorg-docs" "autorg-pages"))
 	))
-(org-publish-project "org")
+
+;;(org-publish-project "autorg")
+
+;; publish the project given a string (in batch mode)
+;; it's a replacement to org-publish function with the patch from
+;; http://www.mail-archive.com/emacs-orgmode@gnu.org/msg25966.html
+;; applied.
+;;;###autoload
+(defun autorg-publish-project (project &optional force)
+  "Publish PROJECT in batch mode."
+  (interactive
+   (list
+    (assoc (org-icompleting-read
+	    "Publish project: "
+	    org-publish-project-alist nil t)
+	   org-publish-project-alist)
+    current-prefix-arg))
+  (setq org-publish-initial-buffer (current-buffer))
+  (save-window-excursion
+    (let* ((org-publish-use-timestamps-flag
+	    (if force nil org-publish-use-timestamps-flag)))
+      (org-publish-projects
+       (if (stringp project)
+	   ;; If this function is called in batch mode,
+	   ;; project is still a string here.
+	   (list (assoc project org-publish-project-alist))
+         (list project))))))

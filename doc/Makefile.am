@@ -1,7 +1,6 @@
 all:
-	@rm -f ../src/.build.stamp
-	@$(top_builddir)/src/org-compile-pages.sh
+	@echo " II Publishing documentation to pub/doc"
+	@emacs -batch -Q -l ../src/org-batch.el -e '(autorg-publish-project "autorg-docs" t)'
 
 clean:
-	rm -f *.html *.pdf *.txt *.tex
 	rm -f *~

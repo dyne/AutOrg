@@ -5,7 +5,7 @@ dnl ==============================================================
 dnl require autoconf 2.62 (AS_ECHO/AS_ECHO_N)
 AC_PREREQ([2.60])
 
-AC_INIT([autorg],[html5],[hackers@dyne.org],[dyne.org])
+AC_INIT([AutOrg],[0.0.1],[hackers@dyne.org],[autorg])
 AC_CONFIG_MACRO_DIR([m4])
 
 AC_CANONICAL_HOST
@@ -48,7 +48,7 @@ case "$host_os" in
   *)
     AC_MSG_RESULT([$host_os?!])
     AC_MSG_ERROR([[
-[!] Your system architecture is not supported by the dyne.org website
+[!] Your system architecture is not supported by AutOrg.
 ]], 0)
   ;;
 esac

@@ -1,5 +1,8 @@
 SUBDIRS = etc src
 
+ORG_FILES = $(shell find doc org -type f -name "*.org" -print 2>/dev/null)
+
+# FIXME: use awk-server, or check more dependencies such as a web server...
 test:
 	@echo
 	@echo "starting an minimal apache server to test (requires root)"
@@ -14,3 +17,11 @@ test:
 	@echo "to stop it, use 'sudo killall apache2' or simply:"
 	@echo "sudo kill `cat etc/apache/test.pid`"
 	@echo
+
+all:
+	@mkdir pub
+	@if [ ! -r org ]; mkdir -m 0755 org; fi
+	@emacs -batch -Q -l src/org-batch.el -e '(autorg-publish-project "autorg" t)'
+
+clean:
+	@rm -rf pub
