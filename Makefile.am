@@ -21,7 +21,8 @@ test:
 
 all:
 	@mkdir pub
-	@emacs -batch -Q -l src/org-batch.el -f org-publish-project -- "autorg"
+	@if [ ! -r org ]; mkdir -m 0755 org; fi
+	@emacs -batch -Q -l src/org-batch.el --eval='(autorg-publish-project "autorg" t)'
 
 clean:
 	@rm -rf pub

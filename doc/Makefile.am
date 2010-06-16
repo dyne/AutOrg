@@ -1,6 +1,6 @@
 all:
 	@echo " II Publishing documentation to pub/doc"
-	@emacs -no-site-file -q -l ../src/org-batch.el -e '(org-publish-projet "autorg-docs")'
+	@emacs -batch -Q -l ../src/org-batch.el -e '(org-publish "autorg-docs" t)'
 
 clean:
 	rm -f *~
