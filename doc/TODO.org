@@ -6,6 +6,13 @@
 :CATEGORY: AutOrg
 :END:
 
+** Build system
+
+ - Make pub/ the destination directory for generated contents
+ - Automatically take .org files from org/ if it exists.
+ - Remove dependency on external scripts
+ - Ensure portability on mobile devices
+
 ** Make push/pull to website
 
 It should be possible to configure a remote git account to which the
