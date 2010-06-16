@@ -8,8 +8,8 @@
 
 ** Make push/pull to website
 
-It should be possible to configure a remote git account to which the
-pages get pushed and pulled
+A makefile and/or script that takes care of push/pull on remotely
+published git
 
 ** Org-Protocol
 
@@ -22,4 +22,10 @@ autorg via org-protocolo-open-source
 Published pages should be recompiled only when the .org file is
 changed, not every time we do a make command. Correct this behaviour
 by writing a good Make.
+
+** Awk server
+Make a test with awk http server
+
+eventually integrate org-protocol into awk urls
+
 
