@@ -108,7 +108,7 @@
 ;; http://www.mail-archive.com/emacs-orgmode@gnu.org/msg25966.html
 ;; applied.
 ;;;###autoload
-(defun autorg-publish-project (project &optional force)
+(defun org-publish-batch-project (project &optional force)
   "Publish PROJECT in batch mode."
   (interactive
    (list
