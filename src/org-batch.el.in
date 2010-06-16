@@ -2,6 +2,7 @@
 
 ;; local emacs extensions
 (add-to-list 'load-path "%orgmode_path%")
+;; in case we're using org-mode source repository
 (add-to-list 'load-path "%orgmode_path%/lisp")
 (add-to-list 'load-path "%orgmode_path%/contrib/lisp")
 
@@ -69,10 +70,20 @@
 (require 'org-publish)
 (setq org-publish-project-alist
       '(
-	("org-notes"
-	 :base-directory "."
+	("autorg-docs"
+	 :base-directory "%autorg_path%/doc"
 	 :base-extension "org"
-	 :publishing-directory "../build"
+	 :publishing-directory "%autorg_path%/pub/doc"
+	 :recursive t
+	 :publishing-function org-publish-org-to-html
+	 :headline-levels 4             ; Just the default for this project.
+	 :auto-preamble t
+	 )
+        
+	("autorg-pages"
+	 :base-directory "%autorg_path%/org"
+	 :base-extension "org"
+	 :publishing-directory "%autorg_path%/pub"
 	 :recursive t
 	 :publishing-function org-publish-org-to-html
 	 :headline-levels 4             ; Just the default for this project.
@@ -82,11 +93,12 @@
 	;; ("org-static"
 	;;  :base-directory "."
 	;;  :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
-	;;  :publishing-directory "../build"
+	;;  :publishing-directory "../pub"
 	;;  :recursive t
 	;;  :publishing-function org-publish-attachment
 	;;  )
-	("org" :components ("org-notes" "org-static"))
-
+;;	("autorg" :components ("autorg-docs" "autorg-pages" "autorg-static"))
+	("autorg" :components ("autorg-docs" "autorg-pages"))
 	))
-(org-publish-project "org")
+
+;;(org-publish-project "autorg")
