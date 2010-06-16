@@ -37,6 +37,7 @@ ltmain.sh
 Makefile
 Makefile.in
 missing
+/org
 src/*.el
 stamp-h1
 tags
