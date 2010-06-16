@@ -27,16 +27,15 @@ fi
 
 autorg=%autorg_path%
 
-newbuild=$autorg/src/.new-build.stamp
-oldbuild=$autorg/src/.old-build.stamp
+buildstamp=$autorg/src/.build.stamp
 
-PATH="$autorg/bin:$PATH"
+PATH="$autorg/src:$PATH"
 
 org_export_all()
 {
     for file in $@; do
         for fmt in ascii html pdf; do
-            org-export-as $fmt $file
+            org-export-as.sh $fmt $file
         done
     done
 }
@@ -46,13 +45,14 @@ if [ -z $1 ]; then # no file specified, make all *.org
     cd $autorg
 
     find_org_files='find doc pub src -type f -name "*.org"'
-    if [ -f $oldbuild ]; then
-        find_org_files="$find_org_files -newer $oldbuild"
+    if [ -f $buildstamp ]; then
+        find_org_files="$find_org_files -newer $buildstamp"
     fi
-    files=`$find_org_files -print0`
-    touch $newbuild
+    files=`$find_org_files -print`
+    echo " II Exporting multiple files: $files"
     test -z $files || org_export_all $files
-    mv $newbuild $oldbuild
+    touch $buildstamp
 else
+    echo " II Exporting one file: $1"
     org_export_all $1
 fi

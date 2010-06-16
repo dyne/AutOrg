@@ -5,13 +5,13 @@ EXPORT_PAGES += $(shell ls -t *.org | sed 's/org/pdf/g')
 EXPORT_PAGES += $(shell ls -t *.org | sed 's/org/txt/g')
 
 %.html : %.org
-	./org-export-as html ${@}
+	./org-export-as.sh html ${@}
 
 %.pdf : %.org
-	./org-export-as pdf ${@}
+	./org-export-as.sh pdf ${@}
 
 %.txt : %.org
-	./org-export-as ascii ${@}
+	./org-export-as.sh ascii ${@}
 
 %.el : %.el.in
 	./mkscript ${@} $(AUTORG_PATH) $(DOMAIN) $(ORGMODE)
@@ -31,7 +31,7 @@ pages:
 	cp *.html *.pdf *.tex *.txt ../pub
 	@echo "Exported updated pages"
 
-all: ${ELISPSCRIPTS} ${SHELLSCRIPTS} ${EXPORT_PAGES} pages
+all: ${ELISPSCRIPTS} ${SHELLSCRIPTS} ${EXPORT_PAGES}
 
 clean:
 	rm -f *.html *.pdf *.txt *.tex ../pub/*.*
