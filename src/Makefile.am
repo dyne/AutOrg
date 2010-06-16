@@ -4,6 +4,11 @@ EXPORT_PAGES  = $(shell ls -t *.org | sed 's/org/html/g')
 EXPORT_PAGES += $(shell ls -t *.org | sed 's/org/pdf/g')
 EXPORT_PAGES += $(shell ls -t *.org | sed 's/org/txt/g')
 
+mkscript = sed \
+    -e "s|%autorg_path%|$(AUTORG_PATH)|g" \
+    -e "s|%domain%|$(DOMAIN)|g" \
+    -e "s|%orgmode_path%|$(ORGMODE)|g"
+
 %.html : %.org
 	./org-export-as.sh html ${@}
 
@@ -14,11 +19,11 @@ EXPORT_PAGES += $(shell ls -t *.org | sed 's/org/txt/g')
 	./org-export-as.sh ascii ${@}
 
 %.el : %.el.in
-	./mkscript ${@} $(AUTORG_PATH) $(DOMAIN) $(ORGMODE)
+	$(mkscript) $@.in > $@
 
 %.sh : %.sh.in
-	./mkscript ${@} $(AUTORG_PATH)
-	@chmod +x ${@}
+	$(mkscript) $@.in > $@
+	@chmod +x $@
 
 install:
 	@mkdir -p /var/lock/autorg
