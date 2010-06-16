@@ -40,6 +40,7 @@
 '(org-export-html-validation-link
   "<p class=\"xhtml-validation\"><a href=\"http://validator.w3.org/check?uri=referer\">Validate XHTML 1.0</a></p>")
 '(org-export-html-with-timestamp nil)
+'(org-export-html-style "<link rel=stylesheet href=\"style.css\" type=\"text/css\">")
 
 ; latex rendering
 (setq org-export-latex-listings t)
@@ -63,3 +64,29 @@
 	       ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
 	     )
 
+
+
+(require 'org-publish)
+(setq org-publish-project-alist
+      '(
+	("org-notes"
+	 :base-directory "."
+	 :base-extension "org"
+	 :publishing-directory "../build"
+	 :recursive t
+	 :publishing-function org-publish-org-to-html
+	 :headline-levels 4             ; Just the default for this project.
+	 :auto-preamble t
+	 )
+
+	;; ("org-static"
+	;;  :base-directory "."
+	;;  :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
+	;;  :publishing-directory "../build"
+	;;  :recursive t
+	;;  :publishing-function org-publish-attachment
+	;;  )
+	("org" :components ("org-notes" "org-static"))
+
+	))
+(org-publish-project "org")
