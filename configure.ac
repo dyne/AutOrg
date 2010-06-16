@@ -115,7 +115,6 @@ AC_CONFIG_FILES([
 Makefile
 etc/Makefile
 etc/apache/Makefile
-doc/Makefile
 src/Makefile
 ])
 
