@@ -1,0 +1,14 @@
+#+TITLE: HTTP Error 404 -- Document Not Found
+#+OPTIONS: toc:nil
+
+* HTTP Error 404 -- Document Not Found
+
+The page you're looking for does not exist.
+
+* Get Started With AutOrg
+
+ - Read the [[file:doc/index.org][documentation]]!
+ - Create [[org-protocol://open-source://../org/hello-world.org][org/hello-world.org]]
+ - Run: make new-pages
+ - Browse to [[http://localhost:8080/hello-world.html][your new page]].
+

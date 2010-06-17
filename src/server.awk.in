@@ -25,41 +25,66 @@ BEGIN {
   status   = 200                       # 200 == OK
   reason   = "OK"                      # server response
   RS = ORS = "\r\n"                    # header line terminators
-  doc      = "index.html"              # html default document
+  doc      = "doc/index.html"          # html default document
+
+  print ".:| AutOrg Web Server running on",url,"|:."
 
   while (!quit) {
+
       if ($1 == "GET")  doc = substr($2, 2)
 
-      if (doc ~ "cmd$") Exec(doc)
+      if (doc ~ "cmd$") Exec(doc)  # FIXME: should be a POST (but we're on localhost)
       else              Serve(doc)
 
-      if(quit) break
+      if (quit) break
       close(host)     # close client connection
+      print "Closed client connection"
       host |& getline # wait for new client request
+      print "New Request:",$0
   }
   # server terminated...
+  print "Received Command QUIT: good bye!"
   close(host)
   exit
 }
 
 function Exec(cmd) {
-    if( cmd ~ /quit.cmd/) quit = 1
+    if ( cmd ~ /quit.cmd/) quit = 1
 }
 
 function Serve(page) {
 
+    if ( page == "" ) page = "index.html"
+
+    page_file = "%autorg_path%/pub/" page
+
+    # FIXME: echo -n is not portable
+    file_exists_p = "test -f " page_file " && echo -n 0 || echo -n 1" 
+    file_exists_p | getline file_not_found
+    close(file_exists_p)
+    if ( file_not_found+1 > 1 ) {
+        page      = "doc/404.html"
+        page_file = "%autorg_path%/pub/" page
+        status    = 404
+        reason    = "File Not Found"
+    }
+
+    data = ""
+    while ((getline line < page_file) > 0)
+        data  = data line
+
     if( page ~ /html$/) content = "text/html"
     else if( page ~ /jpg$/)  content = "image/jpeg"
+    else if( page ~ /ico$/)  content = "image/x-icon"
     else if( page ~ /png$/)  content = "image/png"
     else if( page ~ /pdf$/)  content = "application/pdf"
     else content = "text/plain"
 
-    print "HTTP/1.1", status, reason  |& host
-    print "Content-Type:", content    |& host
-    print "Connection: Close"         |& host
-    getline line < page
-    print ORS line                    |& host
-    while ((getline line < page) > 0)
-	print line                    |& host
+    print "HTTP/1.1", status, reason      |& host
+    print "Content-Type:", content        |& host
+    print "Content-Length:", length(data) |& host
+    print "Connection: Close"             |& host
+    print ORS ORS data                    |& host
     close(page)
+    print status,reason," [ GET",page,"]"
 }

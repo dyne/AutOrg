@@ -1,21 +1,31 @@
-ELISPSCRIPTS  = $(shell find . -type f -name "*.el.in" -print | sed 's/.el.in/.el/g')
-SHELLSCRIPTS  = $(shell find . -type f -name "*.sh.in" -print | sed 's/.sh.in/.sh/g')
+
+mklistscripts = $(shell find . -type f -name "*.$1.in" -print | sed 's/.in//g')
+
+AWKSCRIPTS   = $(call mklistscripts,awk)
+ELISPSCRIPTS = $(call mklistscripts,el)
+SHELLSCRIPTS = $(call mklistscripts,sh)
 
 mkscript = sed \
     -e "s|%autorg_path%|$(AUTORG_PATH)|g" \
     -e "s|%domain%|$(DOMAIN)|g" \
     -e "s|%orgmode_path%|$(ORGMODE)|g" \
-    $1.in
+    $1.in 2>/dev/null
 
-%.el : %.el.in
-	$(call mkscript,$@) > $@
-
-%.sh : %.sh.in
-	$(call mkscript,$@) > $@
+%.awk: %.awk.in
+	@$(call mkscript,$@) > $@
 	@chmod +x $@
 
-all: ${ELISPSCRIPTS} ${SHELLSCRIPTS}
+%.el : %.el.in
+	@$(call mkscript,$@) > $@
+
+%.sh : %.sh.in
+	@$(call mkscript,$@) > $@
+	@chmod +x $@
+
+all: ${AWKSCRIPTS} ${ELISPSCRIPTS} ${SHELLSCRIPTS}
+	@mkdir -p ../pub/
+	@cp favicon.ico ../pub
 
 clean:
-	rm -f *.el *.sh
-	rm -f *~
+	@rm -f *.awk *.el *.sh
+	@rm -f *~

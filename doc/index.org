@@ -1,5 +1,19 @@
 #+TITLE: AutOrg - autonomous distributed information system
 #+DATE: <2010-06-13 Sun>
 
+* About AutOrg
 
-* It Works!
+A minimalist information management system, distributed among
+autonomous publishers using Git, Emacs, Org-Mode and basic UN*X
+tools.  It brings the power of Org-Mode to the Web, and back.
+
+[[http://autorg.dyne.org/][AutOrg]] is [[#license][free software]] brought to you by the [[http://dyne.org][dyne hackers]].
+
+** See also: [[autonomy-is-organization.html][Autonomy Is Organization]]
+
+** AutOrg FAQ
+*** But... Why?
+
+* [[file:doc/getting-started.html][Getting Started]]
+* [[file:doc/org-protocol.html][Org Protocol]]
+* [[file:TODO.html][TODO]]

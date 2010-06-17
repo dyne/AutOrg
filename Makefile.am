@@ -24,17 +24,9 @@ targets: autorg-greeting
 
 # FIXME: use awk-server, or check more dependencies such as a web server...
 test: autorg-greeting
-	@echo "starting an minimal apache server to test (requires root)"
-	@echo "make sure your /etc/hosts is configured accordingly"
-	@echo "sudo sh -c 'echo \"127.0.0.1 autorg.$(DOMAIN)\" >> /etc/hosts'"
+	@$(shell ./src/server.awk)
 	@echo
-	sudo mkdir -p /var/run/apache2 log/
-	sudo apache2 -f etc/apache/apache.$(DOMAIN).conf
-	@sleep 1
-	@echo
-	@echo "apache2 running with pid `cat etc/apache/test.pid`"
-	@echo "to stop it, use 'sudo killall apache2' or simply:"
-	@echo "sudo kill `cat etc/apache/test.pid`"
+	@echo " II AutOrg Web Server stopped."
 	@echo
 
 doc: autorg-greeting autorg-dirs
