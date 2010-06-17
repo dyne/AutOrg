@@ -29,9 +29,19 @@ or ask the user, or fallback to git submodule the org-mode source repo.
 AutOrg should run everywhere Emacs does.
  
 ** TODO Make push/pull to website
+*** TODO Automate remote publication
 
-A makefile and/or script that takes care of push/pull on remotely
+(was:) A makefile and/or script that takes care of push/pull on remotely
 published git
+
+AutOrg doesn't really take care of the contents in org/, so it
+shouldn't be responsible for updating the web files.  But it can take
+care of two things:
+
+ - Provide a script to use as a git hook or crontab for launching
+   'make new-pages'
+ - Make it easy to integrate with a org/ directory as a git repo
+
 
 ** TODO Org-Protocol
 
@@ -49,7 +59,7 @@ by writing a good Make.
 Solution: use org-publish and take advantage of the org-mode cache.
 
 ** TODO Awk server
-
-Make a test with awk http server
-
-eventually integrate org-protocol into awk urls
+*** TODO [#A] Fix display issue
+*** TODO [#B] Integrate org-protocol into awk urls
+*** DONE Make a test with awk http server
+    CLOSED: [2010-06-17 Thu 10:49]
