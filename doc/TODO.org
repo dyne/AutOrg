@@ -42,7 +42,6 @@ care of two things:
    'make new-pages'
  - Make it easy to integrate with a org/ directory as a git repo
 
-
 ** TODO Org-Protocol
 
 Make a set of procedures and/or autmatizations (scripts?
@@ -60,6 +59,33 @@ Solution: use org-publish and take advantage of the org-mode cache.
 
 ** TODO Awk server
 *** TODO [#A] Fix display issue
+
+ - the first page displayed is always the default page: it should be
+   the page the user asked for
+ - after some calls, the page doesn't display anymore, although it was
+   served normally before
+
+Those issues seem to relate to how awk opens and closes pipes and
+co-processes.  The current script should probably extract the handling
+of 404 errors so that it doesn't interfere with normal requests.
+
 *** TODO [#B] Integrate org-protocol into awk urls
+
+Make [[file:../src/server.awk.in][server.awk]] respond to [[file:org-protocol.org][org-protocol]] links to open the source file
+in Emacs (and other applications.)
+
 *** DONE Make a test with awk http server
     CLOSED: [2010-06-17 Thu 10:49]
+
+** TODO How to Publish with AutOrg
+
+Write a document that introduces the basics of org-mode, so that the
+reader without prior knowledge can start producing hyperlinked
+documents and share them with others.
+
+Test and define strategies for "growing" an org/ directory locally or
+with a team (e.g. using a remote git repository.)
+
+Document usage with multiple projects (i.e. using different
+sub-directories in org/)
+
