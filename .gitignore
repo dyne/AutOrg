@@ -1,7 +1,6 @@
 \#*
 .\#*
 *~
-*.awk
 *.sh
 !autogen.sh
 *.do
@@ -39,7 +38,6 @@ ltmain.sh
 Makefile
 Makefile.in
 missing
-/pub
 /org
 src/*.el
 stamp-h1
