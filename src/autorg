@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# sketch of an 'autorg' command to init and administer autorg directories
+# in future will also take care to list libraries and download them
+
+if [ -z $1 ]; then
+    # show help
+    
+    # if we are in actual autorg directory
+    # show details of the installation
+    if [ -r .autorg.el ]; then
+	# print status of current directory
+	# and what to include in your .emacs
+    exit
+fi
+
+case $1 in
+    init)
+	# copy files needed in the document dir
+	if [ -r .git ]; then
+	    echo "warning: this directory is already revisioned"
+	    exit
+	fi
+	mkdir pub
+	mkdir org
+	git init
+	curpath = `pwd`
+	# sed here %autorg_path% and others from elisp
+	;;
+
+    make)
+	# compile files from org/ to pub/
+	# execute with emacs the elisp file put in this dir by init
+	;;
+
+    serve)
+	# start the server.awk in this directory
+	# mostly executed with a & for background
+	case $2 in
+	    start)
+		# start
+		;;
+	    stop)
+		# stop
+		;;
+	    *)
+		# start by default
+	esac
+
+	;;
+
+    announce)
+	# wish: announce on local networks the http
+	;;
+    
+    *)
+	
+esac
