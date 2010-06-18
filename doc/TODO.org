@@ -1,13 +1,19 @@
 #+TITLE: AutOrg -= TODO 
 #+DATE: <2010-06-13 Sun>
 
-* AutOrg
+| *Branch*     | *Tag* | *Status*    | *Notes*                    |
+| master       |       | development | current development branch |
+| unstable-0.2 |       | development | prepare for next release   |
+
+* Stable Release                                                     :stable:
 :PROPERTIES:
 :CATEGORY: AutOrg
 :END:
-  
+* Development                                                      :unstable:
+:PROPERTIES:
+:CATEGORY: AutOrg
+:END:
 ** TODO Build system
-
 *** DONE Make pub/ the destination directory for generated contents
     CLOSED: [2010-06-16 Wed 18:27]
 *** DONE Automatically take .org files from org/ if it exists.
@@ -18,7 +24,7 @@
 
 Should be done for distribution with Debian.
 
-*** TODO Handle the --with-org-mode=auto
+*** TODO Handle the --with-org-mode=auto                             :v0.2.0:
 
 When --with-org-mode is passed to configure, 'auto' is given as the
 load-path.  It should check for the presence of org-mode and use that,
@@ -89,3 +95,38 @@ with a team (e.g. using a remote git repository.)
 Document usage with multiple projects (i.e. using different
 sub-directories in org/)
 
+* Releases
+:PROPERTIES:
+:CATEGORY: AutOrg
+:END:
+** TODO v0.3.0 - 
+*** TODO Name release
+*** TODO Select features 
+** TODO v0.2.0 - "locAlhOst: WYSNB"
+
+localhost: where your social network belongs.
+
+*** TODO Fix server.awk
+
+Maybe remove 404 support for now.
+
+*** TODO --with-org-mode=auto
+
+Handle the case:
+ 1. check standard emacs paths for org-mode
+ 2. fallback to git submodule src/org-mode checked out at the most
+    recent tag (in future version: a stable tag)
+
+** TODO v0.1.0 - "Squatting Action"
+
+Eviction Round vs. Squatting Action, Amsterdam, 2010:
+ - 8 squats closed
+ - 4 squats opened
+ - Net result: One single mother with 2 young children in the street.
+   250K EUR per squat of public money spent on police.
+
+*** TODO Remove make test / server support
+
+We'll fix it and add it in 0.2.0
+
+*** TODO Cleanup documentation
