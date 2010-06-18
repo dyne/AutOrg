@@ -1,5 +1,147 @@
 * GTD
 
+  GTD, a methodology coined by David Allen is a world known system
+  for, namely, Gettings Thing Done. It empowers you to organize your
+  ideas into vision, results, consequences and direct actions. It is
+  useful to keep your work aligned with the contexts you work in. When
+  you implement the system in your daily life holistically, or similar
+  systems, you will find that you can run many projects simultaneously
+  without stress or burnout. As an individual working independently,
+  you will find that your work will be far more effective than you
+  could have ever imagined.
+
+  Hyperbole aside, it is a system that can introduce organization to
+  the unorganized. As an independent self empowered individual, you
+  cultivate the mindset that gives you power to work and stay
+  concentrated on what is most important at the moment. David Allen
+  compares the system to a practitioner of marital arts.
+
+  This warrior, in traditional Asian culture was the ultimate
+  rennaisance man. A warrior can analyse any situation calmly and
+  without emotion. He takes action purely and without concern; he
+  knows it is the right way to go. He is a master of all he undertakes
+  and he is always striving for constant steady improvement in all
+  aspects of his life.
+
+  The warrior is never just a blunt fighter serving others. He is a
+  master of art and his own personal exppression.  He trains for the
+  sake of pure training, and only fights in order to see true
+  peace. For him, the beauty in this world are the things we create,
+  not destroy.
+
+* How it works
+  
+  Blaat en Mekker
+
+* Org GTD
+
+  Many users of org-mode out there use emacs and org-mode as the
+  central manager of their GTD systems. The beauty of GTD is that it
+  requires you to build a system that works for you, the
+  individual. Following the instructions blindly is guaranteed to
+  fail, as any blind action would. Rather, you will discover that
+  implementing GTD only represents a journey to discovering
+  yourself. This is the way of using unix and emacs.
+
+  org-mode enables users to create a sort of informal way of
+  collaberation. By sharing org-mode documents, we can share todo
+  lists we hold in common. When collaborating on a creative work, such
+  a as a book, this is never an action taken in a true vacuum. The
+  authors must do research, and may be documenting a process that is
+  current and actual for their lives. org-mode is very handy for
+  integrating todo list and agenda sharing in direct connection with
+  the creation and production of a written work.
+
+  In order to collaberate, the authors must come together to a common
+  way of tagging tasks so that it is clear what needs getting done. In
+  the following sections, we discuss recommendations you are welcome
+  to use in your own collaboration. By following these
+  recommendations, we hope that we can collaborate with you, the
+  reader, more in the future.
+
 * todo states
 
+  In a GTD system, there are several recognised states. We apply these
+  states to headers.
+
+  - Next - This is a next action that must be taken. We set the todo
+    state to NEXT. As a special property, we set the property
+    WHO. This is the individual who has pledged to take care of
+    this.
+
+  - Waiting - This is a result that we can not do anything to realise,
+    but we are waiting for someone else to do something on. We set the
+    todo state to WAIT. As a special property, we set the property
+    WHO. This is the individual we are waiting to take care of the
+    action.
+
+  - Completed - These actions are done, by the responsible
+    individual. They were formally Waiting or Next state actions. We
+    set the todo state to DONE.
+
+  - Not Done - When we decide that an action shouldn't be taken, we
+    want to notate that it won't ever be done (or not in the
+    foreseeable future). We set the todo state to FAIL.
+
 * contexts
+
+  GTD relies on context to clue the practitioner what the next action
+  is dependent on where the individual is. For example, while running
+  errands, it will assist you of all the tasks you have while out on
+  the town. You will not need to remember ahead of time all the
+  projects you have running, just to remember what you must do. The
+  system provides a clear set of reminders based on your project
+  planning you did earlier.
+
+  Deciding the contexts is one of the most challenging parts of the
+  system. Contexts are wholly depedent on your own living
+  situation. It is impossible for us to provide a conclusive set of
+  contexts, and quite frankly, we don't want to. Once you assemble all
+  your contexts together correctly, it will be a great feeling of
+  satisfaction when you see the system begin to work. Even so, some
+  contexts are universal, and we recommend the following contexts to
+  be used in common.
+
+  In order to mark contexts, we use org-mode tags on headers.
+
+  - Laptop - This is for when you are on your own, anywhere on this
+    planet, with your mobile computer. These are things that you can
+    at any time, when you have a free moment or two. We use the
+    tag :LAPTOP: for this.
+
+  - Internet - This is for when you are anywhere with your laptop and
+    internet. We use the tag :INTARWEBZ: for this.
+
+  - Out on the town - This is for when you are going around town on
+    your errands. You might need to pick things up or drop them off
+    somewhere. This is usually for when you must go out and do a bunch
+    of tasks that can be temporally grouped together. We use the
+    tag :ERRANDS: for this. For the individual that must work in
+    multiple locations, we find that having special location named
+    tags handy. For example, the tags :ADAM: and :RDAM: are
+    recommended for the cities Amsterdamn and Rotterdamn.
+
+  - Agenda - Meeting with people to discuss critical topics is a
+    context of its own right. Individuals work best when they aren't
+    constantly interrupted, and can focus on their work. Our modern
+    life can constantly distract us, as people always come by to
+    discuss issues. In order to be a holistically better human being,
+    it is critical to learn not to disrupt people constantly, but to
+    strive to more meaningful conversation at the right moment. These
+    conversations are a context in their own right. Since it's likely
+    ideas will constantly come up over the course of the day or night,
+    you might find it useful to write them down. Then, before a
+    meeting, you can collect your notes, and bring up all the
+    important things you had to say all at once. This can also apply
+    to meetings of groups that you might sit in. We use the
+    tag :AGENDA: for this. You can also set the custom property WHO to
+    the person whom you wish to speak with.
+
+  - Anywhere - Some things can be done anywhere, maybe with a pen and
+    paper, maybe by yourself, but any thing that can be done with the
+    things you normally always have with you. It can be small tasks
+    that could take five minutes while waiting for a bus or train, or
+    longer tasks that can be done while sitting in the train. It is
+    not, however, a catch all bucket by any means. All actions must
+    have a meaningful context that it's applicable to. For tasks that
+    can be done anywhere, we use the tag :TASKS: for this.
