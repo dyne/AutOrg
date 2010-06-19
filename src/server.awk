@@ -30,10 +30,20 @@ BEGIN {
   while (!quit) {
       if ($1 == "GET")  doc = substr($2, 2)
 
-      if (doc ~ "cmd$") Exec(doc)
-      else              Serve(doc)
+      if ($1 == "GET")  page = substr($2, 2)
+      if (page == "" )  page = "index.html"
+      if( page ~ /html$/) content = "text/html"
+      else if( page ~ /jpg$/)  content = "image/jpeg"
+      else if( page ~ /png$/)  content = "image/png"
+      else if( page ~ /ico$/)  content = "image/x-icon"
+      else if( page ~ /pdf$/)  content = "application/pdf"
+      else if( page ~ /cmd$/)  content = "exec"
+      else content = "text/plain"
 
-      if(quit) break
+      if( content == "exec" ) Exec(page)
+      else                   Serve(page)
+
+      if (quit) break
       close(host)     # close client connection
       host |& getline # wait for new client request
   }
@@ -43,22 +53,19 @@ BEGIN {
 }
 
 function Exec(cmd) {
-    if( cmd ~ /quit.cmd/) quit = 1
+    if ( cmd ~ /quit.cmd/) quit = 1
 }
 
 function Serve(page) {
 
-    if( page ~ /html$/) content = "text/html"
-    else if( page ~ /jpg$/)  content = "image/jpeg"
-    else if( page ~ /png$/)  content = "image/png"
-    else if( page ~ /pdf$/)  content = "application/pdf"
-    else content = "text/plain"
-
-    print "HTTP/1.1", status, reason  |& host
+    print "HTTP/5.0", status, reason  |& host
     print "Content-Type:", content    |& host
     print "Connection: Close"         |& host
-    getline line < page
-    print ORS line                    |& host
+    if (( getline line < page ) < 0) {
+	page = "error_404.html"
+	getline line < page
+    } else 
+	print ORS ORS line            |& host
     while ((getline line < page) > 0)
 	print line                    |& host
     close(page)
