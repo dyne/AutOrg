@@ -1,0 +1,196 @@
+#+TITLE: AutOrg API Documentation
+
+This file describes the application programming interface for AutOrg.
+
+* The autorg command
+
+The autorg command provides a command line interface for executing
+autorg actions from the console or in scripts.  Uzbl configuration
+uses this API when it doesn't use [[file:org-protocol.org][Org-Protocol]].
+
+** Generic Behavior
+
+The AutOrg API provides a consistent set of features and follows the
+/principle of least surprise/.  Invoking a command without argument
+won't break anything.
+
+When the "-p" option is missing, AutOrg check the current directory
+for org files.  If it finds any, it will use that directory as the
+base for all actions during this invocation.  Otherwise, it will
+fallback to the default Org Source Directory or bail out if it makes
+more sense (a command's help section indicates that behavior.)
+
+With "-p <project>", limit the scope of AutOrg to that project.
+
+** First Time Invocation
+
+  On the first invocation, AutOrg will bootstrap the user
+  configuration and initialize the org pages repository.
+
+  Then it will propose to personalize the user configuration by
+  asking a few questions (cf. "autorg config --setup")
+
+  Finally, it will display the output of "autorg help" followed by a
+  welcome message:
+
+    Welcome to AutOrg!
+
+    Your configuration: ~/.config/autorg/
+
+    Name:     Hellekin O. Wolf                      (from git config)
+    Email:    <hellekin@cepheide.org>               (from git config)
+    GPG Key:  1CA24A13                              (from git config)
+    PSYC UNI: psyc://cepheide.org/~hellekin                (user set)
+
+    GNU Emacs 23.1.1                          (emacs 23.1+1-4ubuntu7)
+    Emacs Org mode 6.34c                           (org-mode 6.34c-1)
+    Uzbl Commit: setting                                   (git HEAD)
+
+    Org Source from: ~/.share/autorg/                       (default)
+    Org Publish to:  ~/public_html/autorg                   (default)
+    Org Package to:  ~/public_html/download                 (default)
+
+    Announcing releases via PSYC UDP socket                 (default)
+    to psyc://hinezumi.im/$autorg#announce-releases         (default)
+
+    See more details with "autorg status". AutOrg is ready.
+
+  List of commands:
+
+  announce    -- Online notification interface
+  browse      -- Browse AutOrg collections
+  config      -- Setup or manage AutOrg configuration
+  create      -- Create a new book / project
+  help        -- Access documentation (default: this text)
+  package     -- Generate a book archive for distribution
+  publish     -- Export the .org files to different formats
+  release     -- Book / Collection distribution management
+  status      -- Query the AutOrg installation status
+
+
+** autorg announce [-p <project>] [-m <message>] [target]
+
+Send a "message" to "target" regarding "project".
+
+By default, use the project in the current directory.
+
+<target>, if given, MUST be an URI or an Alias.  
+
+Aliases are set in the configuration (e.g. autorg config --set
+announce-for-foo psyc://hinezumi.im/$autorg#announce-releases for a
+project named "foo")
+
+URI scheme MAY be HTTP, PSYC, Mailto, IRC or XMPP URI.
+
+If "-m <messages>" is passed to announce, it overrides the default
+(contextual) message (usually, the message of the last release or
+commit.)
+
+** autorg browse [-p <project>|uri]
+
+Browse the generated HTML files or remote collections.
+
+If no argument is passed, browse local projects a collections.
+
+Collections in AutOrg are stored as _git submodules_.  Hence they're
+available for listing even when not installed.
+
+** autorg config <options>
+
+Setup or manage AutOrg configuration.
+
+Without any argument, run --setup if the configuration isn't
+bootstrapped yet.  Otherwise run --dump.
+
+*** config --dump [<variable>]
+
+Dumps the configuration value for <variable> to stdout.
+If <variable> doesn't exist in the configuration, return "nil".
+If <variable> is not set, dump the whole configuration.
+
+*** config --set <variable> <value>
+*** config --setup
+
+Interactive configuration setup.
+
+** autorg create [-p] <project> [options]
+
+Create a new book, bootstrapping the git repository, Org-mode and
+LaTeX setups, etc.
+
+Options passed to create override default settings for this project.
+At the time of this writing, no options are set, but...
+
+** autorg [help [command]]
+*** command: autorg-help
+
+When run with one of -h, --help or help, or without any argument,
+autorg returns its version and the usage information, listing the main
+commands and their one-line-description.
+
+  .:| AutOrg v0.2.0 -- Autonomy Is Organization |:.
+
+  autorg [command [args ...]]
+
+  The autorg program provides a command line interface to the AutOrg
+  distributed information management system.  It is suitable for
+  scripting.
+
+** autorg package [-j|-z] [-p <project]
+
+Run publish on the selected project (or all) and package the generated
+files for distribution into a compressed TAR archive.
+
+*** Compression options
+
+The "-j" option uses bzip2, while the "-z" uses gzip.  AutOrg prefers
+bzip2 and will use it if available and no compression option is used.
+
+** autorg publish [-f] [project]
+
+Export the .org files to different formats.
+
+"autorg publish" will instruct AutOrg to compile HTML, PDF, LaTeX and
+ASCII versions of the .org source files in the current project.
+
+By default, it will only export files that were updated since last
+call.  The "-f" option /forces/ the re-generation of all files
+instead.
+
+When no "project" is given, act on all projects.
+
+*Note*: if the master branch of the project repository is not clean,
+"autorg publish" will bail out and fail.
+
+*** Options
+
+The optional "-f" option forces the re-compilation of all files.
+
+** autorg release [-f] [-m <message>]
+
+Set a new git tag on the project.
+
+Release also invokes package and announce.
+
+** autorg status [-p <project>] [options]
+*** command: autorg-status
+
+Print the status of the AutOrg installation.
+
+*** Example
+
+  4 projects: (+ need update, - not initialized, r released)
+
+  + autorg-pages                    24 pages
+  r dyne-web                       143 pages
+    foafssl-ruby.dyne.org            2 pages
+  - orgfiles
+
+  342 collections:
+
+  ...
+
+*** command: autorg-status
+
+* AutOrg in Emacs
+* Autorg in Uzbl
