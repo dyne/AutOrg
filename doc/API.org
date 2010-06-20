@@ -1,5 +1,7 @@
 #+TITLE: AutOrg API Documentation
 
+*DRAFT* *FOR DEV ONLY* *UNSTABLE*
+
 This file describes the application programming interface for AutOrg.
 
 * The autorg command
@@ -18,7 +20,7 @@ When the "-p" option is missing, AutOrg check the current directory
 for org files.  If it finds any, it will use that directory as the
 base for all actions during this invocation.  Otherwise, it will
 fallback to the default Org Source Directory or bail out if it makes
-more sense (a command's help section indicates that behavior.)
+more sense (the help section for a command indicates that behavior.)
 
 With "-p <project>", limit the scope of AutOrg to that project.
 
@@ -58,14 +60,16 @@ With "-p <project>", limit the scope of AutOrg to that project.
   List of commands:
 
   announce    -- Online notification interface
-  browse      -- Browse AutOrg collections
+  browse      -- Browse AutOrg collections (HTML)
   config      -- Setup or manage AutOrg configuration
   create      -- Create a new book / project
   help        -- Access documentation (default: this text)
+  list        -- Like browse, but on the command line
   package     -- Generate a book archive for distribution
   publish     -- Export the .org files to different formats
   release     -- Book / Collection distribution management
   status      -- Query the AutOrg installation status
+  trigger     -- Trigger an external action
 
 
 ** autorg announce [-p <project>] [-m <message>] [target]
@@ -90,10 +94,18 @@ commit.)
 
 Browse the generated HTML files or remote collections.
 
-If no argument is passed, browse local projects a collections.
+If no argument is passed, browse local projects and collections.
 
 Collections in AutOrg are stored as _git submodules_.  Hence they're
 available for listing even when not installed.
+
+If uzbl is installed, launch it with the AutOrg configuration file or
+uzbl, providing a special interface to it (e.g.: allowing book
+retrieval from the web browser.)
+
+"autorg browse" is using "autorg list" and wraps it to the browser.
+The main difference between the two commands is that "browse" uses the
+generated files and a web browser, whereas "list" uses git wrappers. 
 
 ** autorg config <options>
 
@@ -118,25 +130,71 @@ Interactive configuration setup.
 Create a new book, bootstrapping the git repository, Org-mode and
 LaTeX setups, etc.
 
-Options passed to create override default settings for this project.
+Options passed to "create" override default settings for this project.
 At the time of this writing, no options are set, but...
 
 ** autorg [help [command]]
+
+Display the documentation for "command".
+
 *** command: autorg-help
 
 When run with one of -h, --help or help, or without any argument,
-autorg returns its version and the usage information, listing the main
-commands and their one-line-description.
+"autorg" returns its version and the usage information, listing the
+main commands and their one-line-description.
 
   .:| AutOrg v0.2.0 -- Autonomy Is Organization |:.
 
   autorg [command [args ...]]
 
-  The autorg program provides a command line interface to the AutOrg
-  distributed information management system.  It is suitable for
-  scripting.
+  The "autorg" command provides a command line interface to the AutOrg
+  API, for CLI usage or scripting.
 
-** autorg package [-j|-z] [-p <project]
+  For more information about AutOrg, type: "autorg help".
+
+  List of commands:
+
+  announce    -- Online notification interface
+  browse      -- Browse AutOrg collections (HTML)
+  config      -- Setup or manage AutOrg configuration
+  create      -- Create a new book / project
+  help        -- Access documentation (default: this text)
+  list        -- Like browse, but on the command line
+  package     -- Generate a book archive for distribution
+  publish     -- Export the .org files to different formats
+  release     -- Book / Collection distribution management
+  status      -- Query the AutOrg installation status
+
+*** autorg help <command>
+
+Display the documentation for "command".
+
+The contents come from the second level sections of
+[[file:autorg.org#sec-1][autorg command line interface API]] (this document.)
+
+** autorg list [options] [-s <source>] [pattern]
+
+List AutOrg publications.
+
+| *short* | *long*            | *description*                            |
+| -l      | --local           | Query local publications (default)       |
+| -r      | --remote          | Query remote publications                |
+| -a      | --all             | Query both local and remote publications |
+| -s      | --source <source> | Limit to publications from "source"      |
+| -n      | --new             | Limit to new (or updated) publications   |
+| -c      | --collections     | Display AutOrg collections (default)     |
+| -C      | --no-collections  | Ignore collections                       |
+| -o      | --orgfiles        | Display .org files                       |
+| -O      | --no-orgfiles     | Ignore .org files (default)              |
+
+With "-l", "list" will query local publications.  This is the default
+behavior.  Pass "-r" to query remote sources, or "-a" to query both.
+
+A "source" can be passed as an Alias or an URI to restrict the scope
+of the list.  The Alias points to a git submodule, and the URI points
+to a Git repository of .org files.
+
+** autorg package [-j|-z] [-p <project>]
 
 Run publish on the selected project (or all) and package the generated
 files for distribution into a compressed TAR archive.
@@ -146,25 +204,26 @@ files for distribution into a compressed TAR archive.
 The "-j" option uses bzip2, while the "-z" uses gzip.  AutOrg prefers
 bzip2 and will use it if available and no compression option is used.
 
+It falls back to gzip, and will bail out with an error if neither
+bzip2 nor gzip are available.
+
 ** autorg publish [-f] [project]
 
 Export the .org files to different formats.
 
 "autorg publish" will instruct AutOrg to compile HTML, PDF, LaTeX and
-ASCII versions of the .org source files in the current project.
+ASCII versions from the .org source files of the given "project".
 
-By default, it will only export files that were updated since last
-call.  The "-f" option /forces/ the re-generation of all files
-instead.
+When no "project" is given, publish all projects.
 
-When no "project" is given, act on all projects.
+By default, "autorg publish" will only export files that were updated
+since last call.
+
+The "-f" option /forces/ the re-generation of all files instead of
+just new and updated files.
 
 *Note*: if the master branch of the project repository is not clean,
-"autorg publish" will bail out and fail.
-
-*** Options
-
-The optional "-f" option forces the re-compilation of all files.
+"autorg publish" will bail out and exit with an error.
 
 ** autorg release [-f] [-m <message>]
 
@@ -173,7 +232,8 @@ Set a new git tag on the project.
 Release also invokes package and announce.
 
 ** autorg status [-p <project>] [options]
-*** command: autorg-status
+
+ *command*: "autorg-status"
 
 Print the status of the AutOrg installation.
 
@@ -190,7 +250,32 @@ Print the status of the AutOrg installation.
 
   ...
 
-*** command: autorg-status
+** autorg trigger <command>
 
-* AutOrg in Emacs
-* Autorg in Uzbl
+Trigger <command> to be executed as another user.
+
+AutOrg will touch a file in AUTORG_TRIGGERS_DIRECTORY.
+The file will be caught by a crontab that takes care of execution.
+
+*** List of triggers
+
+| *trigger* | *crontab entry* | *notes* |
+
+*** Example trigger
+
+| *trigger*       | *crontab entry*                                            |
+| example_trigger | */15 * * * * foo autorg-run update_example -bar baz --quux |
+
+Running "autorg trigger example_trigger" will "touch
+/path/to/autorg/triggers/example_trigger".  
+
+Every 15 minutes, a crontab will run an "update_example" script as
+user "foo". The "autorg-run" program will detect the trigger, remove
+it and run the "update_example" command with arguments "-bar baz
+--quux".
+
+* TODO AutOrg in Emacs
+* TODO Autorg in Uzbl
+
+AutOrg comes with a uzbl configuration file to integrate the browsing
+experience with the combination of tools around AutOrg.
