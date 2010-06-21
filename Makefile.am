@@ -14,7 +14,7 @@ autorg-greeting:
 	@echo
 
 targets: autorg-greeting
-	@echo "make [all]      -- Default: show this message and make all-pages"
+	@echo "make            -- Default: show this message and make new-pages"
 	@echo "make all-pages  -- (Re-)Publish all pages from doc/ and org/"
 	@echo "make new-pages  -- Publish new or updated pages from doc/ and org/"
 	@echo "make doc        -- (Re-)Publish the HTML/PDF documentation from doc/"
@@ -57,7 +57,7 @@ new-pages: autorg-greeting autorg-dirs
 	@$(call autorg_publish,autorg,)
 	@echo
 
-all: targets all-pages
+all: targets new-pages
 
 clean:
 	@cd src && make clean
