@@ -19,7 +19,6 @@ targets: autorg-greeting
 	@echo "make new-pages  -- Publish new or updated pages from doc/ and org/"
 	@echo "make doc        -- (Re-)Publish the HTML/PDF documentation from doc/"
 	@echo "make pages      -- (Re-)Publish the HTML/PDF pages from org/"
-
 	@echo
 
 # FIXME: use awk-server, or check more dependencies such as a web server...
