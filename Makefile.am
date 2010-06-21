@@ -19,22 +19,13 @@ targets: autorg-greeting
 	@echo "make new-pages  -- Publish new or updated pages from doc/ and org/"
 	@echo "make doc        -- (Re-)Publish the HTML/PDF documentation from doc/"
 	@echo "make pages      -- (Re-)Publish the HTML/PDF pages from org/"
+	@echo "make preview    -- Locally serve pages on http://localhost:8080/"
 	@echo
 
 # FIXME: use awk-server, or check more dependencies such as a web server...
-test: autorg-greeting
-	@echo "starting an minimal apache server to test (requires root)"
-	@echo "make sure your /etc/hosts is configured accordingly"
-	@echo "sudo sh -c 'echo \"127.0.0.1 autorg.$(AUTORG_DOMAIN)\" >> /etc/hosts'"
-	@echo
-	sudo mkdir -p /var/run/apache2 log/
-	sudo apache2 -f etc/apache/apache.$(AUTORG_DOMAIN).conf
-	@sleep 1
-	@echo
-	@echo "apache2 running with pid `cat etc/apache/test.pid`"
-	@echo "to stop it, use 'sudo killall apache2' or simply:"
-	@echo "sudo kill `cat etc/apache/test.pid`"
-	@echo
+preview: autorg-greeting
+	@echo "starting an minimal http server (awk) on port 8080 - hit Ctrl-C to quit"
+	@cd pub && ../src/server.awk -v docroot=`pwd`
 
 doc: autorg-greeting autorg-dirs
 	@echo " II Exporting AutOrg Documentation to pub/doc/"

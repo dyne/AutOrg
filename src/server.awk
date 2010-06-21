@@ -38,10 +38,13 @@ BEGIN {
       else if( page ~ /ico$/)  content = "image/x-icon"
       else if( page ~ /pdf$/)  content = "application/pdf"
       else if( page ~ /cmd$/)  content = "exec"
-      else content = "text/plain"
+      else if( page ~ /txt$/)  content = "text/plain"
+      else content = "invalid"
 
-      if( content == "exec" ) Exec(page)
-      else                   Serve(page)
+      if( content != "invalid" ) {
+	  if( content == "exec" ) Exec(page)
+	  else                    Serve(page)
+      }
 
       if (quit) break
       close(host)     # close client connection
@@ -61,11 +64,14 @@ function Serve(page) {
     print "HTTP/5.0", status, reason  |& host
     print "Content-Type:", content    |& host
     print "Connection: Close"         |& host
+    page = docroot "/" page
+    print docroot "/" page
     if (( getline line < page ) < 0) {
-	page = "error_404.html"
+	page = docroot "/error_404.html"
 	getline line < page
-    } else 
-	print ORS ORS line            |& host
+    } 
+    
+    print ORS ORS line            |& host
     while ((getline line < page) > 0)
 	print line                    |& host
     close(page)
