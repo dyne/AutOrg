@@ -279,3 +279,20 @@ it and run the "update_example" command with arguments "-bar baz
 
 AutOrg comes with a uzbl configuration file to integrate the browsing
 experience with the combination of tools around AutOrg.
+
+In the future, it will integrate with a full-featured PSYC client to
+bring real-time interaction between AutOrg /synergists/.
+
+* TODO AutOrg and PSYC
+
+The minimalist approach of AutOrg calls for a minimalist tool for
+announcing releases and other changes.  The fastest and most
+straightforward way to do it is by sending an UDP paket out.
+
+PSYC allows that, and the target can be configured to replay the
+announce to other media (ATOM / RSS, IRC, XMPP, or a custom HTTP
+POST.)  That leaves the responsibility of propagating the announce to
+the announcement software.
+
+But PSYC is not yet widely used, so we provide more classical, but
+less efficient alternatives (Mailto, HTTP, XMPP.)
