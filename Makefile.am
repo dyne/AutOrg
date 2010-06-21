@@ -7,7 +7,7 @@ autorg_publish = emacs -batch -Q -l src/org-batch.el \
 
 autorg-dirs:
 	@mkdir -p org pub
-	@cp src/favicon.ico pub/
+	@cp src/favicon.ico src/404.html pub/
 
 autorg-greeting:
 	@echo
