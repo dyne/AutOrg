@@ -6,6 +6,7 @@ mkscript = sed \
     -e "s|%autorg_path%|$(AUTORG_PATH)|g" \
     -e "s|%autorg_domain%|$(AUTORG_DOMAIN)|g" \
     -e "s|%orgmode_path%|$(ORGMODE_PATH)|g" \
+    -e "s|%autorg_version%|$(VERSION)|g" \
     $1.in
 
 autorg: autorg.in
