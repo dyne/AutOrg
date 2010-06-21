@@ -27,17 +27,21 @@ BEGIN {
   RS = ORS = "\r\n"                    # header line terminators
 
   while (!quit) {
-
       if ($1 == "GET")  page = substr($2, 2)
-
-      if( page ~ /html$/) content = "text/html"
-      else if( page ~ /jpg$/)  content = "image/jpeg"
-      else if( page ~ /png$/)  content = "image/png"
-      else if( page ~ /ico$/)  content = "image/x-icon"
-      else if( page ~ /pdf$/)  content = "application/pdf"
-      else if( page ~ /^.*cmd/)  content = "exec"
-      else if( page ~ /txt$/)  content = "text/plain"
-      else content = "invalid"
+      if      ( page ~ /html$/) content = "text/html"
+      else if ( page ~ /jpg$/)  content = "image/jpeg"
+      else if ( page ~ /png$/)  content = "image/png"
+      else if ( page ~ /ico$/)  content = "image/x-icon"
+      else if ( page ~ /pdf$/)  content = "application/pdf"
+      else if ( page ~ /cmd$/)  content = "exec"
+      else if ( page ~ /txt$/)  content = "text/plain"
+      else if (system("test -d " page) == 0) {
+          page    = page "/index.html"
+          content = "text/html"
+      } else if (system("test -f " page) != 0) { 
+          page    = "404.html"
+          content = "text/html"
+      } else content = "invalid"
 
       if( content != "invalid" ) {
 	  if( content == "exec" ) Exec(page, arg)
@@ -65,17 +69,16 @@ BEGIN {
 
 function Serve(page) {
 
-    print "HTTP/5.0", status, reason  |& host
+    print "HTTP/1.1", status, reason  |& host
     print "Content-Type:", content    |& host
     print "Connection: Close"         |& host
     page = docroot "/" page
-    print page
+#    print page
     if (( getline line < page ) < 0) {
-	page = docroot "/error_404.html"
+	page = docroot "/404.html"
 	getline line < page
-    } 
-    
-    print ORS ORS line            |& host
+    }
+    print ORS ORS line                |& host
     while ((getline line < page) > 0)
 	print line                    |& host
     close(page)
