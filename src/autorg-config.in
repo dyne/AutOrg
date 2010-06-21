@@ -1,0 +1,118 @@
+#!/bin/bash
+#
+# autorg-config
+#
+# FIXME: License
+#
+
+config_set()
+{
+    local var="$1", val="$2"
+    echo "config: set $var = $val"
+}
+
+dump_config()
+{
+    local var=${2:-all}
+    echo "dump config: $var"
+}
+
+
+ask-replace-config()
+{
+    echo " ! Configuration exists. [V]iew, [R]eplace, or [A]bort ? "
+    read order
+    case $order in
+        ^[vV]) cat $AUTORG_CONFIG; ask-replace-config ;;
+        ^[rR]) mv $AUTORG_CONFIG $AUTORG_CONFIG.$(date +%F-%T);;
+        ^[aA]) echo " ! Aborted.  Configuration was kept intact."; exit 1;;
+    esac
+}
+
+save-config()
+{
+    cat > $AUTORG_CONFIG <<EOF
+# 
+# .:| AutOrg Configuration |:.
+#
+
+set autorg_psyc-uni    = $psyc_uni
+
+set autorg_browser     = $browser
+set autorg_editor      = $editor
+
+set autorg_announce-to = $announce_to
+set autorg_package-to  = $package_to
+set autorg_publish-to  = $publish_to
+
+EOF
+}
+
+run_setup()
+{
+    AUTORG_CONFIG_DIR=$HOME/.config/autorg
+    AUTORG_CONFIG=$AUTORG_CONFIG_DIR/rc
+
+    echo autorg_banner
+
+    mkdir -p $HOME/.config/autorg
+
+    echo -n " * Announce to [psyc://hinezumi.im/@AutOrg#announce-publications]: "
+    read announce_to
+    announce_to=${announce_to:-psyc://hinezumi.im/@AutOrg#announce-publications}
+
+    echo -n " * Publish to [~/public_html]: "
+    read publish_to
+    publish_to=${publish_to:-$HOME/public_html}
+
+    echo -n " * Package to [~/public_html/download]: "
+    read package_to
+    package_to=${package_to:-$HOME/public_html/download}
+
+    echo -n " * Enter your PSYC UNI [no default]: "
+    read psyc_uni
+
+    if [ -x $(which uzbl-browser) ]; then
+        browser="uzbl-browser -c ~/.config/autorg/uzbl"
+    elif [ -x $(which $BROWSER) ]; then
+        browser=$BROWSER
+    else 
+        echo -n "I couldn't find a Uzbl installation nor your Web browser.  Please indicate the full path to your browser's executable: "
+        read browser
+    fi
+
+    if [ -x $(which emacs) ]; then
+        editor="emacs"
+    elif [ -x $(which $EDITOR) ]; then
+        editor="$EDITOR"
+    else
+        echo -n " ! I couldn't find your Emacs executable.  Please indicate the complete path to your text editor: "
+        read editor
+    fi
+
+    test -f $AUTORG_CONFIG && ask-replace-config
+    save-config
+}
+
+case "$1" in
+    --dump)
+        dump_config $2
+        ;;
+    --setup)
+        run_setup
+        ;;
+    --set)
+        shift; var="$1"; shift; val="$@"
+        config_set $var $value
+        ;;
+    *)
+        if [ $# -gt 0 ]; then
+            exec autorg-help config
+        fi
+        if [ ! -f $AUTORG_CONFIG ]; then
+            run_setup
+        else
+            dump_config
+        fi
+        ;;
+esac

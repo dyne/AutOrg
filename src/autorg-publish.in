@@ -1,0 +1,8 @@
+#!/bin/bash
+#
+# autorg-publish
+#
+# FIXME: License
+#
+
+echo "Publish project"

@@ -1,0 +1,8 @@
+#!/bin/bash
+#
+# autorg-list
+#
+# FIXME: License
+#
+
+echo "list autorg publications"

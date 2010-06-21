@@ -1,0 +1,8 @@
+#!/bin/sh
+#
+# autorg-create      -- Create a new book / project
+#
+# FIXME: License
+#
+
+echo "autorg create [-p <project>] [options]"

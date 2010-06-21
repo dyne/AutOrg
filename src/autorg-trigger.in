@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+# autorg-trigger     -- Trigger an external action
+#
+# FIXME: License
+#
+
+AUTORG_TRIGGERS=$HOME/.local/share/autorg/triggers
+
+mkdir -p $AUTORG_TRIGGERS
+
+command="$1"
+
+touch $AUTORG_TRIGGER/$command

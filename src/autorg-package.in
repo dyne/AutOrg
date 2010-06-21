@@ -1,0 +1,6 @@
+#!/bin/bash
+#
+# autorg-package
+#
+
+echo "export project as a tarball"

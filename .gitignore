@@ -40,5 +40,8 @@ Makefile.in
 missing
 /org
 src/*.el
+src/autorg
+src/autorg-*
+!/src/autorg-*.in
 stamp-h1
 tags

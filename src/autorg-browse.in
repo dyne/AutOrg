@@ -1,0 +1,33 @@
+#!/bin/bash
+#
+# autorg-browse
+#
+# FIXME: License
+#
+
+uzbl=$(which uzbl-browser)
+
+case "$1" in
+    -p)
+        project="$2"
+        uri="file://$HOME/data/org"
+        ;;
+     *)
+        uri="$1"
+        ;;
+esac
+
+
+if [ -x $uzbl ]; then
+
+    $uzbl -c ~/.config/autorg/uzbl.conf $uri
+
+else
+
+    $BROWSER $uri
+
+fi
+
+# Local Variables:
+# mode: sh-mode
+# End:

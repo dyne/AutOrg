@@ -1,0 +1,96 @@
+#!/bin/bash
+#
+# autorg-announce
+#
+# FIXME: License
+#
+
+usage()
+{
+    echo <<EOF
+autorg announce [-p <project>] [-m message] [target]
+
+Send a "message" to "target" regarding "project".
+
+By default, use the project in the current directory.
+
+<target>, if given, MUST be an URI or an Alias.  
+
+Aliases are set in the configuration (e.g. autorg config --set
+announce-for-foo psyc://hinezumi.im/$autorg#announce-releases for a
+project named "foo")
+
+URI scheme MAY be HTTP, PSYC, Mailto, or XMPP URI.
+
+If "-m <messages>" is passed to announce, it overrides the default
+(contextual) message (usually, the message of the last release or
+commit.)
+
+EOF
+
+}
+
+alias_announce()
+{
+    echo "Get alias from git submodule, and the target URI via config_get(announce-target-for-$1)."
+}
+
+http_announce()
+{
+    echo "Web notification via HTTP POST"
+}
+
+mail_announce()
+{
+    echo "Notify an email address via SMTP"
+}
+
+# The recommended way is to use PSYC and plug whatever mailing-list,
+# micro-blogging, etc. in the target PSYC channel.
+
+psyc_announce()
+{
+    echo "PSYC notification via UDP"
+}
+
+xmpp_announce()
+{
+    echo "XMPP notification"
+}
+
+if [ -z $1 ]; then
+
+    echo "interactive announce"
+
+else
+
+    project=
+    message=
+    target=
+
+    while [ ! -z $2 ]; do
+        case "$1" in
+            -p) project="$2"; shift 2;;
+            -m) message="$3"; shift 2;;
+             *) break;;
+        esac
+    done
+
+    project=${project:-$(basename $(pwd))}
+    message=${message:-$(git describe HEAD)}
+    target="$1"
+
+    announce_command()
+    {
+        case "$1" in
+            psyc://*) command="psyc_announce"  ;;
+            http://*) command="http_announce"  ;; 
+            mailto:*) command="mail_announce"  ;;
+            xmpp:*)   command="xmpp_announce"  ;;
+            *)        command="alias_announce" ;;
+        esac
+        $command "$1" "$2"
+    }
+
+    announce_command "$target" "$message"
+fi
