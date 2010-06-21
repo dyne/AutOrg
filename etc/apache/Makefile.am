@@ -1,27 +1,27 @@
 
 
-VHOSTS = www.$(DOMAIN)
+VHOSTS = www.$(AUTORG_DOMAIN)
 
-CONF = apache.$(DOMAIN).conf
+CONF = apache.$(AUTORG_DOMAIN).conf
 
-www.$(DOMAIN): www.in
+www.$(AUTORG_DOMAIN): www.in
 	@cat "`echo ${@} | cut -d. -f1`.in" | sed -e "s@%autorg_path%@$(AUTORG_PATH)@g" \
-		-e "s@%domain%@$(DOMAIN)@g"                  \
-		> "`echo ${@}|cut -d. -f1`.$(DOMAIN)"
+		-e "s@%domain%@$(AUTORG_DOMAIN)@g"                  \
+		> "`echo ${@}|cut -d. -f1`.$(AUTORG_DOMAIN)"
 	@touch $(AUTORG_PATH)/triggers/apache_reload.do
-	@echo "generated `echo ${@}|cut -d. -f1`.$(DOMAIN)"
+	@echo "generated `echo ${@}|cut -d. -f1`.$(AUTORG_DOMAIN)"
 
-apache.$(DOMAIN).conf: apache.conf.in
+apache.$(AUTORG_DOMAIN).conf: apache.conf.in
 	@cat "`echo ${@} | cut -d. -f1`.conf.in" | sed -e "s@%autorg_path%@$(AUTORG_PATH)@g" \
-		-e "s@%domain%@$(DOMAIN)@g"                  \
-		> "`echo ${@}|cut -d. -f1`.$(DOMAIN).conf"
+		-e "s@%domain%@$(AUTORG_DOMAIN)@g"                  \
+		> "`echo ${@}|cut -d. -f1`.$(AUTORG_DOMAIN).conf"
 	@touch $(AUTORG_PATH)/triggers/apache_reload.do
-	@echo "generated `echo ${@}|cut -d. -f1`.$(DOMAIN).conf"
+	@echo "generated `echo ${@}|cut -d. -f1`.$(AUTORG_DOMAIN).conf"
 
 all: $(VHOSTS) $(CONF)
 
 install: all
-	ln -sf "$(AUTORG_PATH)/etc/apache/*.$(DOMAIN)" /etc/apache2/sites-enabled
+	ln -sf "$(AUTORG_PATH)/etc/apache/*.$(AUTORG_DOMAIN)" /etc/apache2/sites-enabled
 
 clean:
 	rm -f $(VHOSTS) $(CONF)

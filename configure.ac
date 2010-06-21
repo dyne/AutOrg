@@ -5,7 +5,7 @@ dnl ==============================================================
 dnl require autoconf 2.62 (AS_ECHO/AS_ECHO_N)
 AC_PREREQ([2.60])
 
-AC_INIT([AutOrg],[0.0.1],[hackers@dyne.org],[autorg])
+AC_INIT([AutOrg],[0.1.0],[hackers@dyne.org],[autorg])
 AC_CONFIG_MACRO_DIR([m4])
 
 AC_CANONICAL_HOST
@@ -98,8 +98,8 @@ AC_ARG_WITH(domain,
 	    [with_domain=$withval],
 	    [with_domain=local.org])
 AC_MSG_RESULT([${with_domain}])
-DOMAIN="$with_domain"
-AC_SUBST(DOMAIN)
+AUTORG_DOMAIN="$with_domain"
+AC_SUBST(AUTORG_DOMAIN)
 
 AC_MSG_CHECKING([which org-mode to use])
 AC_ARG_WITH(org-mode,
@@ -107,8 +107,8 @@ AC_ARG_WITH(org-mode,
 	[with_orgmode=$withval],
 	[with_orgmode=auto])
 AC_MSG_RESULT([${with_orgmode}])
-ORGMODE="$with_orgmode"
-AC_SUBST(ORGMODE)
+ORGMODE_PATH="$with_orgmode"
+AC_SUBST(ORGMODE_PATH)
 
 dnl alphabetic order on dir/subdir, but Makefile sorts before everything
 AC_CONFIG_FILES([
@@ -130,11 +130,27 @@ dnl useful when debugging user problems only config.log is needed
 
 dnl as above, but no newline at the end
 
-echo
-echo
-echo "Compile $PACKAGE $VERSION for ${host}"
-echo "configuration summary, pass V=1 to configure for verbose output"
+dnl friendly configuration summary
+cat <<EOF
 
-echo "============================== now type make, may the source be with you!"
+   .:| $PACKAGE $VERSION -- locAlhOst: where your social network belongs. |:.
+
+       configuration summary: pass -V to configure for verbose output
+
+    II hostname:            ${host}
+    II AutOrg Source Path:  ${AUTORG_PATH}
+    II AutOrg Domain:       ${AUTORG_DOMAIN}
+    II Org-mode Path:       ${ORGMODE_PATH}
+
+    II Emacs:               $(which emacs)
+                            $(emacs --version | head -1)
+    II Git:                 $(which git)
+                            $(git --version)
+    II Uzbl:                $(which uzbl-browser)
+                            $(uzbl-core -V)
+
+       AutOrg now ready to compile:  make the source be with you!
+
+EOF
 
 # vim:et:ts=3:sw=3

@@ -3,8 +3,8 @@ SHELLSCRIPTS  = $(shell find . -type f -name "*.sh.in" -print | sed 's/.sh.in/.s
 
 mkscript = sed \
     -e "s|%autorg_path%|$(AUTORG_PATH)|g" \
-    -e "s|%domain%|$(DOMAIN)|g" \
-    -e "s|%orgmode_path%|$(ORGMODE)|g" \
+    -e "s|%autorg_domain%|$(AUTORG_DOMAIN)|g" \
+    -e "s|%orgmode_path%|$(ORGMODE_PATH)|g" \
     $1.in
 
 %.el : %.el.in
