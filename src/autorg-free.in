@@ -1,0 +1,29 @@
+#!/bin/bash
+#
+# autorg-free         -- Set your AutOrg project FREE! (as in Free Speech)
+#
+# FIXME: License
+#
+
+error=
+project=
+
+while getopt -o 'p:' OPTION
+do
+    case $OPTION in
+        p)
+            project="$OPTARG"
+            ;;
+        ?)
+            ;;
+    esac
+done
+
+if [ -z $project ]; then
+    autorg help free
+    exit 2
+fi
+
+autorg config  -p $project --set license AGPL
+# Apply copyright to all files and announce
+autorg trigger -p $project another_brick_off_thew_all
