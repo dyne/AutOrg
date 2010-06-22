@@ -105,6 +105,11 @@ Describe features for release 1.0.0
 
 List current development tasks.
 
+** TODO Configuration and Installation files
+   - State "TODO"       [2010-06-22 Tue 17:22]
+
+Do we go XDG style, like awesome and uzbl, or do we go .autorg?
+
 ** TODO Build system
 
 *** TODO Have autogen.sh check for dependencies
