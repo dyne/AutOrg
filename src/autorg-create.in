@@ -5,4 +5,113 @@
 # FIXME: License
 #
 
+. /etc/autorg/rc
+
 echo "autorg create [-p <project>] [options]"
+
+install_to=$(pwd)
+project=$(basename $install_to)
+declare -a options
+
+while getopt -a -o 'Bp:' -l 'bare' OPTION
+do
+    case $OPTION in
+        p)
+            install_to="$OPTARG"
+            project="$(basename $install_to)"
+            ;;
+        -bare)
+            options[bare]=1
+            ;;
+        *)
+            autorg help create
+            exit 2 
+            ;;
+    esac
+done
+shift $(($OPTIND -1))
+
+mkdir -p $install_to
+cd $install_to
+
+if [ -d .autorg ]; then
+    # The project is already initialized:
+    # check its status and act accordingly.
+    status=`autorg status -p $project --state`
+    case $status in
+        released)
+            # The project is released and distributed.
+            # We need user confirmation to properly close the project.
+            # This is also a safety to avoid overwriting a project.
+            _ask <<-EOF
+                W About RESETTING RELEASED project '$project'
+
+                  $(autorg version -p $project --release)
+
+                  If you really want to reset it, you need to close it first.
+
+                  => What will happen?             Press '+' or Space
+                  => Backup project                Press 'B'
+                  => Release final version         Press 'V' or Enter
+                  => Close project                 Press 'C'
+                  
+                  => Abort and keep the project    Press 'n'
+
+            EOF
+            case $answer in
+                +)
+                    cat <<EOF
+                  If you keep pressing the space bar (Space), you will:
+
+                    - backup the project             (or press B now)
+                    - release a final version        (or press V now)
+                    - remove the .autorg configuration directory
+                    - remove all .git directories inside the project folder
+                    - start a new repository with the .org files
+                  
+                  Warning:
+
+                    - your .org files won't be affected, but 
+                    - your configuration files for that project will be deleted
+                    - all customizations you made so far will be lost
+                    - your project's history will be erased (although
+                      remote repositories are not affected.)
+                    - Optional:
+                      - you can release a "final version" and announce it to the network
+                      - if your project is Free, you can provide it as a public archive
+
+            EOF
+
+
+echo autorg_banner
+echo " * Creating $project"
+
+git init
+
+cat > .gitignore <<EOF
+\#*
+.#*
+.autorg
+*~
+
+EOF
+
+if [ "${options[bare]}" -ne 1 ]; then
+
+    mkdir -p .autorg images stylesheets
+
+    ### Add UI
+    # -j --js
+    # -s --css <stylesheet> 
+    # -t --template <name>  
+    ### Add content
+    # -b --book <name> [repository]
+    # -c --collection <name> [uri]
+
+fi
+
+git add .
+git commit -m "Created AutOrg Project '$project'"
+git tag semver
+git tag v0.1.0
+
