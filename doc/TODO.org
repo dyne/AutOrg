@@ -5,44 +5,130 @@
 | *Branch*     | *Tag* | *Status*    | *Notes*                    |
 | master       |       | development | current development branch |
 | unstable-0.2 |       | development | prepare for next release   |
- 
-We don't have anywhere to dump infortmation, do we?  So here it is.  I
-recommend you read Francis Heyligen's take on GTD:
+
+* Stuff
+
+We don't have anywhere to dump infortmation, do we?  So here it is.
+
+It's matching the "Collect" phase of GTD for miscellaneous and
+serendipity stuff that don't directly relate to source code.
+
+** Reading List: GTD Cognition, by Francis Heyligen 
+
+I recommend you read Francis Heyligen's take on GTD:
 http://pespmc1.vub.ac.be/Papers/GTD-cognition.pdf
 
 It hints on scientific grounds for GTD, and provides directions for
 using GTD in a group (although that part is tenuous and AutOrg should
 be more attached to that part.)
 
+** GTD for groups
+
+This is  the part of  GTD  I was missing:  it's made  for individuals.
+When applied to  a group, it  falls into the "experimental research on
+cognition" category, as well as the "Oh, shit!  More confusing issues"
+software development  category.  And  I think this  is what  AutOrg is
+about:  make it  possible for  GTD users  to share  their tasks  in an
+integrated way, and provide an efficient tool for group authoring.
+
+Some questions that arise:
+
+ - How to integrate different habits (e.g. in naming of TODO states
+   and workflow of TODO sequences) so as to allow a diversity of
+   approaches while keeping a common interface?
+
+   For example, my understanding of TODO and NEXT differ from that of
+   Yaakov.  He will tell you they're identical and he prefers the NEXT
+   keyword.  But I understand them as two separate states: the former
+   announces a new task, and the latter indicates a task in progress.
+
+   I may be anal, but I like that all TODO state keywords are the same
+   length, so that my mind matches "4 capitalized letters after the
+   stars" as the TODO state, and it makes columns aligned, which
+   speeds up reading IMO.  So I tried to come up with a 4-letter
+   sequence of TODO steps, with great success on the personal level,
+   but complete failure on the group level.
+
+   Instead of DEFERRED and CANCELED I tried DROP and DEAD, then SKIP
+   and OVER, and HOLD and OVER, after Jaromil convinced me that SKIP
+   is not the correct word for an action that you're skipping, but
+   will return to eventually. He uses SOMEDAY (Yaakov uses DEFERRED.)
+
+   So, here is my current list:
+
+     - TODO: any incoming task
+     - NEXT: the *unique* task I'm tackling now
+     - WAIT: an ongoing task that requires external input
+     - DONE: a completed task
+     - HOLD: a deferred task (on hold)
+     - OVER: a canceled task
+
+  - Although I  hate linear time, calendars and  watches alike, I find
+    it  useful to  keep  times  of events,  to  automate gathering  of
+    relevant  statistics.   It allows  making  graphs  of the  overall
+    evolution of my  work over time.  That way  I can easily associate
+    working methodology and environment,  life events and interests by
+    looking  at nice  graphs.  In  Orgmode,  it doesn't  cost a  dime:
+    simply add  the ! flag to  your TODO: list of  states.  Every time
+    you change a task's state, Orgmode will remember the time for you.
+    Then let macros do the  work of gathering the dates and generating
+    graphs with GraphViz.
+
+  - How to use TAGS, CATEGORIES, and PROPERTIES to provide context for
+    tasks, people and projects?
+
+    We currently associate a WHO property to the NEXT state to provide
+    information to the group about whom the task is assigned to.
+
+    We individually use TAGS to provide task context.
+
+    We use CATEGORIES to single out projects: e.g.: AutOrg
+
+    Maybe we need to watch how  other Orgmode users do it, and provide
+    a  generic set  of CATEGORIES,  PROPERTIES,  and TAGS  for use  in
+    different  AutOrg  contexts:  for  developers,  for  readers,  for
+    authors, for curators...
+
 
 * Stable Release                                                     :stable:
 :PROPERTIES:
 :CATEGORY: AutOrg
 :END:
+
+Describe features for release 1.0.0
+
+
 * Development                                                      :unstable:
 :PROPERTIES:
 :CATEGORY: AutOrg
 :END:
+
+List current development tasks.
+
 ** TODO Build system
-*** DONE Make pub/ the destination directory for generated contents
-    CLOSED: [2010-06-16 Wed 18:27]
-*** DONE Automatically take .org files from org/ if it exists.
-    CLOSED: [2010-06-16 Wed 18:27]
-*** DONE Remove dependency on external scripts
-    CLOSED: [2010-06-16 Wed 18:27]
+
 *** TODO Have autogen.sh check for dependencies
 
 Should be done for distribution with Debian.
 
-*** TODO Handle the --with-org-mode=auto                             :v0.2.0:
+*** TODO Ensure portability on mobile devices
+
+AutOrg should run everywhere Emacs does.
+*** DEFERRED Handle the --with-org-mode=auto                             :v0.2.0:
+    CLOSED: [2010-06-22 Tue 16:06]
+    - State "DEFERRED"   [2010-06-22 Tue 16:06]
+
+*note* For now we declare a dependency on org-mode and use the standard path.
 
 When --with-org-mode is passed to configure, 'auto' is given as the
 load-path.  It should check for the presence of org-mode and use that,
 or ask the user, or fallback to git submodule the org-mode source repo.
-
-*** TODO Ensure portability on mobile devices
-
-AutOrg should run everywhere Emacs does.
+*** DONE Automatically take .org files from org/ if it exists.
+    CLOSED: [2010-06-16 Wed 18:27]
+*** DONE Remove dependency on external scripts
+    CLOSED: [2010-06-16 Wed 18:27]
+*** DONE Make pub/ the destination directory for generated contents
+    CLOSED: [2010-06-16 Wed 18:27]
  
 ** TODO Make push/pull to website
 *** TODO Automate remote publication
@@ -62,7 +148,7 @@ care of two things:
 
 Make a set of procedures and/or autmatizations (scripts?
 instructions?) to setup various external applications to interact with
-autorg via org-protocolo-open-source 
+autorg via org-protocol-open-source 
 
 *** DONE Correct makefile for pub
     CLOSED: [2010-06-16 Wed 18:26]
@@ -105,10 +191,30 @@ with a team (e.g. using a remote git repository.)
 Document usage with multiple projects (i.e. using different
 sub-directories in org/)
 
+** TODO Create a common ORG header for AutOrg files
+   - State "TODO"       [2010-06-22 Tue 11:46]
+
+ - cf. Worg's gtd-software-comparison.org for the generic header they
+   use.
+ - provide automation when creating a file within a project, via
+   SETUPFILE option to gather the correct headers.
+ - a directory containing .org fragments with headers for editing
+   different types of pages (TODO sequences, Tags, Properties,
+   Categories, appearance, shortcuts), and for export (by type:
+   article, book, etc.) 
+
+
 * Releases
 :PROPERTIES:
 :CATEGORY: AutOrg
 :END:
+
+List tasks scheduled for a specific release.  
+
+When all tasks under a release are marked DONE, master is ready to
+receive the [[file:SemVer.org][SemVer]] tag and we can switch the NEXT task to release
+party! :)
+
 ** v0.3.0 - 
 *** TODO Name release
 *** TODO Select features 
@@ -142,3 +248,15 @@ Eviction Round vs. Squatting Action, Amsterdam, 2010:
 We'll fix it and add it in 0.2.0
 
 *** DONE Cleanup documentation
+
+* Documentation
+
+AutOrg documentation sits in doc/
+
+** [[file:autonomy-is-organization.org]]
+
+*** Goals
+**** TODO Clarify the meaning of first goal (RFCs)
+     - State "TODO"       [2010-06-22 Tue 16:04]
+**** TODO Link to relevant sub-project files
+     - State "TODO"       [2010-06-22 Tue 16:04]
