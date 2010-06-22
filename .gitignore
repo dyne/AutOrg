@@ -5,6 +5,7 @@
 !autogen.sh
 *.do
 *.html
+!/src/404.html
 *.pdf
 *.txt
 *.tex
