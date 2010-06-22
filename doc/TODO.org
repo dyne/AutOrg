@@ -1,9 +1,19 @@
 #+TITLE: AutOrg -= TODO 
 #+DATE: <2010-06-13 Sun>
+#+TODO: TODO(t!) NEXT(n!) WAITING(w@/!) | DONE(d!) DEFERRED(f!) CANCELED(c@/!)
 
 | *Branch*     | *Tag* | *Status*    | *Notes*                    |
 | master       |       | development | current development branch |
 | unstable-0.2 |       | development | prepare for next release   |
+ 
+We don't have anywhere to dump infortmation, do we?  So here it is.  I
+recommend you read Francis Heyligen's take on GTD:
+http://pespmc1.vub.ac.be/Papers/GTD-cognition.pdf
+
+It hints on scientific grounds for GTD, and provides directions for
+using GTD in a group (although that part is tenuous and AutOrg should
+be more attached to that part.)
+
 
 * Stable Release                                                     :stable:
 :PROPERTIES:
@@ -99,14 +109,15 @@ sub-directories in org/)
 :PROPERTIES:
 :CATEGORY: AutOrg
 :END:
-** TODO v0.3.0 - 
+** v0.3.0 - 
 *** TODO Name release
 *** TODO Select features 
 ** TODO v0.2.0 - "locAlhOst: WYSNB"
 
 localhost: where your social network belongs.
 
-*** TODO Fix server.awk
+*** DONE Fix server.awk
+    CLOSED: [2010-06-22 Tue 08:50]
 
 Maybe remove 404 support for now.
 
@@ -117,7 +128,8 @@ Handle the case:
  2. fallback to git submodule src/org-mode checked out at the most
     recent tag (in future version: a stable tag)
 
-** TODO v0.1.0 - "Squatting Action"
+** DONE v0.1.0 - "Squatting Action"
+   CLOSED: [2010-06-22 Tue 08:45]
 
 Eviction Round vs. Squatting Action, Amsterdam, 2010:
  - 8 squats closed
@@ -125,8 +137,8 @@ Eviction Round vs. Squatting Action, Amsterdam, 2010:
  - Net result: One single mother with 2 young children in the street.
    250K EUR per squat of public money spent on police.
 
-*** TODO Remove make test / server support
+*** DONE Remove make test / server support
 
 We'll fix it and add it in 0.2.0
 
-*** TODO Cleanup documentation
+*** DONE Cleanup documentation
