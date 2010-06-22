@@ -1,0 +1,12 @@
+#+TITLE:    Get Started With AutOrg
+#
+#
+# FIXME: License
+#
+
+DOCS { [[file:autonomy-is-organization.org][About]] | [[file:API.org][API]] | Book | [[file:org-gtd.org][GTD]] | [[file:glossary.org][Glossary]] | [[file:index.org][Index]] }
+
+Welcome to AutOrg!
+
+Edit the [[file:../org/index.org][org/index.org]] file to get started!
+
