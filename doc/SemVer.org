@@ -1,0 +1,18 @@
+#+TITLE:   Semantic Versioning
+
+SemVer was proposed by Tom Preston-Werner as a way to provide a
+rational software versioning to help automated integration of third
+party software.
+
+Software following Semantic Versioning use 3 numbers (separated by a
+dot): the Major, Minor and Patch version.
+
+A new Major version is released when introducing backward-incompatible
+features.  A new Minor version is released when new features are
+introduced in the public API, that are backwards-compatible.  A Patch
+version is release whenever a backwards-compatible bug fixes are
+implemented.
+
+Once a release is made, it won't change: any changes to the source
+code must be distributed in the next release.
+Starting with release 0.2.0, AutOrg follows [[http://semver.org][SemVer]].
