@@ -1,0 +1,12 @@
+#+TITLE:   Autorg Developer Guide
+
+git clone the repository and join the [[https://hinezumi.im:8443?randomnick=1&channels=@AutOrg&prompt=0][AutOrg channel on Hinezumi]]. 
+
+You can use PSYC, IRC or XMPP:
+
+ - psyc://hinezumi.im/@AutOrg
+ - irc://hinezumi.im/#AutOrg
+ - xmpp:*AutOrg@hinezumi.im
+
+Sorry, we don't have much more dev docs at the moment.  Help us make
+it better :)
