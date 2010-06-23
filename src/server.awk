@@ -28,6 +28,7 @@ BEGIN {
 
   while (!quit) {
       if ($1 == "GET")  page = substr($2, 2)
+
       if      ( page ~ /html$/) content = "text/html"
       else if ( page ~ /jpg$/)  content = "image/jpeg"
       else if ( page ~ /png$/)  content = "image/png"
@@ -35,19 +36,30 @@ BEGIN {
       else if ( page ~ /pdf$/)  content = "application/pdf"
       else if ( page ~ /cmd$/)  content = "exec"
       else if ( page ~ /txt$/)  content = "text/plain"
-      else if (system("test -d " page) == 0) {
+      else if ( page == "" ) {
+          # Root URL
+          if ( system("test -f index.html") == 0 ) 
+              page = "index.html"
+          else
+              page = "doc/get-started.html"
+          content  = "text/html"
+      } else if ( system("test -d " page) == 0 ) {
+          # Maybe a sub-directory
+          sub(/\/?$/,"",page)
           page    = page "/index.html"
           content = "text/html"
-      } else if (system("test -f " page) != 0) {
-          # Treat the "missing index.html" case 
-          if ( page == "index.html" ) page = "get-started.html"
-          else                        page = "404.html"
+      } else if ( system("test -f " page) != 0 ) {
+          # Not Found
+          page    = "doc/404.html"
           content = "text/html"
+          status  = 404
+          reason  = "Not Found"
       } else content = "invalid"
 
-      if( content != "invalid" ) {
-	  if( content == "exec" ) Exec(page, arg)
-	  else                    Serve(page)
+      if ( content != "invalid" ) {
+          print status,reason,": GET",page,"HTTP/1.1"
+	  if ( content == "exec" ) Exec(page, arg)
+	  else                     Serve(page)
       }
 
       if (quit) break

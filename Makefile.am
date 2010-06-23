@@ -7,7 +7,7 @@ autorg_publish = emacs -batch -Q -l src/org-batch.el \
 
 autorg-dirs:
 	@mkdir -p org pub
-	@cp src/favicon.ico src/404.html pub/
+	@cp src/favicon.ico pub/
 
 autorg-greeting:
 	@echo
@@ -25,7 +25,11 @@ targets: autorg-greeting
 
 # FIXME: use awk-server, or check more dependencies such as a web server...
 preview: autorg-greeting
-	@echo "starting an minimal http server (awk) on port 8080 - hit Ctrl-C to quit"
+	@echo " II Starting AutOrg preview on http://localhost:8080/"
+	@echo " II Minimal HTTP server powered by Awk"
+	@echo " II Hit Ctrl-C to quit"
+	@echo
+	@test -f pub/doc/index.html || make doc 2>&1 1>/dev/null
 	@cd pub && ../src/server.awk -v docroot=`pwd`
 
 doc: autorg-greeting autorg-dirs

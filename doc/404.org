@@ -3,9 +3,7 @@
 
 DOCS { [[file:autonomy-is-organization.org][About]] | [[file:API.org][API]] | Book | [[file:org-gtd.org][GTD]] | [[file:glossary.org][Glossary]] | [[file:index.org][Index]] }
 
-* AutOrg Preview: Document Not Found
-
-The document you requested doesn't exist.
+*The document you requested doesn't exist.*
 
 Try the [[file:index.org][documentation]] or the [[file:../org/index.org][home page]].
 

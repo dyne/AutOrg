@@ -28,4 +28,5 @@ all: ${ELISPSCRIPTS} ${SHELLSCRIPTS} ${AUTORG_COMMAND}
 
 clean:
 	rm -f *.el *.sh
+	rm -f ${AUTORG_COMMAND}
 	rm -f *~
