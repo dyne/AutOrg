@@ -4,9 +4,9 @@
 # FIXME: License
 #
 
-DOCS { [[file:autonomy-is-organization.org][About]] | [[file:API.org][API]] | Book | [[file:org-gtd.org][GTD]] | [[file:glossary.org][Glossary]] | [[file:index.org][Index]] }
+DOCS { [[file:/doc/autonomy-is-organization.org][About]] | [[file:/doc/API.org][API]] | Book | [[file:/doc/org-gtd.org][GTD]] | [[file:/doc/index.org][Index]] }
 
 Welcome to AutOrg!
 
-Edit the [[file:../org/index.org][org/index.org]] file to get started!
+Edit the org/index.org file to get started!
 

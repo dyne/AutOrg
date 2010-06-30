@@ -1,7 +1,7 @@
 #+TITLE: AutOrg Preview -- 404 Not Found
 #
 
-DOCS { [[file:autonomy-is-organization.org][About]] | [[file:API.org][API]] | Book | [[file:org-gtd.org][GTD]] | [[file:glossary.org][Glossary]] | [[file:index.org][Index]] }
+DOCS { [[file:autonomy-is-organization.org][About]] | [[file:API.org][API]] | Book | [[file:org-gtd.org][GTD]] | [[file:index.org][Index]] }
 
 *The document you requested doesn't exist.*
 
