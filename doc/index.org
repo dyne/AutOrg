@@ -73,7 +73,7 @@ configurable strategies (PSYC, HTTP, Mailto, XMPP.)  By default, an
 AutOrg project is announced via PSYC to the *AutOrg Global Project
 Release Announcement channel*
 
-  [[https://hinezumi.im:8443?randomnick=1&channels=@AutOrg&prompt=0][psyc://hinezumi.im/@AutOrg#announce-releases-projects]] 
+  [[https://hinezumi.im:8443?randomnick=1&channels=AutOrg&prompt=0][psyc://hinezumi.im/AutOrg#announce-releases-projects]]
   (click to join the @AutOrg room in your web browser)
 
 *** Printing
