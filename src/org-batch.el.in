@@ -1,7 +1,5 @@
 ;; emacs org-mode batch configuration
 
-;; local emacs extensions
-(add-to-list 'load-path "%orgmode_path%")
 ;; in case we're using org-mode source repository
 (add-to-list 'load-path "%orgmode_path%/lisp")
 (add-to-list 'load-path "%orgmode_path%/contrib/lisp")
