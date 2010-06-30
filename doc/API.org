@@ -35,6 +35,7 @@ With "-p <project>", limit the scope of AutOrg to that project.
   Finally, it will display the output of "autorg help" followed by a
   welcome message:
 
+#+BEGIN_EXAMPLE:
     Welcome to AutOrg!
 
     Your configuration: ~/.config/autorg/
@@ -70,7 +71,7 @@ With "-p <project>", limit the scope of AutOrg to that project.
   release     -- Book / Collection distribution management
   status      -- Query the AutOrg installation status
   trigger     -- Trigger an external action
-
+#+END_EXAMPLE
 
 ** autorg announce [-p <project>] [-m <message>] [target]
 
@@ -143,6 +144,7 @@ When run with one of -h, --help or help, or without any argument,
 "autorg" returns its version and the usage information, listing the
 main commands and their one-line-description.
 
+#+BEGIN_EXAMPLE:
   .:| AutOrg v0.2.0 -- Autonomy Is Organization |:.
 
   autorg [command [args ...]]
@@ -164,6 +166,7 @@ main commands and their one-line-description.
   publish     -- Export the .org files to different formats
   release     -- Book / Collection distribution management
   status      -- Query the AutOrg installation status
+#+END_EXAMPLE
 
 *** autorg help <command>
 
@@ -239,6 +242,7 @@ Print the status of the AutOrg installation.
 
 *** Example
 
+#+BEGIN_EXAMPLE:
   4 projects: (+ need update, - not initialized, r released)
 
   + autorg-pages                    24 pages
@@ -249,6 +253,7 @@ Print the status of the AutOrg installation.
   342 collections:
 
   ...
+#+END_EXAMPLE
 
 ** autorg trigger <command>
 
