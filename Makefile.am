@@ -1,5 +1,7 @@
 SUBDIRS = etc src
 
+# org/foo.css will supercede src/foo.css
+CSS_FILES = $(shell find org src -type f -name "*.css" -print | sort -k 4 -u 2>/dev/null)
 ORG_FILES = $(shell find doc org -type f -name "*.org" -print 2>/dev/null)
 
 autorg_publish = emacs -batch -Q -l src/org-batch.el \
@@ -7,7 +9,7 @@ autorg_publish = emacs -batch -Q -l src/org-batch.el \
 
 autorg-dirs:
 	@mkdir -p org pub
-	@cp src/favicon.ico pub/
+	@cp src/favicon.ico src/*.png $(CSS_FILES) pub/
 
 autorg-greeting:
 	@echo

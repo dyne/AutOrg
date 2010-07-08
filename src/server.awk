@@ -30,6 +30,7 @@ BEGIN {
       if ($1 == "GET")  page = substr($2, 2)
 
       if      ( page ~ /html$/) content = "text/html"
+      else if ( page ~ /css$/)  content = "text/css"
       else if ( page ~ /jpg$/)  content = "image/jpeg"
       else if ( page ~ /png$/)  content = "image/png"
       else if ( page ~ /ico$/)  content = "image/x-icon"
