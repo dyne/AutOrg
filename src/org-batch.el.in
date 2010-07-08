@@ -39,7 +39,7 @@
 '(org-export-html-validation-link
   "<p class=\"xhtml-validation\"><a href=\"http://validator.w3.org/check?uri=referer\">Validate XHTML 1.0</a></p>")
 '(org-export-html-with-timestamp nil)
-'(org-export-html-style "<link rel=stylesheet href=\"style.css\" type=\"text/css\">")
+'(org-export-html-style "<link rel=stylesheet href=\"/autorg.css\" type=\"text/css\">")
 ; Do not use sub or superscripts
 '(org-export-with-sub-superscripts nil)
 
@@ -90,15 +90,15 @@
 	 :auto-preamble t
 	 )
 
-        ;; ("org-static"
-	;;  :base-directory "."
-	;;  :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
-	;;  :publishing-directory "../pub"
-	;;  :recursive t
-	;;  :publishing-function org-publish-attachment
-	;;  )
+        ("org-static"
+	 :base-directory "."
+	 :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
+	 :publishing-directory "../pub"
+	 :recursive t
+	 :publishing-function org-publish-attachment
+	 )
 
-        ("autorg" :components ("autorg-docs" "autorg-pages"))
+        ("autorg" :components ("autorg-docs" "autorg-pages" "autorg-static"))
 	))
 
 ;;(org-publish-project "autorg")
