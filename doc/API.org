@@ -1,4 +1,10 @@
 #+TITLE: AutOrg API Documentation
+#+SETUPFIlE: .autorg-setup.org
+#
+# FIXME: License
+#
+
+DOCS { [[file:autonomy-is-organization.org][About]] | *API* | Book | [[file:org-gtd.org][GTD]] | [[file:index.org][Index]] }
 
 *DRAFT* *FOR DEV ONLY* *UNSTABLE*
 
@@ -134,6 +140,11 @@ LaTeX setups, etc.
 Options passed to "create" override default settings for this project.
 At the time of this writing, no options are set, but...
 
+** autorg free -p <project>
+
+Assign a free license to the project.
+Make it suitable for distribution.
+
 ** autorg [help [command]]
 
 Display the documentation for "command".
@@ -210,6 +221,12 @@ bzip2 and will use it if available and no compression option is used.
 It falls back to gzip, and will bail out with an error if neither
 bzip2 nor gzip are available.
 
+** autorg path [-p <project>]
+
+Without argument, return the installation path.
+
+With =-p <project>=, return the path of the project.
+ 
 ** autorg publish [-f] [project]
 
 Export the .org files to different formats.
@@ -278,6 +295,10 @@ Every 15 minutes, a crontab will run an "update_example" script as
 user "foo". The "autorg-run" program will detect the trigger, remove
 it and run the "update_example" command with arguments "-bar baz
 --quux".
+
+** TODO autorg version [-p <project>] [options]
+
+Without argument, return AutOrg's version.
 
 * TODO AutOrg in Emacs
 * TODO Autorg in Uzbl

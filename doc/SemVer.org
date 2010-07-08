@@ -1,6 +1,9 @@
-#+TITLE:   Semantic Versioning
+#+TITLE:     Semantic Versioning
+#+SETUPFILE:   .autorg-setup.org
 
-SemVer was proposed by Tom Preston-Werner as a way to provide a
+DOCS { [[file:autonomy-is-organization.org][About]] | [[file:API.org][API]] | Book | [[file:org-gtd.org][GTD]] | [[file:index.org][Index]] }
+
+*SemVer* was proposed by Tom Preston-Werner as a way to provide a
 rational software versioning to help automated integration of third
 party software.
 
@@ -15,4 +18,5 @@ implemented.
 
 Once a release is made, it won't change: any changes to the source
 code must be distributed in the next release.
+
 Starting with release 0.2.0, AutOrg follows [[http://semver.org][SemVer]].

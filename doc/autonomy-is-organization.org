@@ -2,6 +2,7 @@
 #+DATE: <2010-06-13 Sun>
 #+AUTHORS: Yaakov, Jaromil, Hellekin
 #+LOCATION: Amsterdam
+#+SETUPFILE: .autorg-setup.org
 
 * Vision
 

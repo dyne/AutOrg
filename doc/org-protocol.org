@@ -1,6 +1,9 @@
 #+TITLE: AutOrg -= org-protocol
 #+DATE: <2010-06-14 ma>
 #+AUTHOR: Yaakov
+#+SETUPFILE: .autorg-setup.org
+
+DOCS { [[file:autonomy-is-organization.org][About]] | [[file:API.org][API]] | Book | [[file:org-gtd.org][GTD]] | [[file:index.org][Index]] }
 
 * Introduction
   :PROPERTIES:

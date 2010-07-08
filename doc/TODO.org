@@ -1,10 +1,10 @@
-#+TITLE: AutOrg -= TODO 
-#+DATE: <2010-06-13 Sun>
-#+TODO: TODO(t!) NEXT(n!) WAITING(w@/!) | DONE(d!) DEFERRED(f!) CANCELED(c@/!)
+#+TITLE:      AutOrg -= TODO 
+#+DATE:         <2010-06-13 Sun>
+#+SETUPFILE:    .autorg-setup.org
 
-| *Branch*     | *Tag* | *Status*    | *Notes*                    |
-| master       |       | development | current development branch |
-| unstable-0.2 |       | development | prepare for next release   |
+| *Branch*     | *Tag* | *Status*    | *Notes*               |
+| master       | v0.1  | development | current stable branch |
+| experimental |       | development | development branch    |
 
 * Stuff
 
@@ -119,7 +119,7 @@ Should be done for distribution with Debian.
 *** TODO Ensure portability on mobile devices
 
 AutOrg should run everywhere Emacs does.
-*** DEFERRED Handle the --with-org-mode=auto                             :v0.2.0:
+*** DEFERRED Handle the --with-org-mode=auto                           
     CLOSED: [2010-06-22 Tue 16:06]
     - State "DEFERRED"   [2010-06-22 Tue 16:06]
 

@@ -1,6 +1,9 @@
-#+TITLE:   Autorg Developer Guide
+#+TITLE:     Autorg Developer Guide
+#+SETUPFILE:   .autorg-setup.org
 
-git clone the repository and join the [[https://hinezumi.im:8443?randomnick=1&channels=@AutOrg&prompt=0][AutOrg channel on Hinezumi]]. 
+Clone the repository and join the [[https://hinezumi.im:8443?randomnick=1&channels=@AutOrg&prompt=0][AutOrg channel on Hinezumi]]. 
+
+:    git clone git://code.dyne.org/autorg.git
 
 You can use PSYC, IRC or XMPP:
 

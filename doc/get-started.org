@@ -1,4 +1,5 @@
 #+TITLE:    Get Started With AutOrg
+#+SETUPFILE:  .autorg-setup.org
 #
 #
 # FIXME: License
@@ -8,5 +9,10 @@ DOCS { [[file:/doc/autonomy-is-organization.org][About]] | [[file:/doc/API.org][
 
 Welcome to AutOrg!
 
-Edit the org/index.org file to get started!
+Create an org/index.org file and type make, or run the `autorg`
+program from the command line.
+
+You may create a new project with:
+
+:    autorg create -p my-book
 

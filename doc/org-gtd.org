@@ -1,3 +1,6 @@
+#+TITLE: AutOrg GTD Book
+#+SETUPFILE: .autorg-setup.org
+
 * GTD
 
   GTD, a methodology coined by David Allen is a world known system
