@@ -44,5 +44,6 @@ src/*.el
 src/autorg
 src/autorg-*
 !/src/autorg-*.in
+!/src/*.png
 stamp-h1
 tags
