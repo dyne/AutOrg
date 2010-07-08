@@ -1,0 +1,95 @@
+body {
+    background: #000 url(/autorg-bg.png) top center repeat-y;
+    margin: 0 auto;
+    padding: 0;
+    width: 100%;
+    z-index: 0;
+}
+
+a         { font-weight: bold; text-decoration: none; }
+a:link    { color: #000; }
+a:visited { color: #666; text-decoration: underline; }
+a:hover   { color: #fed; text-decoration: underline; }
+
+h1 { font-size: 2em auto;     margin:  .67em 0; }
+h2 { font-size: 1.5em auto;   margin:  .75em 0; }
+h3 { font-size: 1.17em auto;  margin:  .83em 0; }
+h4 { font-size: 1em auto;     margin: 1.12em 0; }
+h5 { font-size: 0.83em auto;  margin: 1.50em 0; }
+h6 { font-size: 0.75em auto;  margin: 1.67em 0; }
+
+h2, h3, h4 { 
+  padding-top: 2em;
+  text-shadow: #333 0px 1px 2px;
+  color: #000;
+}
+
+h3, h4 { 
+    color: #fff; 
+    font-family: Consolas, "Bitstream Vera Sans Mono", Monospace;
+}
+
+#content {
+    position: absolute;
+    top: 0; bottom: 0; left: 50%; right: auto;
+    background-image: url(/autorg-logo.png)
+    background-position: bottom center 
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    color: #333;
+    margin-left: -250px;
+    padding: 0;
+    width: 500px;
+    z-index: 1;
+}
+
+#content h1.title {
+  margin: 15px auto;
+  padding: 1.25em 0;
+  text-align: left;
+  font-family: Consolas, "Bitstream Vera Sans Mono", Monospace;
+  font-size: 2em;
+  text-shadow: #333 0px 1px 2px;
+  color: #bbbba8;
+}
+#content p { font-family: Helvetica, Arial, Verdana, Sans-serif; text-align: justify; }
+
+
+#table-of-contents {
+    position: fixed;
+    top: 10px; left: 1%;
+    bottom: 50%; right: auto;
+    border: 0.5em solid transparent;
+    overflow: hidden;
+}
+#table-of-contents h2 { padding: 0.5em 0; color: #fff; }
+#table-of-contents:hover {
+    background-color: #bbbba8;
+    border-color: #000;
+    border-left-color: #bbbba8;
+    right: 25%;
+    padding: 0 1.5em;
+    overflow: auto;
+}
+#table-of-contents:hover h2 { margin-left: -1em; }
+
+#table-of-contents #text-table-of-contents { display: none; }
+#table-of-contents:hover #text-table-of-contents { display: block; }
+
+
+#postamble { 
+    position: fixed;
+    bottom: 0;
+    left: 20%; right: 20%;
+    height: 5px;
+    background: grey50;
+}
+#postamble:hover {
+    background: black;
+    color: #fff;
+    height: auto;
+}
+
+#postamble .author {}
+#postamble .creator {}
+#postamble .date {}
