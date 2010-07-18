@@ -2,91 +2,31 @@
 #+DATE: <2010-06-13 Sun>
 #+AUTHORS: Yaakov, Jaromil, Hellekin
 #+LOCATION: Amsterdam
+#+KEYWORDS: autonomous, resilient, growth, organic
 #+SETUPFILE: .autorg-setup.org
 
 * Vision
-
-autonomous, resilient, growth, organic
-
-support people to organize themselves
-without the need of a larger organisation among them
-empowering potential creatives to feel involved
-and constantly productive, organising themselves
-
-the examples are anarchists in hostile situations
-where being autonomous and efficient for a single cell
-is vital
-
-or players into the economy games, to create companies
-rather than work for large multi-nationals
-where the attractive element is that of a large organisation
-that organises your life for you
-one of the reasons most people end up working there
-(tanti amici...)
-
-often organisation is secondary to the goals of an organisation and
-this is where people fall short. the autonomous cell must be able to
-self organize on reflex, on demand, and without concious thought. this
-will enable the autonomous, fully actualised man to bring his
-secondary skills to focus on his primary goals like a well trained
-samurai. we must be a catalyst to bring this change to the self
-organized autonomous cells
+ 
+ + It's all *text*
+ + It makes you *autonomous*
+ + It fosters *data resiliency*
+ + It waves patterns for *organic growth* of information
 
 * Purpose
 
-the traditional unix community is known for their terse communication
-and self made mind set. for them, unix is the primary goal and the
-primary focus. for many others, these goals are only secondary to
-achieving their primary goals, and we must show them the way to
-internalising this way into their very systems. for this reason we
-shall see the formation of a guide to implementing Getting Things Done
-via traditional unixs utilities, primarily org-mode of emacs.
+Write a guide and a toolkit implementing [[http://www.davidco.com/][Getting Things Done]] (GTD) via
+traditional GNU tools and languages, primarily [[http://www.gnu.org/software/emacs/][Emacs]], [[http://orgmode.org][org-mode]], [[http://git-scm.com/][Git]]
+and portable Shell scripts, integrating them into the Desktop.
 
 * Goals
 
-  - prileminary RFCs for the unix community to include
+  - a plain text authoring platform
 
-  - a repository of code the autonomous cell may need to implement this
+  - a personal information system
 
-  - a howto book published for our target audience
+  - a publishing system
 
-  - a publishing system for a federated distributed wiki based on
-    org-mode and git for the development of this project
+  - an authenticated, federated and revisioned framework for documents
 
-* Notes
-
-** Skillsets
-
-| Yaakov   | org-agenda, org-protocol |
-| Jaromil  | org-agenda, org-latex    |
-| Hellekin | org-todo, org-html       |
-
-
-
-required skills: org-mode, mutt, emacs, uzbl and other web browsers
-
-
-** Links
-
-*** Git + Emacs
-http://www.emacswiki.org/emacs/VersionControlAlways
-http://files.taesoo.org/git-emacs/git-emacs.html
-
-
-
-*** Org publish in html
-
-http://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.php
-
-*** Wiki and documents
-
-org-protocol-open-source
-
-A repository of documents collectively edited that everypone possesses
-
-the next step for any information base: everyone has a copy locally
-and editing online happens exchangig via git
-
-publication on the web is automatised (a'la dyne-web)
-
+  - a book describing GTD workflow in AutOrg
 

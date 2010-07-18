@@ -151,9 +151,14 @@ care of two things:
 
 ** TODO Org-Protocol
 
-Make a set of procedures and/or autmatizations (scripts?
-instructions?) to setup various external applications to interact with
-autorg via org-protocol-open-source 
+   Make a set of procedures and/or autmatizations (scripts?
+   instructions?) to setup various external applications to interact with
+   autorg via *org-protocol-open-source*
+   
+   and there is the next step for autorg information base: everyone
+   has a copy locally and editing online happens exchangig via git
+    
+
 
 *** DONE Correct makefile for pub
     CLOSED: [2010-06-16 Wed 18:26]
@@ -195,6 +200,8 @@ with a team (e.g. using a remote git repository.)
 
 Document usage with multiple projects (i.e. using different
 sub-directories in org/)
+*** Org publish in html
+    http://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.php
 
 ** TODO Create a common ORG header for AutOrg files
    - State "TODO"       [2010-06-22 Tue 11:46]
@@ -208,6 +215,11 @@ sub-directories in org/)
    Categories, appearance, shortcuts), and for export (by type:
    article, book, etc.) 
 
+** TODO Integrating Git
+*** Git + Emacs
+    See:
+    + http://www.emacswiki.org/emacs/VersionControlAlways
+    + http://files.taesoo.org/git-emacs/git-emacs.html
 
 * Releases
 :PROPERTIES:
