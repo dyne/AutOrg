@@ -1,4 +1,4 @@
-SUBDIRS = etc src
+SUBDIRS = share src
 
 # org/foo.css will supercede src/foo.css
 CSS_FILES = $(shell find org src -type f -name "*.css" -print | sort -k 4 -u 2>/dev/null)
