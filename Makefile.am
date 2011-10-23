@@ -1,5 +1,7 @@
 SUBDIRS = share src
 
+install: install-data
+
 # org/foo.css will supercede src/foo.css
 CSS_FILES = $(shell find org src -type f -name "*.css" -print | sort -k 4 -u 2>/dev/null)
 ORG_FILES = $(shell find doc org -type f -name "*.org" -print 2>/dev/null)
@@ -54,7 +56,7 @@ new-pages: autorg-greeting autorg-dirs
 	@$(call autorg_publish,autorg,)
 	@echo
 
-all: targets new-pages
+all:
 
 clean:
 	@cd src && make clean

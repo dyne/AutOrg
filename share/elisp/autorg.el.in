@@ -5,3 +5,7 @@
 		:online-suffix ".html"
 		:working-suffix ".org"
 		)))
+
+; directory used for mobile-org files
+(setq org-mobile-directory "~/.autorg")
+

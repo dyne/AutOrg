@@ -61,7 +61,7 @@ dnl ==============================================================
 AM_INIT_AUTOMAKE([dist-bzip2 subdir-objects -Wno-portability])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
-AC_CONFIG_SRCDIR([doc/autonomy-is-organization.org])
+AC_CONFIG_SRCDIR([src/autorg])
 
 dnl Checks for programs.
 AC_PROG_INSTALL
@@ -85,12 +85,9 @@ AC_SUBST(DYNE_VERSION_INFO)
 dnl ###########################################################################
 dnl ###### now about compile time paths
 AC_MSG_CHECKING([which installation prefix to use])
-if test "x${prefix}" = "xNONE"; then
-   prefix=`pwd`
-fi
 AC_MSG_RESULT([${prefix}])
-AUTORG_PATH="${prefix}"
-AC_SUBST(AUTORG_PATH)
+AUTORG_DATADIR="${prefix}"
+AC_SUBST(AUTORG_DATADIR)
 
 AC_MSG_CHECKING([for which domain we are configuring])
 AC_ARG_WITH(domain,
@@ -110,12 +107,18 @@ AC_MSG_RESULT([${with_orgmode}])
 ORGMODE_PATH="$with_orgmode"
 AC_SUBST(ORGMODE_PATH)
 
+PACKAGE_DATA_DIR='${prefix}/share/autorg'
+AC_SUBST(PACKAGE_DATA_DIR)
+
+
 dnl alphabetic order on dir/subdir, but Makefile sorts before everything
 AC_CONFIG_FILES([
 Makefile
-etc/Makefile
-etc/apache/Makefile
 src/Makefile
+share/Makefile
+share/awk/Makefile
+share/elisp/Makefile
+share/manual/Makefile
 ])
 
 AC_OUTPUT

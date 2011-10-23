@@ -7,15 +7,14 @@
 '(org-modules (quote (org-bbdb org-bibtex org-info org-jsinfo
                       org-irc org-w3m org-mouse org-eval
                       org-eval-light org-exp-bibtex org-man
-                      org-mtags org-panel org-R
-                      org-special-blocks org-exp-blocks)))
+                      org-panel org-R org-special-blocks
+                      org-exp-blocks)))
 
 ;;; ORG mode
 (require 'org-install)
 (require 'org-latex)
 (require 'org-export-latex)
 (require 'org-exp-blocks)
-(require 'org-mtags)
 (require 'htmlize)
 ; (require 'blorg)
 
@@ -70,20 +69,20 @@
 (require 'org-publish)
 (setq org-publish-project-alist
       '(
-	("autorg-docs"
-	 :base-directory "%autorg_path%/doc"
+	("manual"
+	 :base-directory "%data_path%/manual"
 	 :base-extension "org"
-	 :publishing-directory "%autorg_path%/pub/doc"
+	 :publishing-directory "%autorg_path%/manual"
 	 :recursive t
 	 :publishing-function org-publish-org-to-html
 	 :headline-levels 4             ; Just the default for this project.
 	 :auto-preamble t
 	 )
 
-        ("autorg-pages"
-	 :base-directory "%autorg_path%/org"
+        ("notes"
+	 :base-directory "%autorg_path%/notes"
 	 :base-extension "org"
-	 :publishing-directory "%autorg_path%/pub"
+	 :publishing-directory "%autorg_path%/notes/pub"
 	 :recursive t
 	 :publishing-function org-publish-org-to-html
 	 :headline-levels 4             ; Just the default for this project.
@@ -98,7 +97,8 @@
 	 :publishing-function org-publish-attachment
 	 )
 
-        ("autorg" :components ("autorg-docs" "autorg-pages" "autorg-static"))
+        ("autorg" :components ("manual" "notes" "autorg-static"))
+;        ("autorg" :components ("manual" "notes"))
 	))
 
 ;;(org-publish-project "autorg")
@@ -127,3 +127,10 @@
 	   ;; project is still a string here.
 	   (list (assoc project org-publish-project-alist))
          (list project))))))
+
+; directory used for mobile-org files
+
+(custom-set-variables
+ '(org-mobile-directory "%autorg_path%/notes")
+ '(org-agenda-files (quote ("%autorg_path%/notes.org" "%autorg_path%/agenda.org")))
+ )

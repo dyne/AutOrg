@@ -47,3 +47,5 @@ src/autorg-*
 !/src/*.png
 stamp-h1
 tags
+src/old
+share/config

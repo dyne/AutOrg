@@ -1,0 +1,14 @@
+# file locations
+WORKDIR=$HOME/.autorg
+DATADIR=%datadir%/autorg
+
+# local web access
+WEBHOST=localhost
+PORT=8080
+
+# Bluetooth device address and directory
+MOBILE=11:22:33:44:55:66
+MOBILEDIR=/data/AutOrg
+
+# Additional Emacs options
+EMACS_OPTS=""
