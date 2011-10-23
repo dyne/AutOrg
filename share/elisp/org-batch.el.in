@@ -119,14 +119,22 @@
          (list project))))))
 
 ; directory used for mobile-org files
-
+; %meta-paths% are filled in by config
 (custom-set-variables
-
- ; meta-paths (filled in by config)
+; Set to the location of your Org files on your local system
  '(org-directory "%autorg_path%")
+;; Set to the name of the file where new notes will be stored
+;; Set to <your drop directory>/MobileOrg.
  '(org-mobile-directory "%autorg_path%/mobile")
- '(org-agenda-files (quote ("%autorg_path%/agenda.org")))
  '(org-mobile-files (quote ("%autorg_path%/mobile.org")))
+ '(org-mobile-inbox-for-pull "%autorg_path%/mobilepull.org")
+ '(org-mobile-capture-file "%autorg_path%/sync/mobileorg.org")
+
+
+; '(org-agenda-files (quote ("%autorg_path%/agenda.org")))
+
+ ;; '(org-agenda-files (quote ("%autorg_path%/agenda.org")))
+ ;; '(org-mobile-files (quote ("%autorg_path%/mobile.org")))
 
  ; export options (todo: make them configurable)
  '(org-export-html-inline-images t)
