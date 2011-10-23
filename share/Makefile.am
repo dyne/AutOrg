@@ -1,4 +1,4 @@
-SUBDIRS = awk elisp manual
+SUBDIRS = awk elisp manual org-templates
 
 EXTRA_DIST = config.in
 

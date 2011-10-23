@@ -119,6 +119,7 @@ share/Makefile
 share/awk/Makefile
 share/elisp/Makefile
 share/manual/Makefile
+share/org-templates/Makefile
 ])
 
 AC_OUTPUT
