@@ -1,8 +1,0 @@
-#!/bin/bash
-#
-# autorg-status
-#
-# FIXME: License
-#
-
-echo "Display AutOrg status"

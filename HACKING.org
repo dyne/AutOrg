@@ -1,0 +1,70 @@
+# -*- org-mode -*-
+#+TITLE: AutOrg : Autonomy is Organization
+#
+
+* README
+
+  AutOrg is a publishing system for federated distributed documents
+  based on emacs org-mode and git. It is ready to be built and run on
+  a local desktop as well deployed to a web-server; it renders all
+  pages locally, ready for server-side publishing.
+
+** Organization of the tree
+
+*** contrib/
+
+    Includes setup-specific, experimental, or otherwise
+    user-contributed code that may be of interest for others, or are
+    candidate for inclusion in the main source tree.
+
+*** [[file:doc/][doc/]]
+
+    Contains the source files for the documentation.
+
+*** [[file:elisp/][elisp/]]
+
+    Emacs LISP source files.
+
+*** [[file:org/][org/]]
+
+    Org-mode source files.
+
+** TODO Dependencies
+   - [ ] Fix minimum versions
+     - [ ] for Emacs
+     - [ ] for Orgmode
+     - [ ] for Xapian-tools
+     - [ ] for Zsh (Debian stable has 4.3.10, see [[http://zsh.sourceforge.net/releases.html][release notes]])
+   - [ ] Add link to bug report for package dependencies
+   - [ ] Add support for other distributions
+
+
+   AutOrg requires the following packages:
+
+   - [[http://www.gnu.org/s/emacs/][Emacs]] (version?)
+   - [[http://orgmode.org][Orgmode]] (>= ???)
+   - [[http://xapian.org/][Xapian Tools]] (>= ???)
+   - [[http://zsh.sf.net/][Z shell]] (>= 4.3.6)
+
+   The binary package for your distribution should take of these
+   dependencies. If not, please report a bug.
+
+   From sources, on Debian-based systems:
+
+   =sudo apt-get install emacs org-mode xapian-tools zsh=
+
+** Installation
+
+*** From Source
+
+    =AutOrg= source uses the \ac{GNU} Build System:
+
+    =autoreconf -i=
+    =automake -ac=
+    =./configure && make=
+    
+    To install globally:
+
+    =sudo make install=
+
+    See [[file:INSTALL][INSTALL]] file for more information about the \ac{GNU} build system.

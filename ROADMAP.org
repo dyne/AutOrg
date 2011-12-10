@@ -1,0 +1,130 @@
+#
+#+TITLE:     AutOrg Roadmap
+#+DATE:      2011-12-09
+#+LANGUAGE:  en_US
+#
+#+LaTeX_HEADER: \usepackage[printonlyused]{acronym}%
+
+* ROADMAP
+** Version 0.4.0
+
+   This release is a complete rewrite of =AutOrg= based on the evolution
+   of the authors' needs, availability and focus.  A renewed vision
+   that makes it less book-like, and more brain-like, with tight
+   integration with our daily work flow.
+
+   So, we stick with the basics: =Emacs=+=Orgmode=, =zsh=, =Mutt=, and
+   we add some other tools integration, detailed in the [[#Features]]
+   section.
+
+*** Features
+
+**** task management
+
+     Using [[http://www.orgmode.org/][Orgmode]], AutOrg integrates a GTD-like task management. It
+     comes with an /opinionated/ TODO sequence that can be adapted to
+     specific needs, but is recommended for general usage.
+
+**** command-line interface
+
+     The `autorg` command is an /autoloadable/ `zsh` function. As
+     such, it's very extensible : all you need is to register a new
+     `autorg-something` function with the `autoload` feature of `zsh`.
+
+     From the command line, you can change the state of your agenda
+     and task list, add new events and tasks, etc. thanks to the
+     [[http://orgmode.org/manual/Capture.html#Capture][Org Capture]], etc.
+
+***** Instant note taking
+
+    To quickly add an item to the task list, hit a key (e.g. F3),
+    then: Hit C-d to save note (nice for multi-line dumps, e.g., while
+    on the phone.)
+
+**** integrates with zsh prompt
+
+     you can set `AUTORG_PROMPT` to 1 to see it appear in your `zsh`
+     prompt. That way, it's easier to stick to what you're doing.
+     Un-setting `AUTORG_PROMPT` will allow you to slack at your
+     discretion ;o)
+
+**** integrates with \ac{MUA}
+
+     Given that you're using Mutt (or another supported \ac{MUA}), you
+     can get the power of the command line to work with your email at
+     a keystroke:
+
+     - tag an email and push it to the task list as a new item
+     - cycle that email TODO state and update your task list
+       accordingly (from =Emacs= as well)
+     - etc.
+
+**** integrates with your mobile device
+
+     Ditto for the Bluetooth or \ac{USB} device: you can /sync/hronize
+     your agenda and task list with your Android smart phone or tablet
+     in a snap, thanks to Org Mobile.
+
+*** More features
+
+    The original AutOrg scope was to make a full-blown CLI social
+    networking tool, for hardcore console hackers who have an allergy
+    to the mouse and /clickodromes/.  Although that still floats
+    around our minds, we decided to follow the \ac{KISS} principle and
+    restart from scratch, while keeping that in mind.
+
+    Maybe move some above, or move to a dedicated [[WISHLIST.org]]
+
+**** Dropzone / Sync widget
+
+    A GTK widget to drop files for automated synchronization. Maybe a
+    separate software. The idea is to define a \ac{DnD} dropzone,
+    select a destination (could be anything, from a ZIP archive to a
+    Bluetooth or SSH address, one or more recipients across different
+    network protocols...)
+
+    In the case of AutOrg, that would be a GTK widget, such as a tray
+    icon that reveals a configurable space where to drag and drop
+    files for immediate synchronizing with a mobile phone.
+
+    Another related feature, beyond synchronization, is to /stuff/
+    things in a workspace, for easier organization.  Like a dynamic,
+    contextual desktop.  So, when defining a dropzone destination, one
+    could name a container, and that container could in turn become
+    its own dropzone.
+
+    Under the hood, that would create a specific git branch and add
+    the dropped files into that branch.  IMO that's two different
+    products (sync and dropzone) with a joint \ac{GUI}
+
+**** autorg ring
+
+    Send instant notification to selected people about a specific
+    project or task.  Like a reminder.  Can be automated (e.g. notify
+    10 days before, 3 days, 4 hours, 20 minutes...)
+
+
+* Acronyms
+
+\begin{acronym}[LONGEST]
+    \acro{FSF}    {Free Software Foundation}
+    \acro{GNU}    {GNU is Not Unix}
+    \acro{GTD}    {Getting Things Done}
+    \acro{GUI}    {Graphical User Interface}
+    \acro{KISS}   {Keep It Simple, Stupid}
+    \acro{USB}    {Universal Serial Bus}
+\end{acronym}
+
+* Tasks :noexport:
+
+  This file needs some love:
+
+** TODO add link to Org Mobile
+** TODO add link to AutOrg website
+
+   It could be http://autorg.dyne.org/ and live at
+   https://dyne.github.com/autorg/ or something, so we can use AutOrg
+   to publish the AutOrg website using Git.
+
+
+   

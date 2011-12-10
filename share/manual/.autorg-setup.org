@@ -1,3 +1,0 @@
-#+STYLE:   <link rel="stylesheet" type="text/css" href="/autorg.css" />
-#+TODO:    TODO(t!) NEXT(n!) WAITING(w!/@) | DONE(d!) DEFERRED(f!/@) CANCELED(c!/@)
-#+STARTUP: hidestars showall

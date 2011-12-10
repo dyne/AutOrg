@@ -1,0 +1,192 @@
+#!/bin/zsh
+#
+# Colorful user notification
+#
+# Copyright 2011 DYNE Foundation / Hellekin O. Wolf <psyc://cepheide.org/~hellekin>
+# {{{ License: GNU AGPL v3
+# This file is part of AutOrg.
+#
+# AutOrg is free software: you can redistribute it and/or modify it under
+# the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# AutOrg is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+# or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General
+# Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public
+# License along with AutOrg. If not, see <http://www.gnu.org/licenses/>.
+# }}}
+
+function messages()
+{
+    typeset -i 2 QUIET=${QUIET:-0} DEBUG=${DEBUG:-0}
+    typeset PROGNAME="${PROGNAME}"
+
+    # {{{ - internal routine
+    messages.msg()
+    {
+        local command="print -P"
+        local progname="%{%F{magenta}%}${PROGNAME##*/}%{%f%}"
+        local message="%{%F{normal}%}$2%{%f%}"
+        local -i returncode
+
+        case "$1" in
+	    inline)
+	        command+=" -n"; pchars=" > "; pcolor="yellow"
+	        ;;
+	    message)
+	        pchars=" . "; pcolor="green"
+	        ;;
+	    verbose)
+	        pchars="[D]"; pcolor="yellow"
+	        ;;
+	    success)
+	        pchars="(*)"; pcolor="green"; message="%{%F{$pcolor}%}$2%{%f%}"
+	        ;;
+	    warning)
+	        pchars="[W]"; pcolor="red"; message="%{%F{yellow}%}$2%{%f%}"
+	        ;;
+	    failure)
+	        pchars="[E]"; pcolor="red"; message="%{%F{$pcolor}%}$2%{%f%}"
+	        returncode=1
+	        ;;
+	    *)
+	        pchars="[F]"; pcolor="red"
+	        message="Developer oops!  Usage: _msg MESSAGE_TYPE \"MESSAGE_CONTENT\""
+	        returncode=127
+	        ;;
+        esac
+        ${=command} "${progname} %{%B%F{$pcolor}%}$pchars%{%f%b%} ${message}"
+        return $returncode
+    }
+    # }}}
+    # {{{ - Public API
+    # say 'messages.message "simple notification message"'
+    function messages.message say()
+    {
+        (( $QUIET )) || messages.msg 'message' "$1"
+        return 0
+    }
+    # act 'messages.inline "inline notification message"'
+    function messages.inline  act()
+    {
+        (( $QUIET )) || messages.msg 'inline' "$1"
+        return 0
+    }
+
+    # xxx 'messages.verbose "debugging information"'
+    function messages.verbose xxx()
+    {
+        (( $DEBUG )) && messages.msg 'verbose' "$1"
+        return 0
+    }
+
+    # yes 'messages.success "all is right."'
+    function messages.success yes()
+    {
+        (( $QUIET )) || messages.msg 'success' "$1"
+        return 0
+    }
+
+    # err 'messages.warning "something went wrong"'
+    function messages.warning  err()
+    {
+        (( $QUIET )) || messages.msg 'warning' "$1"
+        return 1
+    }
+
+    # die 'messages.failure "this is a fatal error: exit with code: "' 123 
+    function messages.failure die()
+    {
+        typeset -i exitcode=${2:-1}
+        (( $QUIET )) || messages.msg 'failure' "$1"
+        exit $exitcode
+    }
+
+    # raw green 'raw colored message.  Use with "act".'
+    function messages.raw raw()
+    {
+        local color="normal"
+        if [[ $# -gt 1 ]] ; then
+            color=$1
+            shift
+        fi
+        print -P "%{%F{$color}%}${@}%{%f%}"
+    }
+    # }}}
+
+    case "$1" in
+        -h|--help)
+            say "%{%B%}Display a colorful message%{%b%}
+
+    %{%B%}raw%{%b%} color message
+    %{%B%}act%{%b%}|%{%B%}err%{%b%}|%{%B%}say%{%b%}|%{%B%}xxx%{%b%}|%{%B%}yes%{%b%} message
+    %{%B%}die%{%b%} message [exitcode]
+
+    %{%B%}die%{%b%} will %{%U%}exit%{%u%} with an optional exitcode, or 1.
+
+    %{%B%}act%{%b%} will display the message inline.
+    You can \"end the line\" using %{%B%}raw%{%b%}.
+
+    EXAMPLE:
+
+        act \"Checking foo... \"
+        some_expensive_command \&\>\/dev\/null
+        \(\( \$\? \)\) \&\& raw red Failed. \|\| raw green Done.
+
+    will display, on success:
+      $(act 'Checking foo... ')$(raw green Done.)
+    or, on failure:
+      $(act 'Checking foo... ')$(raw red Failed.)
+
+    %{%B%F{green}%}See also:%{%b%} messages --demo%{%f%}
+"
+            ;;
+        --demo)
+            (
+                local DEBUG=1
+                # Run in a subshell to avoid exiting the real shell
+                echo
+                echo "Message Demo: PROGNAME is not set, DEBUG=1"
+                echo
+                act 'act "INLINE MESSAGE " '
+                raw green 'raw green "END OF LINE MESSAGE"'
+                say 'say "NORMAL MESSAGE"'
+                xxx 'xxx "DEBUG MESSAGE"'
+                yes 'yes "SUCCESS CONDITION: returning 0"'
+                err 'err "ERROR CONDITION: returning 1"'
+                die 'die "FATAL ERROR CONDITION: exiting with code 1"'
+            )
+            (
+                local DEBUG=1
+                local PROGNAME="demo"
+                # Run in a subshell to avoid exiting the real shell
+                echo
+                echo "Now PROGNAME=$PROGNAME"
+                echo
+                say 'We are going to use: raw 13 "\$PROGNAME"'
+                act 'Checking PROGNAME... '
+                raw 13 "$PROGNAME"
+                say 'See how it used its own line.  Let us call it two more times:'
+                raw 13 "$PROGNAME"
+                raw 13 "$PROGNAME"
+                yes 'Although all messages functions only accept 1 message argument, they can take more than one line!'
+                xxx '%%{ starts non-printing escape sequence
+         %%} stops non-printing escape sequence
+         so %%{%%F{blue}%%}red%%{%%f%%} marks %{%F{red}%}red%{%f%} %{%F{blue}%}blue%{%f%}.'
+                say 'Yes, we can also use ANSI color escape sequences! %{%B%}Say%{%b%} it'"'"'s %{%F{red}%}c%{%F{6}%}o%{%F{9}%}o%{%F{13}%}l%{%f%}.'
+                yes 'All messages function return 0, except %{%B%}err%{%b%F{green}%} that returns 1, and %{%B%}die%{%b%}.'
+                say 'On a fatal error, you can %{%B%}exit%{%b%}, using %{%F{red}%}die%{%f%}.'
+                say 'The %{%F{red}%}die%{%f%} command takes an additional, optional argument %{%B%}exitcode%{%b%}:'
+                die 'die "FATAL ERROR CONDITION: exiting with code 62 (by default: exit 1)" 62' 62
+            )
+            ;;
+    esac
+    
+}
+
+# The script is meant to be autoloaded.
+messages $@

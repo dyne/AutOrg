@@ -1,5 +1,0 @@
-#+STARTUP: overview
-#+STARTUP: hidestars
-#+STARTUP: logdone
-#+TAGS: trip(v) comm(c) theory(t) sysadm(s) buro(b) zorg(z) fun(f)
-#+SEQ_TODO: TODO(t) NEXT(n) APPT(a) WAITING(w) SOMEDAY(s) | DONE(d) CANCELLED(c) DEFERRED(f)

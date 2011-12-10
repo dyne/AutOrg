@@ -1,0 +1,81 @@
+# -*- org-mode -*-
+#+TITLE: AutOrg : Autonomy is Organization
+#
+
+* HACKING
+
+  AutOrg is a publishing system for federated distributed documents
+  based on emacs org-mode and git. It is ready to be built and run on
+  a local desktop as well deployed to a web-server; it renders all
+  pages locally, ready for server-side publishing.
+
+** Developer Setup
+*** Git
+
+    =git config --global user.name Public Name=
+    =git config --global user.email you@example.org=
+    =git config --global alias.up "pull --rebase"=
+
+    Development is taking place on [[https://github.com/dyne/autorg][GitHub]]. See: [[http://help.github.com/set-your-user-name-email-and-github-token/][Github Account Setup]].
+    The repository is mirrored on [[http://code.dyne.org][code.dyne.org]], so if you prefer, you
+    can use the [[http://lab.dyne.org/Code][canonical Dyne setup]].
+
+*** Editor
+
+    We obviously use Emacs, but YMMV.
+
+    - use sh-mode for Zsh
+    - use org-mode for Org files :)
+
+    As a rule of thumb:
+
+    - Use spaces, not tabs
+    - Remove trailing spaces
+    - Follow existing code conventions
+    - Wrap logical blocks in {{{ }}} blocks for folding
+
+** TODO Dependencies
+   - [ ] Fix minimum versions
+     - [ ] for Emacs
+     - [ ] for Orgmode
+     - [ ] for Xapian-tools
+     - [ ] for Zsh (Debian stable has 4.3.10, see [[http://zsh.sourceforge.net/releases.html][release notes]])
+   - [ ] Add link to bug report for package dependencies
+   - [ ] Add support for other distributions
+
+
+   AutOrg requires the following packages:
+
+   - [[http://www.gnu.org/s/emacs/][Emacs]] (version?)
+   - [[http://orgmode.org][Orgmode]] (>= ???)
+   - [[http://xapian.org/][Xapian Tools]] (>= ???)
+   - [[http://zsh.sf.net/][Z shell]] (>= 4.3.6)
+
+   The binary package for your distribution should take of these
+   dependencies. If not, please report a bug.
+
+   From sources, on Debian-based systems:
+
+   =sudo apt-get install emacs org-mode xapian-tools zsh=
+
+** Testing the code
+
+   The =autorg= command will use your normal setup. Simply call it
+   from the source directory and it will use the local code. E.g.,
+
+   =~/src/dyne.org/autorg/autorg --help=
+
+** Installation From Source
+
+   =AutOrg= source uses the \ac{GNU} Build System:
+
+   =autoreconf -i=
+   =automake -ac=
+   =./configure && make=
+    
+   To install globally:
+
+   =sudo make install=
+
+   See [[file:INSTALL][INSTALL]] file for more information about the \ac{GNU} build system.
+

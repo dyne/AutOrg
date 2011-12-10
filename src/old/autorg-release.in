@@ -1,8 +1,0 @@
-#!/bin/bash
-#
-# autorg-publish
-#
-# FIXME: License
-#
-
-echo "export project files to HTML, PDF..."
