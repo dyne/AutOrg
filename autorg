@@ -1,0 +1,545 @@
+#!/bin/zsh
+#
+## autorg command
+#
+# Written by Hellekin O. Wolf <hellekin@cepheide.org>
+#
+# {{{ Copyright 2011 Dyne Foundation
+#
+# This program is free software: you can redistribute it and/or modify it
+# under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or (at your
+# option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+# or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public
+# License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+# }}}
+# {{{ autorg command
+autorg()
+{
+    # {{{ - VARIABLES
+
+    typeset AUTORG_BANNER COMMAND EXTRA PROGNAME PROGROOT SEMVER
+    integer MAJOR MINOR PATCH
+    integer -i 2 DEBUG DRYRUN HELP QUIET
+    typeset -A ALLFLAG_DESC COMMAND_DESC
+    typeset -a ALLFLAGS COMMANDS FLAGS
+
+    PROGNAME="${0##*/}"
+    PROGROOT="$(dirname $(readlink -f $0))"
+
+    # {{{ `- Semantic Version (http://semver.org/)
+
+    MAJOR=0 
+    MINOR=4
+    PATCH=0
+    EXTRA="-git"
+    SEMVER="v$MAJOR.$MINOR.$PATCH$EXTRA"
+
+    # }}}
+    # {{{ `- AutOrg Banner
+
+    AUTORG_BANNER=$(print -P \
+	"%{%B%F{13}%}.%{%F{5}%}:%{%F{9}%}|%{%f%b%}" \
+        "%{%B%}Aut%{%b%}onomy is %{%B%}Org%{%b%}anization" \
+        "%{%B%}$SEMVER%{%b%}" \
+        "%{%B%F{9}%}|%{%F{5}%}:%{%F{13}%}.%{%f%b%}")
+
+    # }}}
+    # {{{ `- Command Descriptions
+    COMMAND_DESC=(
+    #    'announce'      'Send a notification'
+    #    'book'          'Manage your BOOK branches'
+    #    'bookshelf'     'Manage your collections'
+    #    'browse'        'Browse local BOOKSHELF in HTML'
+    #    'chapter'       'Manage your CHAPTER branches'
+        'commands'      'List all available commands'
+    #    'config'        'View or edit configuration'
+    #    'done'          'Mark current task DONE'
+    #    'edit'          'Modify an existing BOOK'
+        'help'          'Display help'
+        'init'          'Initialize a new AutOrg repository'
+    #    'list'          'List available BOOKs'
+    #    'package'       'Bundle files into a BOOK'
+    #    'publish'       'Manage your publications'
+    #    'release'       'Manage a new publication'
+    #    'sync'          'Synchronize your BOOKs'
+    #    'status'        'Show detailed information'
+    #    'trigger'       '(internal) Call for an automated action'
+        'version'       'Show version information'
+    )
+    COMMANDS=( ${(k)COMMAND_DESC} )
+    # }}}
+    # {{{ `- Global Flags
+    # Flags will not be available as command options: use them sparingly.
+    ALLFLAG_DESC=(
+        '--debug'       'Enter debugging mode: be more verbose (for developers)'
+        '--dry-run'     'Enter description mode: do not run, but show what would be done'
+        '--help'        'Enter help mode: show usage information'
+        '--quiet'       'Enter quiet mode: suppress normal output (for scripts)'
+
+        '--license'     'Show license information (AGPLv3+) and exit'
+        '--semver'      'Show semantic version and exit (for scripts)'
+        '--version'     'Show detailed version and exit (for humans)'
+    )
+    # Caveat: must have at least one single letter flag (zsh 4.3.10 bug?)
+    ALLFLAGS=( -debug -dry-run h -help -license -quiet -semver -version )
+    # }}}
+    # }}}
+    # {{{ - FUNCTIONS
+    # {{{  `- Helpers
+    # (bool) in_array VALUE ARRAY
+    in_array()
+    {
+        local    var="$1" val="" v=""
+        shift
+        local -a arr
+        arr=(${@})
+
+        for item in ${(s.:.)var}; do
+            val=${arr[(r)$item]}
+            if [[ -n "$val" && "$item" == "$val" ]] ; then
+                return 0
+            fi
+        done
+        return 1
+    }
+    # (bool) is_command COMMAND (is command valid?)
+    is_command() { in_array "$1" $COMMANDS }
+    # (bool) is_flag FLAG (is flag selected?)
+    is_flag()    { in_array "${1#-*}" $ALLFLAGS && in_array "$1" $FLAGS }
+    # (bool) is_opt OPT (is command option selected?)
+    # It requires that the command declares the OPTS associative array
+    #     local -A OPTS
+    #     zparseopts -D -E -A OPTS a b c -with-arg:'
+    is_opt()     { in_array "${1#-*}" $OPTS && in_array "$1" $OPTS }
+    # }}}
+    # {{{  `- Completion
+
+    _autorg() {
+
+        #compdef autorg
+
+        local context="$context" state line
+        typeset -A opt_args
+
+        _arguments -c ':commands:->command' '*::options:->options'
+
+        case $state in
+	    command)
+	        local -a subcommands
+	        subcommands=($(printf '%s:%s\n' ${(kv)COMMAND_DESC}))
+	        _describe -t commands 'autorg' subcommands
+	        ;;
+            
+	    options)
+	        case $line[1] in
+		    init)
+		        _arguments \
+			    -p':PATH[Initialize in *PATH* instead of current directory.]' \
+		            -f'[Force regeneration of branches even if they already exist.]'
+		        ;;
+                    
+		    version)
+                        _arguments \
+                            -s'[Show semantic version information (suitable for scripts).]'
+		        ;;
+                    
+		    sync)
+                        # Complex commands can use specific completion
+                        # functions: instead of
+		        _arguments \
+                            -C'[Configure mode: use other arguments as settings and save]' \
+                            -G'[With -C, use global configuration instead of current project]' \
+                            --uri':URI[URI to sync with, e.g., usb://sdb1/my/autorg]'
+                        # use: _autorg-sync, and define the _autorg-sync function
+		        ;;
+	        esac
+	        ;;
+        esac
+    }
+                   
+    # }}}
+    # {{{  `- AutOrg Commands
+    # {{{    `- commands
+    autorg-commands() {
+        autorg-commands.help()
+        {
+            cat <<-EOF
+	autorg [-h|--help|commands]
+	autorg help commands
+
+	List all available commands.
+	For help about a specific command,
+	run: autorg help COMMAND
+
+	EOF
+        }
+
+        print -P "\n  %{%B%}Available commands:%{%b%}\n"
+        for c in ${=COMMANDS}; do
+            echo "  ${(r:12:: :::)c} -- ${COMMAND_DESC[$c]}"
+        done
+        echo
+    }
+    # }}}
+    # {{{    `- config
+
+    autorg-config.help()
+    {
+        messages.warning "not implemented"
+        return 127
+    }
+    autorg-config ()
+    {
+        # PSYC uniform     (psyc://hinezumi.im/~autorg-$USER)
+        # Default browser  (Firefox)
+        # Default editor   (Emacs)
+        # Announce-to      (psyc://hinezumi.im/@AutOrg#announce
+        # Package-to       ($XDG_DOCUMENTS_DIR/autorg)
+        # Publish-to       ($XDG_PUBLICSHARE_DIR/autorg)
+        local -x CONFIG
+    }
+
+    # }}}
+    # {{{    `- help
+
+    autorg-help.help()
+    {
+        cat <<-EOF
+
+	$PROGNAME [FLAGS] COMMAND [OPTIONS] [ARGS...]
+       
+	GLOBAL FLAGS
+	EOF
+        for f in ${=ALLFLAGS}; do
+            [[ ${f[1]} == '-' ]] || continue # skip short flags
+            echo "  -${(r:16:: :::)f} -- ${ALLFLAG_DESC[-$f]}"
+        done
+        cat <<-EOF
+
+	COMMON COMMANDS
+       
+	  commands          -- Print a list of available commands
+	  help [COMMAND]    -- Print help (about COMMAND)
+	  init [DIR]        -- Initialize an AutOrg project in DIR or current directory
+
+	EOF
+    }
+    autorg-help()
+    {
+        if (( $# )) ; then
+            HELP=1
+            COMMAND="$1"
+            if is_command $COMMAND ; then
+                xxx "Help for command %{%B%F{13}%}$COMMAND%{%f%b%}"
+                autorg-$COMMAND.help
+                return $?
+            else
+                echo "Unknown command '$COMMAND'"
+                return 127
+            fi
+        else
+            autorg-help.help
+        fi
+        return 0
+    }
+    # }}}
+    # {{{    `- init
+
+    autorg-init.help()
+    {
+        cat <<-EOF
+       	autorg init [DIR]
+
+       	Initialize a project in DIR, or current directory.
+	EOF
+    }
+    # completion function
+    _autorg-init()
+    {
+        _arguments \
+            -p':PATH[work in DIR instead of current directory]' \
+            -f'[Force re-creation of a new Git repository]'
+        
+    }
+    autorg-init()
+    {
+        local -A OPTS
+        zparseopts -D -E -A OPTS f -force p: -path:
+        local DIR="$PWD"
+        if is_opt -p:--path ; then
+            DIR="${OPTS[--path]:-${OPTS[-p]}}"
+            xxx "using specified directory $DIR"
+        fi
+        if is_opt -f:--force ; then
+            xxx "--force called"
+            # move .git if it exists
+            if [[ -d $DIR/.git ]] ; then
+                local t=$DIR/.git-$(date +%F-%T)
+                xxx "moving existing git repo to $t"
+                mv $DIR/.git $t
+            fi
+        elif [[ -d $DIR/.git ]] ; then
+            messages.warning "A git repository exists at $DIR/.git.  Use --force to ignore it."
+            return 1
+        fi
+        messages.success "Initializing $DIR"
+        (cd $DIR && git init)
+        return $?
+    }
+    # }}}
+    # {{{    `- run-setup
+    autorg-run-setup()
+    {
+        local force=false interactive=false
+        local -A OPTS DEFAULTS
+
+        DEFAULTS=(
+	    'PSYC_UNI'     "psyc://hinezumi.im/~autorg-$USER"
+	    'BROWSER'      $(sensible-browser)
+	    'EDITOR'       $(sensible-editor)
+	    'ANNOUNCE-TO'  "psyc://hinezumi.im/@AutOrg#Announce"
+	    'PACKAGE-TO'   "${XDG_DOCUMENTS_DIR:-~}/autorg"
+	    'PUBLISH-TO'   "${XDG_PUBLICSHARE_DIR:-~}/autorg"
+        )
+
+        local CF="${XDG_CONFIG_DIR:-~/.config}/autorg" RC="$CF/rc"
+
+        : mkdir -p "$CF"
+
+        if [[ $force = true || ! -f $RC ]]; then
+	    if [[ $interactive = true ]]; then
+	        echo <<-EOF
+		  Welcome to AutOrg!
+
+		  We're going to configure your setup.
+		  We only need to fill these 6 variables.
+		  Most of them are automated.  Actually, you can
+		  simply choose the defaults and be done.
+
+		  You can still change them later, according to
+		  your needs.  To accept the defaults, and get
+		  started, Press: 'YES' in uppercase.
+
+		  Otherwise, navigate the menu until you're done.
+
+		    [1]	'PSYC_UNI'     \"psyc://hinezumi.im/~autorg-$USER\"
+		    [2]	'BROWSER'      $(sensible-browser)
+		    [3]	'EDITOR'       $(sensible-editor)
+		    [4]	'ANNOUNCE-TO'  \"psyc://hinezumi.im/@AutOrg#Announce\"
+		    [5]	'PACKAGE-TO'   \"$XDG_DOCUMENTS_DIR/autorg\"
+		    [6]	'PUBLISH-TO'   \"$XDG_PUBLICSHARE_DIR/autorg\"
+
+		  Enter 'YES' to accept these values, or a number to get a
+		  description of the field, and get a chance to modify the value.
+
+	EOF
+	        read AUTO
+	        if [[ "$AUTO" = "YES" ]]; then
+		    OPTS=$DEFAULTS
+	        else
+		    while true; do
+		        read OPT
+		        case "$OPT" in
+			    (1)
+			        ;;
+			    (2)
+			        ;;
+			    (3)
+			        ;;
+			    (4)
+			        ;;
+			    (5)
+			        ;;
+			    (6)
+			        ;;
+			    ('')
+			        ;;
+			    (*)
+			        echo 'Press a number to edit value, or the Enter key to save.'
+			        echo
+			        echo '  [1] PSYC UNI     ("'$OPTS['PSYC-UNI']'") -- PSYC Uniform, your identifier on the network.'
+			        echo '  [2] BROWSER      ("'$OPTS['BROWSER']'")  -- Your Web Browser.'
+			        echo '  [3] EDITOR       ("'$OPTS['EDITOR']'")   -- Your Editor (should be Emacs.)'
+			        echo '  [4] ANNOUNCE TO  ("'$OPTS['ANNOUNCE-TO']'")  -- Where to announce releases'
+			        ;;
+		        esac
+                    done
+	        fi
+	    else
+	        OPTS=$DEFAULTS
+	    fi
+	    cat <<-EOF > "$RC"
+		#
+		# .:| AutOrg Configuration |:.
+		#
+
+		typeset -A AUTORG_CONFIG
+		AUTORG_CONFIG=(
+
+		    'PSYC_UNI'     "${OPTS['PSYC-UNI']}"
+		    'BROWSER'      "${OPTS['BROWSER']}"
+		    'EDITOR'       "${OPTS['EDITOR']}"
+		    'ANNOUNCE-TO'  "${OPTS['ANNOUNCE-TO']}"
+		    'PACKAGE-TO'   "${OPTS['PACKAGE-TO']}"
+		    'PUBLISH-TO'   "${OPTS['PUBLISH-TO']}"
+		)
+		EOF
+	    CONFIG=$OPTS
+        else
+	    . "$RC"
+        fi
+        return 0
+    }
+    # }}}
+    # {{{    `- version
+    autorg-version() {
+        autorg-version.help()
+        {
+            cat <<-EOF
+
+		autorg version [-s|--semver]
+
+		Display version information.
+		It's equivalent to running: `autorg --version'
+
+		The -s option show the semantic version usable with scripts.
+		It's equivalent to running: `autorg --semver'
+
+		EOF
+        }
+        case "$1" in
+            -s|--semver)
+                print $SEMVER
+                ;;
+
+            *)
+                print -P "%{%B%}$PROGNAME%{%b%} (Dyne AutOrg) version %{%B%}${SEMVER#v}%{%b%}"
+            cat <<-EOF
+		Copyright 2011 Dyne Foundation
+
+		License AGPLv3+: GNU Affero GPL version 3 or later <http://gnu.org/licenses/agpl.html>
+		This is free software: you are free to change and redistribute it.
+		There is NO WARRANTY, to the extent permitted by law.
+	EOF
+            ;;
+        esac
+        return 0
+    }
+    # }}}
+    # }}}
+    # }}}
+    # {{{ - run command
+
+    autorg.run-command()
+    {
+        [[ -z "$COMMAND" ]] && COMMAND="help"
+        if is_command $COMMAND ; then
+            [[ "$COMMAND" == 'version' ]] && QUIET=1       # version is always quiet
+            (( $QUIET || $HELP )) || echo $AUTORG_BANNER            # sexify commands
+            COMMAND="$PROGNAME-$COMMAND"
+            (( $# )) && shift # allow commands to zparseopts as they like
+            # If function does not exist, try to autoload it.
+            (( ${+functions[$COMMAND]} )) || autoload -Uz "$COMMAND"
+            # You need to define autorg-foo.help() for usage information.
+            (( $HELP ))  && {
+                xxx "calling help for $COMMAND"
+                $COMMAND.help
+                return 64
+            }
+            xxx "running command $COMMAND with arguments: $*"
+            $COMMAND $*
+        else
+            messages.warning "command not found '$COMMAND'."
+            messages.message "Try: autorg commands"
+            return 127 # command not found
+        fi
+    }
+
+    # }}}
+    # {{{ - cleanup
+    autorg.cleanup() {
+        xxx "cleaning up"
+    }
+    # }}}
+    # {{{ - --version shortcut
+
+    # Return early if version is asked from flags.
+    autorg.version-from-flags() {
+        if is_flag --semver:--version ; then
+            if is_flag --semver ; then
+                QUIET=1 autorg-version -s
+            else
+                autorg-version
+            fi
+            return 0
+        fi
+        return 1
+    }
+
+    # }}}
+    # {{{ - run time
+
+    {
+        # {{{  `- Autoload messages helpers
+
+        # When installed in /usr/share/zsh/functions/AutOrg we're safe.
+        fpath=( $PROGROOT/functions $fpath )
+
+        autoload -Uz messages && messages
+
+        # }}}
+        # {{{  `- Parse command flags
+
+        zparseopts -D -E -a FLAGS -- $ALLFLAGS
+
+        COMMAND="$1"
+
+        # Return version information early
+        autorg.version-from-flags && return 0
+
+        is_flag --debug    && DEBUG=1
+        is_flag --dry-run  && DRYRUN=1
+        is_flag -h:--help  && HELP=1
+        is_flag --quiet    && QUIET=1
+
+        # {{{ - Debug Information
+    if (( $DEBUG )) ; then 
+
+        print -P "%{%F{yellow}%}DEBUG%{%f%} is turned on"
+        sep=" %{%F{white}%}--%{%f%} "
+        xxx "%{%K{black}%F{green}%}$PROGNAME%{%f%}$sep$COMMAND$sep$*%{%f%k%}"
+        (( $DRYRUN )) && xxx "Dry-run mode: only showing what would be done."
+        (( $HELP ))   && xxx "Help mode: showing usage information."
+        (( $QUIET ))  && xxx "Quiet mode: all normal output is suppressed."
+        xxx "Command run:     $COMMAND"
+        xxx "Command options: $*"
+
+    fi
+    # }}}
+
+        # }}}
+
+        autorg.run-command $*
+        return $?
+
+    }  always {
+
+        xxx "Return code: $?"
+        autorg.cleanup
+
+    }
+
+    # }}}
+}
+# }}}
+
+set +x
+autorg $*
