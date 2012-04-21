@@ -1,4 +1,7 @@
 
-20 Feb 2012 - 3rd rewrite
-	Previous rewrites had no ChangeLog
-	This marks the start of the first rewrite
+20 Feb 2012 - 0.1 - 3rd rewrite
+	Previous rewrites had no ChangeLog.
+	This entry marks the start of the third rewrite.
+	This release includes a bundle for MacOSX
+	powered by a collection of elisp configurations
+	plus old stuff that we might or might not reuse.

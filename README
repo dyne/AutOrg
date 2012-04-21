@@ -1,28 +1,17 @@
 AutOrg is a publishing system for federated distributed documents
-based on emacs org-mode and git. It is ready to be built and run on a
-local desktop as well deployed on a web-server; it renders all pages
-locally, ready for server-side publishing.
+based on emacs org-mode.
 
+It is ready to be built and run on a local desktop.
 
-** Organization of the tree
+To start the application on Mac OSX, just click on the AutOrg app.
 
-*** doc/
+To use this on GNU/Linux or other BSD systems, use the code that
+is published on code.dyne.org/autorg you can clone it with git:
 
-Contains original documentation.
+ git://code.dyne.org/autorg.git
 
-*** etc/
+Inside the elisp directory are found most sources, so far this
+consists just of a pre-configured Emacs editor, but its growing.
 
-Configuration files for integration with third parties.
+For licensing information see the LICENSE file.
 
-*** org/
-
-Optional directory to export ORG files from.  You can symlink an
-existing directory or use a remote repository for these contents.
-
-*** pub/
-
-The build directory: all generated contents go there.
-
-*** src/
-
-Source files necessary to build the application.
