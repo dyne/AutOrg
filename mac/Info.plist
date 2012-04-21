@@ -485,14 +485,14 @@ along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
 			<key>NSMenuItem</key>
 			<dict>
 				<key>default</key>
-				<string>Emacs.app/New Buffer Containing Selection</string>
+				<string>AutOrg.app/New Buffer Containing Selection</string>
 			</dict>
 			<key>NSMessage</key>
 			<string>requestService</string>
 			<key>NSUserData</key>
 			<string>open-selection</string>
 			<key>NSPortName</key>
-			<string>Emacs</string>
+			<string>AutOrg</string>
 			<key>NSSendTypes</key>
 			<array>
 				<string>NSStringPboardType</string>
@@ -502,14 +502,14 @@ along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
 			<key>NSMenuItem</key>
 			<dict>
 				<key>default</key>
-				<string>Emacs.app/Open Selected File</string>
+				<string>AutOrg.app/Open Selected File</string>
 			</dict>
 			<key>NSMessage</key>
 			<string>requestService</string>
 			<key>NSUserData</key>
 			<string>open-file</string>
 			<key>NSPortName</key>
-			<string>Emacs</string>
+			<string>AutOrg</string>
 			<key>NSSendTypes</key>
 			<array>
 				<string>NSStringPboardType</string>
@@ -519,14 +519,14 @@ along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
 			<key>NSMenuItem</key>
 			<dict>
 				<key>default</key>
-				<string>Emacs.app/Email Selection</string>
+				<string>AutOrg.app/Email Selection</string>
 			</dict>
 			<key>NSMessage</key>
 			<string>requestService</string>
 			<key>NSUserData</key>
 			<string>mail-selection</string>
 			<key>NSPortName</key>
-			<string>Emacs</string>
+			<string>AutOrg</string>
 			<key>NSSendTypes</key>
 			<array>
 				<string>NSStringPboardType</string>
@@ -536,14 +536,14 @@ along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
 			<key>NSMenuItem</key>
 			<dict>
 				<key>default</key>
-				<string>Emacs.app/Send Email to Selected Address</string>
+				<string>AutOrg.app/Send Email to Selected Address</string>
 			</dict>
 			<key>NSMessage</key>
 			<string>requestService</string>
 			<key>NSUserData</key>
 			<string>mail-to</string>
 			<key>NSPortName</key>
-			<string>Emacs</string>
+			<string>AutOrg</string>
 			<key>NSSendTypes</key>
 			<array>
 				<string>NSStringPboardType</string>

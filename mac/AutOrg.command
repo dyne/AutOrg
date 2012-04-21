@@ -17,6 +17,7 @@ cd $appbase
 # generate the emacs initialization
 rm -f $appbase/$autorg/.emacs
 cat <<EOF > $appbase/$autorg/.emacs
+(setq default-directory "$HOME" )
 (add-to-list 'load-path "$appbase/$autorg")
 (require 'autorg)
 EOF

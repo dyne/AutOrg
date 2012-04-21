@@ -32,13 +32,14 @@
 ; load color-themes extension
 (require 'color-theme)
 (color-theme-initialize)
-(color-theme-matrix)
+(color-theme-gray30)
+; (color-theme-matrix)
 ; (color-theme-blippblopp)
 ; (color-theme-dark-laptop)
 
 ; transparency (thanks dreamer!)
-(set-frame-parameter (selected-frame) 'alpha '(90 50))
-(add-to-list 'default-frame-alist '(alpha 90 50))
+(set-frame-parameter (selected-frame) 'alpha '(98 50))
+(add-to-list 'default-frame-alist '(alpha 98 50))
 
 ; start listening to commandline invokations
 (server-start)
@@ -156,46 +157,5 @@
 
 ;; set our favourite: Anonymous!
 (set-face-font
-'default "-*-Inconsolata-normal-normal-normal-*-14-*-*-*-c-80-*")
+'default "-*-Inconsolata-normal-normal-normal-*-16-*-*-*-*-*-*")
 
-;;; E-Mail
-(defun load-email () (interactive)
-  "load some e-mail mode extensions when answering emails"
-  (mail-mode)  )
-(add-to-list 'auto-mode-alist '("mutt" . load-email) )
-
-;; word count
-(autoload 'word-count-mode "word-count"
-          "Minor mode to count words." t nil)
-
-; use antiword on doc files
-(autoload 'no-word "no-word" "word to txt")
-(add-to-list 'auto-mode-alist '("\\.doc\\'" . no-word))
-; requires antiword and the no-doc.el extension
-; http://www.emacswiki.org/emacs/AntiWord
-
-;; make hypertexts in any document
-(defun load-linkd () (interactive)
-  "internal linking to browse any major mode"
-  (require 'linkd)
-  (linkd-mode)
-  )
-
-; grep directories
-(defun grep-on-the-fly ()
-  "grep the whole directory for something defaults to term at cursor position"
-  (interactive)
-  (setq default (thing-at-point 'symbol))
-  (setq needle (or (read-string (concat "grep for <" default "> ")) default))
-  (setq needle (if (equal needle "") default needle))
-  (grep (concat "egrep -s -i -n " needle " * /dev/null")))
-(global-set-key "\C-x." 'grep-on-the-fly)
-(global-set-key [f8] 'next-error)
-
-; fullscreen
-(defun toggle-fullscreen ()
-  (interactive)
-  (set-frame-parameter nil 'fullscreen (if (frame-parameter nil
-                                           'fullscreen) nil
-                                           'fullboth)))
-(global-set-key [(meta return)] 'toggle-fullscreen)
