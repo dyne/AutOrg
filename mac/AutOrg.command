@@ -20,6 +20,7 @@ cat <<EOF > $appbase/$autorg/.emacs
 (setq default-directory "$HOME" )
 (add-to-list 'load-path "$appbase/$autorg")
 (require 'autorg)
+(require 'osx)
 EOF
 
 HOME=$appbase/$autorg $appbin/Emacs $@
