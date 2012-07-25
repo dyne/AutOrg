@@ -38,8 +38,8 @@
 ; (color-theme-dark-laptop)
 
 ; transparency (thanks dreamer!)
-(set-frame-parameter (selected-frame) 'alpha '(98 50))
-(add-to-list 'default-frame-alist '(alpha 98 50))
+(set-frame-parameter (selected-frame) 'alpha '(90 50))
+(add-to-list 'default-frame-alist '(alpha 90 50))
 
 ; start listening to commandline invokations
 (server-start)
@@ -158,4 +158,7 @@
 ;; set our favourite: Anonymous!
 (set-face-font
 'default "-*-Inconsolata-normal-normal-normal-*-16-*-*-*-*-*-*")
+
+; folding mode
+(require 'folding)
 

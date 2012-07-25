@@ -23,5 +23,6 @@ cat <<EOF > $appbase/$autorg/.emacs
 (require 'osx)
 EOF
 
+export PATH=$PATH:/usr/texbin
 HOME=$appbase/$autorg $appbin/Emacs $@
 

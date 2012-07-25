@@ -130,5 +130,8 @@
 ;; moinmoin
 (require 'moinmoin)
 
+;; folding minor mode
+(require 'folding)
+
 
 ;;;; EOF

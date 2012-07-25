@@ -16,7 +16,7 @@
 (global-set-key [(hyper x)] 'kill-region)
 (global-set-key [(hyper s)] 'save-buffer)
 (global-set-key [(hyper l)] 'goto-line)
-(global-set-key [(hyper o)] 'find-file)
+; (global-set-key [(hyper o)] 'find-file)
 (global-set-key [(hyper f)] 'isearch-forward)
 (global-set-key [(hyper g)] 'isearch-repeat-forward)
 (global-set-key [(hyper w)]
