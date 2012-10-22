@@ -225,7 +225,7 @@ org-crypt org-remember org-agenda)))
 
 ;; set our favourite: Anonymous!
 (set-face-font
-'default "-*-Inconsolata-normal-normal-normal-*-16-*-*-*-*-*-*")
+'default "-*-AnonymousPro-normal-normal-normal-*-13-*-*-*-*-*-*")
 
 ; transparency (thanks dreamer!)
 (set-frame-parameter (selected-frame) 'alpha '(95 50))
