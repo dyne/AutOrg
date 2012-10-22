@@ -4,9 +4,56 @@
 
 (provide 'autorg)
 
-;; local emacs extensions
-(add-to-list 'load-path "~/.emacs.d")
+; remember extension
+(require 'remember)
 
+; load org-mode first
+(add-to-list 'load-path (concat AutOrgRes "/org-mode/lisp"))
+(add-to-list 'load-path (concat AutOrgRes "/org-mode/contrib/lisp"))
+'(org-modules (quote (org-bbdb org-bibtex org-gnus org-info
+org-jsinfo org-irc org-w3m org-mouse org-eval org-eval-light
+org-exp-bibtex org-man org-mtags org-panel org-R
+org-special-blocks org-exp-blocks org-mobile org-odt org2blog
+org-crypt org-remember org-agenda)))
+(require 'org)
+(org-remember-insinuate)
+
+;; export options
+'(org-export-html-inline-images t)
+'(org-export-html-use-infojs t)
+'(org-export-html-with-timestamp t)
+'(org-export-html-validation-link
+  "<p class=\"xhtml-validation\"><a href=\"http://validator.w3.org/check?uri=referer\">Validate XHTML 1.0</a></p>")
+
+;; extra export formats
+(require 'org-export-generic)
+'(org-export-blocks (quote ((comment org-export-blocks-format-comment t)
+			    (ditaa org-export-blocks-format-ditaa t)
+			    (dot org-export-blocks-format-dot t)
+			    (r org-export-blocks-format-R nil)
+			    (R org-export-blocks-format-R nil))))
+
+;; org protocol helps setting communications outside of Emacs
+(require 'org-protocol)
+
+;; freemind export
+(require 'freemind)
+
+; Encryption
+(require 'pgg)
+(require 'org-crypt)
+(org-crypt-use-before-save-magic)
+
+; enables semantic mode for completion
+(semantic-mode t)
+
+; load HTML, PHP and related variou syntax support
+(load (concat AutOrgRes "/nxhtml/autostart.el"))
+
+; LUA mode
+(autoload 'lua-mode "lua-mode" "Lua editing mode." t)
+(add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
+(add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
 
 ;; deactivate all menubar scrollbar toolbar
 ; (tool-bar-mode)
@@ -20,29 +67,16 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq inhibit-startup-message t)
 
+
 ; stop leaving backup~ turds scattered everywhere
 (setq make-backup-files nil)
 
 ; save on exit
 (defadvice save-buffers-kill-emacs (around no-y-or-n activate)
   (flet ((yes-or-no-p (&rest args) t)
-         (y-or-n-p (&rest args) t))
+	 (y-or-n-p (&rest args) t))
     ad-do-it))
 
-; load color-themes extension
-(require 'color-theme)
-(color-theme-initialize)
-(color-theme-gray30)
-; (color-theme-matrix)
-; (color-theme-blippblopp)
-; (color-theme-dark-laptop)
-
-; transparency (thanks dreamer!)
-(set-frame-parameter (selected-frame) 'alpha '(90 50))
-(add-to-list 'default-frame-alist '(alpha 90 50))
-
-; start listening to commandline invokations
-(server-start)
 
 ;  ===========================
 ;; setup our keyboard mappings
@@ -67,16 +101,20 @@
 (global-set-key [(meta O) ?H] 'beginning-of-line)
 (global-set-key [home] 'beginning-of-line)
 (global-set-key [(meta O) ?F] 'end-of-line)
-(global-set-key [end] 'end-of-line) 
+(global-set-key [end] 'end-of-line)
 (setq next-line-add-newlines nil)
 ; C-c c to either comment out a region or uncomment it depending on context.
 (global-set-key (kbd "C-c c") 'comment-dwim)
 ; Shift-arrows a la windows...
+
+
+
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
+
  '(browse-url-firefox-program "open")
  '(column-number-mode t)
  '(keyboard-coding-system (quote mule-utf-8))
@@ -84,16 +122,17 @@
  '(nil nil t)
 ; '(get-frame-for-buffer-default-instance-limit nil)
 
- '(pc-select-meta-moves-sexps t)
- '(pc-select-selection-keys-only t)
- '(pc-selection-mode t nil (pc-select))
+; '(pc-select-meta-moves-sexps t)
+; '(pc-select-selection-keys-only t)
+; '(pc-selection-mode t nil (pc-select))
 
  '(word-count-non-character-regexp "[
 ]")
- '(x-select-enable-clipboard t))
-;; X selection manipulation
-(define-key global-map [(delete)]    "\C-d") 
+ '(x-select-enable-clipboard t)
+)
 
+;; X selection manipulation
+(define-key global-map [(delete)]    "\C-d")
 (defun x-own-selection (s) (x-set-selection `PRIMARY s))
 (global-set-key [(shift insert)]
 		'(lambda () (interactive)
@@ -111,19 +150,33 @@
 (global-set-key "\C-c\C-m" 'execute-extended-command)
 (global-set-key "\C-xm" 'execute-extended-command)
 (global-set-key "\C-cm" 'execute-extended-command)
+; enables deleting an highlighted block
+(delete-selection-mode)
 
 
 ;; By default we starting in text mode.
 (setq initial-major-mode
       (lambda ()
-        (text-mode)
-        (turn-on-auto-fill)
+	(text-mode)
+	(turn-on-auto-fill)
 	(setq transient-mark-mode t)
 	(global-font-lock-mode t)
 	(setq font-lock-mode-maximum-decoration t)
 	))
 
 (setq revert-without-query (cons "TAGS" revert-without-query))
+
+; grep directories
+(defun grep-on-the-fly ()
+  "grep the whole directory for something defaults to term at cursor position"
+  (interactive)
+  (setq default (thing-at-point 'symbol))
+  (setq needle (or (read-string (concat "grep for <" default "> ")) default))
+  (setq needle (if (equal needle "") default needle))
+  (grep (concat "egrep -s -i -n " needle " * /dev/null")))
+(global-set-key "\C-x." 'grep-on-the-fly)
+(global-set-key [f8] 'next-error)
+
 
 ; internationalisation support
 (require 'mule)
@@ -146,7 +199,11 @@
 (require 'mwheel)
 ; Make the mouse jump away when you type over it.
 (mouse-avoidance-mode 'cat-and-mouse)
-
+;; scroll one line at a time (less "jumpy" than defaults)
+    (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
+;    (setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
+    (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
+    (setq scroll-step 1) ;; keyboard scroll one line at a time
 
 ; IDO lets you  open files  and  switch buffers  with fuzzy  matching,
 ; really nice when you have lots of things open.
@@ -155,10 +212,26 @@
 (ido-mode t)
 (setq ido-enable-flex-matching t)
 
+; appearance
+
+; load color-themes extension
+(require 'color-theme)
+(color-theme-initialize)
+(color-theme-emacs-nw)
+; (color-theme-gray30)
+; (color-theme-matrix)
+; (color-theme-blippblopp)
+; (color-theme-dark-laptop)
+
 ;; set our favourite: Anonymous!
 (set-face-font
 'default "-*-Inconsolata-normal-normal-normal-*-16-*-*-*-*-*-*")
 
-; folding mode
-(require 'folding)
+; transparency (thanks dreamer!)
+(set-frame-parameter (selected-frame) 'alpha '(95 50))
+(add-to-list 'default-frame-alist '(alpha 95 50))
 
+
+
+; start listening to commandline invokations
+(server-start)

@@ -554,9 +554,9 @@ along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
 	<key>CFBundleExecutable</key>
 	<string>AutOrg.command</string>
 	<key>CFBundleGetInfoString</key>
-	<string>AutOrg 0.1 Copyright (C) 2012 Dyne.org Foundation</string>
+	<string>AutOrg 0.2 Copyright (C) 2012 Dyne.org Foundation</string>
 	<key>CFBundleIconFile</key>
-	<string>Emacs.icns</string>
+	<string>AutOrg.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>org.dyne.AutOrg</string>
 	<key>CFBundleInfoDictionaryVersion</key>

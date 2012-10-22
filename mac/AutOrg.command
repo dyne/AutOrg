@@ -18,7 +18,8 @@ cd $appbase
 rm -f $appbase/$autorg/.emacs
 cat <<EOF > $appbase/$autorg/.emacs
 (setq default-directory "$HOME" )
-(add-to-list 'load-path "$appbase/$autorg")
+(setq AutOrgRes "$appbase/$autorg")
+(add-to-list 'load-path AutOrgRes)
 (require 'autorg)
 (require 'osx)
 EOF

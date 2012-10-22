@@ -1,14 +1,42 @@
 ; Apple/OSX friendly setup
-; courtesy of Ovidiu Predescu
-; http://www.webweavertech.com/ovidiu/emacs.html
+; from http://autorg.dyne.org
 
 (provide 'osx)
-
 
 (setq mac-option-modifier 'meta)
 (setq mac-command-modifier 'hyper)
 
+(setq initial-scratch-message 
+";; This buffer is for notes you don't want to save, and for Lisp evaluation.
+;; If you want to open a file or create a new one, use cmd-o or the File menu.
+;; If you are new to AutOrg and Emacs, press cmd-h to get some help.
+")
+
+(global-set-key [(hyper h)] 'help)
+
+; justify paragraph keys
 (global-set-key (kbd "A-q") 'fill-paragraph)
+(global-set-key (kbd "C-j") 'fill-paragraph)
+
+; scrolling
+(global-set-key [(hyper up)] 'backward-paragraph)
+(global-set-key [(hyper down)] 'forward-paragraph)
+(global-set-key [(meta  up)] 'backward-page)
+(global-set-key [(meta  down)] 'forward-page)
+(defun sfp-page-down ()
+  (interactive)
+  (next-line
+   (- (window-text-height)
+      next-screen-context-lines)))
+(defun sfp-page-up ()
+  (interactive)
+  (previous-line
+   (- (window-text-height)
+      next-screen-context-lines)))
+(global-set-key [next] 'sfp-page-down)
+(global-set-key [prior] 'sfp-page-up)
+
+
 
 (global-set-key [(hyper a)] 'mark-whole-buffer)
 (global-set-key [(hyper v)] 'yank)
@@ -16,7 +44,7 @@
 (global-set-key [(hyper x)] 'kill-region)
 (global-set-key [(hyper s)] 'save-buffer)
 (global-set-key [(hyper l)] 'goto-line)
-; (global-set-key [(hyper o)] 'find-file)
+(global-set-key [(hyper o)] 'ns-open-file-using-panel)
 (global-set-key [(hyper f)] 'isearch-forward)
 (global-set-key [(hyper g)] 'isearch-repeat-forward)
 (global-set-key [(hyper w)]
@@ -44,3 +72,20 @@
   (set-frame-size (selected-frame) 1000 1000))
 (global-set-key [(hyper return)] 'maximize-frame)
 (global-set-key [(hyper f)] 'maximize-frame)
+
+; save as with cocoa dialog
+; (defun ns-save-file-using-panel ()
+;    (interactive)
+;    (let ((file (do-applescript "try
+;  POSIX path of (choose file name with prompt \"Save As...\")
+;  end try")))
+;      (if (> (length file) 3)
+;          (setq file
+; 	       (substring file 1 (- (length file) 1))
+; 	       ))
+;      (if (not (equal file ""))
+;          (write-file file)
+;        (beep))
+;      ))
+;; appeltje + S
+; (global-set-key [(hyper s)] 'ns-save-file-using-panel)

@@ -3,6 +3,9 @@
 
 (provide 'autoload)
 
+;; local emacs extensions
+(add-to-list 'load-path "~/.emacs.d")
+
 ;; word count
 (autoload 'word-count-mode "word-count"
           "Minor mode to count words." t nil)
@@ -57,10 +60,13 @@
 
 
 ;;; Encryption
-(require 'pgg)
-(require 'org-crypt)
-(org-crypt-use-before-save-magic)
+; (require 'pgg)
+; (require 'org-crypt)
+; (org-crypt-use-before-save-magic)
 
+
+;;; NXHTML
+(require 'nxhtml-autostart)
 
 ;;; DOT mode
 (defun load-graphviz () (interactive)
@@ -132,6 +138,5 @@
 
 ;; folding minor mode
 (require 'folding)
-
 
 ;;;; EOF
