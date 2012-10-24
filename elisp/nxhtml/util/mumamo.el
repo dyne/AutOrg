@@ -2828,7 +2828,7 @@ most major modes."
     ;;font-lock-mode-major-mode
     font-lock-set-defaults
     font-lock-syntax-table
-    font-lock-beginning-of-syntax-function
+    syntax-begin-function
     fontification-functions
     jit-lock-context-unfontify-pos
     jit-lock-mode
@@ -3105,7 +3105,7 @@ The main reasons for doing it this way is:
                (list 'font-lock-defaults (custom-quote (copy-tree font-lock-defaults)))
                ;; Syntactic Font Lock
                (list 'font-lock-syntax-table (custom-quote font-lock-syntax-table)) ;; See nXhtml bug 400415
-               (list 'font-lock-beginning-of-syntax-function (custom-quote font-lock-beginning-of-syntax-function))
+               (list 'syntax-begin-function (custom-quote syntax-begin-function))
                (list 'font-lock-syntactic-face-function (custom-quote font-lock-syntactic-face-function))
 
                ;; Other Font Lock Variables
@@ -4178,9 +4178,9 @@ after this in the properties below of the now created chunk:
                          syntax-begin-function)
                      (when (and (not syntax-begin-function)
                                 ;; fix-me: How to handle boundp here?
-                                (boundp 'font-lock-beginning-of-syntax-function)
-                                font-lock-beginning-of-syntax-function)
-                       font-lock-beginning-of-syntax-function)))))
+                                (boundp 'syntax-begin-function)
+                                syntax-begin-function)
+                       syntax-begin-function)))))
           (mumamo-msgfntfy "Got syntax-begin-function, modified=%s" (buffer-modified-p))
           (overlay-put this-chunk 'syntax-begin-function syntax-begin-function))
         )
@@ -6103,7 +6103,7 @@ Save HOOK and the list of functions removed to
     end-of-defun-function
 
     fill-paragraph-function
-    font-lock-beginning-of-syntax-function
+    syntax-begin-function
     font-lock-defaults
     font-lock-extend-after-change-region-function
     font-lock-extend-region-functions
