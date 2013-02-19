@@ -4,6 +4,10 @@
 *.sh
 !autogen.sh
 *.do
+*.o
+*.lo
+*.la
+.deps
 *.html
 !/src/404.html
 *.pdf

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # AutOrg startup script for Mac .app
-# Copyright (C) 2012 by Denis Roio <Jaromil@dyne.org>
+# Copyright (C) 2012-2013 by Denis Roio <Jaromil@dyne.org>
 # GNU GPL V3 (see COPYING)
 
 appbin="${0%/*}"
@@ -23,6 +23,10 @@ cat <<EOF > $appbase/$autorg/.emacs
 (require 'autorg)
 (require 'osx)
 EOF
+# honor user's configuration
+if [ -r $HOME/.emacs ]; then
+	cat $HOME/.emacs >> $appbase/$autorg/.emacs
+fi
 
 export PATH=$PATH:$appbase/$autorg:/usr/texbin
 # export LANG=en_US

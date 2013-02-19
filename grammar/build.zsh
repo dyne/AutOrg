@@ -13,14 +13,14 @@ liblink=${link}/link-grammar/.libs/liblink-grammar.a
 
 { test -r ${liblink} } || {
 	pushd ${link}
-	CC=clang CXX=clang++ ./configure --disable-java-bindings --enable-debug \
+	CC=clang CXX=clang++ ./configure --disable-java-bindings  \
 	&& make
 	popd
 }
 
 { test -r grammar-filter/grammar-filter } || {
 	pushd grammar-filter
-	clang++ -O0 -g grammar.cc -I../${link} -I../${link}/link-grammar \
+	clang++ -O3 grammar.cc -I../${link} -I../${link}/link-grammar \
 		../${link}/link-grammar/.libs/liblink-grammar.a -o grammar-filter
 	popd
 }

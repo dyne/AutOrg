@@ -3,6 +3,8 @@ based on emacs org-mode.
 
 It is ready to be built and run on a local desktop.
 
+For more informations and a manual go to http://autorg.dyne.org
+
 To start the application on Mac OSX, just click on the AutOrg app.
 
 To use this on GNU/Linux or other BSD systems, use the code that
