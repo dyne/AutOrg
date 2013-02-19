@@ -1,0 +1,135 @@
+% 
+%  ========== Lietuvių kalbos žodynas ir gramatika ==============
+%  =========== Lithuanian link-grammar dictionary ===============
+%
+% Experimental and incomplete ... 
+% It can parse 4.0.batch more ore less correctly.
+%
+% Copyright (c) 2008 Linas Vepstas (Vepštas) linas@linas.org
+%
+% This file uses utf-8 characater encoding.
+% If editing with "vi", be sure to "set encoding=utf-8"
+% and also be sure to configure the terminal to use utf-8 encoding.
+%
+%
+% Ženklai:
+% Ą Č Ę Ė Į Š Ų Ū Ž
+% ą č ė ę į š ū ų ž
+%
+% Kaip išmušti ženklus:
+% ą == ,a  irgi ę į ų
+% č == <c irgi š ž
+% ė == .e   Ė
+% ū == -u   Ū
+% 
+% 
+% D  == Daiktavardis
+% DV == Vardininkas Kas?  DVv == vyriška, DVm == moteriška giminė
+% DK == Kilmininkas Ko?
+% DN == Naudininkas Kam?
+% DG == Galininkas Ką?
+% DI == Įnagininkas Kuo?
+% DU == Vietininkas Kur?
+% DS == Šauksmininkas O!
+%
+%
+% V  == Veiksmažodis
+% VA == Aš
+% VT == Tu
+% VJv == Jis  (v == vyriška giminė)
+% VJm == Ji   (m == moteriška giminė)
+% VM == Mes
+% VU == Jus
+% VOv == Jie
+% VOm == Jos
+%
+% B == Būdvardis
+%
+% P == Prieveiksmis
+% PB == būdo
+% PL == laiko
+% PP == priežasties
+% PV == vietos
+% PD == Prieveiksminės dalelytės.
+%
+% L == Prielinksnis
+% LK == su kilminiku
+% LG == su galininku
+% LI == su įnagininku
+%
+%
+% Xp == taškas gale sakinio (panašiai į anglų žodyna)
+
+Jonas Linas Saulius: VJv+ & {Wd-};
+Audra Gintarė: VJm+ & {Wd-};
+
+% "Aš esu studentas.", "Aš esu studentė"
+esu: VA- & DV+;
+
+% giminė turi sueiti: negalima sakyti "jis yra studentė"
+yra: (VJv- & (DVv+ or Bv+)) or (VJm- & (DVm+ or Bm+));
+
+% prieveiksmi iš dešinės: "Mes einame namo"
+% arba prielinksni: "eina į mokyklą"
+einame: {VM-} & (LI+ or PV+) & {Wd-};
+eina: {VJ-} & (LI+ or PV+);
+
+% -------------------------------
+% Daiktavardžai ...
+svečiai: VO+ & {Wd-};
+
+namas svečias: DVv- & VJv+ & {Wd-};
+mokytojas studentas: DVv- & {Xp+} & {Wd-};
+mokytoja studentė: DVm- & {Xp+} & {Wd-};
+
+% reikalauja veiksmažodi ant kairės.
+laivelį knygą mokyklą sodžių: DG- & {LI-} & {Xp+};
+
+% -------------------------------
+% Būdvardžiai
+
+didelis geras gražus medinis: Bv- & {Xp+};
+didelė gera graži medine: Bm- & {Xp+};
+
+% -------------------------------
+% Veiksmažodžiai
+išvažiavo: {PV-} & VO- & {Xp+};
+
+atvažiavom: {VM-} & (LI+ or PV+) & {Wd-};
+
+% gali turėti galininka iš dešines.
+irkluoja skaite skaito skaitys: VJ- & {DG+}; 
+
+% -------------------------------
+% Įvardžiai
+% Asmeniniai įvardžiai
+aš:  VA+  & {Wd-};
+tu:  VT+  & {Wd-};
+jis: VJv+ & {Wd-};
+ji:  VJm+ & {Wd-};
+mes: VM+  & {Wd-};
+jus: VU+  & {Wd-};
+jie: VOv+ & {Wd-};
+jos: VOm+ & {Wd-};
+
+% Savybiniai įvardžiai
+mano tavo savo: DV+ & {Wd-};
+
+% -------------------------------
+% Prieveiksmiai ... 
+laukan miškan oran kairėn dešinėn: PV-;
+% "Einame namo", "Svečiai namo išvažiavo"
+namo: PV+ or (PV- & {Xp+});
+
+% Prielinksnai su galininku: Daiktavardi ant dešines:
+į: DG+;
+
+% -------------------------------
+% Sakinio pradžia ir galūnė
+%
+% taškas
+".": Xp-;
+
+% Žodžiai, kurie gali pradėti sakini.
+CAPITALIZED-WORDS: Wd-;
+LEFT-WALL: Wd+;

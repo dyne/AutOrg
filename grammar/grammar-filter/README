@@ -1,0 +1,26 @@
+#
+# File: grammar/README
+#
+# $Id$
+#
+
+This directory contains the grammar checker mode for Emacs.
+
+Link Grammar (http://www.link.cs.cmu.edu/link/) is used as the back-end
+grammar checker.  A small C/C++ program called grammar is written based
+on the Link Grammar API to perform grammar checking for a given
+sentence, and grammar mode is simply the interface between Emacs and
+this grammar program.
+
+Stealing the idea of Flyspell, we want to make grammar.el do on-the-fly
+grammar checking.  When detecting that the Emacs user has finished
+typing a sentence, we will grab the sentence and send it to the grammar
+program.  The grammar program will then tell us if the sentence contains
+any grammar error(s).  The problematic word(s) that contributed to the
+grammar error(s) will be highlighted...
+
+This mode is still in its early development stage.  Any ideas on how to
+make it more useful are welcome!
+
+Thanks,
+Baoqiu Cui

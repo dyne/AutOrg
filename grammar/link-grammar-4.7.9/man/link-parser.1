@@ -1,0 +1,266 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH LINK-GRAMMAR 1 "April 16, 2012"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.SH NAME
+link-parser \- parses natural language sentences
+.SH SYNOPSIS
+.B link-parser
+.RB \--help
+.br
+.B link-parser
+.RB \--version
+.br
+.B link-parser
+.R [language|dict\_location] [\-<special\ "!"\ command>]
+.SH DESCRIPTION
+.PP
+.\" TeX users may be more comfortable with the \fB<whatever>\fP and
+.\" \fI<whatever>\fP escape sequences to invode bold face and italics, 
+.\" respectively.
+\fBlink-parser\fP is the command-line wrapper to the link-grammar
+natural language parsing library.  This library will parse English
+language sentences, generating linkage trees showing relationships
+between the subject, the verb, and various adjectives, adverbs,
+\fIetc.\fP in the sentence.
+.PP
+.SH EXAMPLE
+.TP
+.B link-parser
+Starts the parser interactive shell.  Enter any sentence to parse:
+.PP
+.RS
+.B linkparser> Reading a man page is informative.
+.PP
+Found 4 linkages (4 had no P.P. violations)
+  Linkage 1, cost vector = (UNUSED=0 DIS=0 FAT=0 AND=0 LEN=12)
+
+    +------------------------Xp-----------------------+
+    |         +---------Ss*g---------+                |
+    |         +-------Os-------+     |                |
+    |         |     +----Ds----+     |                |
+    +----Wd---+     |   +--AN--+     +---Pa---+       |
+    |         |     |   |      |     |        |       |
+.PP
+LEFT\-WALL reading.g a man.n page.n is.v informative.a . 
+.RE
+.SH BACKGROUND
+The \fBlink-arser\fP command-line tool is useful for
+general exploration and use, although it is presumed that, for the
+parsing of large quantities of text, a custom application, making
+use of the link-grammar library, will be written.  Several such
+applications are described on the link-grammar web page; these include
+the Abiword grammar checker, and the RelEx semantic relation extractor.
+.PP
+The theory of link-grammar is explained in many academic papers. 
+In the first of these, Daniel Sleator and Davy Temperly,
+"Parsing English with a Link Grammar" (1991),
+the authors defined a new formal grammatical system called a
+"link grammar". A sequence of words is in the language of a link
+grammar if there is a way to draw "links" between words in such a way
+that the local requirements of each word are satisfied, the links do
+not cross, and the words form a consistent connected graph. The authors
+encoded English grammar into such a system, and wrote \fBlink\-parser\fP
+to parse English using this grammar.
+.PP
+The engine that performs the parsing is seperate from the dictionaries
+describing a language.  Currently, the most fully developed, complete
+dictionaries are for the English language, although experimental,
+incomplete dictionaries exist for German, Russian and French.
+
+.SH OVERVIEW
+.PP
+\fBlink\-parser\fP, when invoked manually, starts an interactive shell,
+taking control of the terminal.  Any lines begining with an exclamation
+mark are assumed to be a "special command"; these are described below.
+The command \fB!help\fP will provide more info; the command 
+\fB!var\fP will print all of the special commands.  These are also
+called "variables", as almost all commands have a value associated with
+them: the command typically enable or disable some function, or they
+alter some multi\-valued setting.  
+.PP
+All other input is treated as a single, English-language sentence;
+it is parsed, and the result of the parse is printed.  The variables
+control what is printed:  By default, an ASCII\-graphics linkage is
+printed, although post-script output is also possible.  The printing of
+the constituent tree can also be enabled. Other output controls include
+the printing of disjuncts, word senses, and union linkages.
+
+.PP
+In order to analyze sentences, \fBlink\-parser\fP depends on a 
+link\-grammar dictionary.  This contains lists of words and associated
+metadata about their grammatical properties.  An English language
+dictionary is provided by default.  If other language dictionaries
+are installed in the default search locations, these may be explicitly
+spcified by means of a 2-letter ISO language code: so, for example:
+.PP
+.B
+    link\-parser de
+.PP
+will start the parser shell with the German dictionary.
+.PP
+Alternately, the dictionary location can be specified explicitly with
+either an absolute or a relative file path; so, for example:
+.PP
+.B
+     link\-parser /usr/share/link\-grammar/en
+.PP
+will run link\-parser using the English dictionary located in the 
+typical install directory.
+.PP
+\fBlink\-parser\fP can also be used non\-interactively, either through
+its API, or via the \fB\-batch\fP option.  When used with the
+\fB\-batch\fP option, link\-parser reads from standard input,
+generating output to standard out. So, for example:
+.PP
+.B
+    cat thesis.txt | link\-parser \-batch
+.PP
+Note that using the \fB\-batch\fP option disables the usual
+ASCII-graphics linkage printing.  This may be re-enabled via a special
+command; special commands may be interspersed with the input.
+.PP
+Alternately, an input file may be specified with the \fB!file\fP
+special command, described below.
+
+.SH OPTIONS
+.TP
+.B \-\-help
+Print usage and exit.
+.TP
+.B \-\-version
+Print version number and exit.
+
+.SS Special "!" options
+The special "!" options can be specified either on the command-line, on
+startup, or set and toggled within the interactive shell itself.  The
+full option name does not need to be used; only enough letters to make
+the option unique must be specified. 
+.PP
+Boolean variables may be toggled simply by giving the \fI!varname\fP,
+for example, \fB!batch\fP.  Setting other variables require using an
+equals sign: \fI!varname=value\fP, for example, \fB!width=100\fP.
+.PP
+The \fB!help\fP command will print general help, and the \fB!var\fP
+command will print all of the current variable settings.  The 
+\fB!file\fP command will read input from a file.  The \fB!file\fP
+command is \fInot\fP a variable; it cannot be set.  It can be used
+repeatedly.
+.PP
+The dictionary entry for any given word may be examined by preceeding
+it with two exclamation marks.
+
+.TP
+.BI \-bad
+Enable display of bad linkages.
+.TP
+.BI \-batch
+Enable batch mode.
+.TP
+.BI \-cluster
+Use clusters to loosen parsing.
+.TP
+.BI \-constituents
+Generate constituent output.
+.TP
+.BI \-cost-model
+Cost model used for ranking.
+.TP
+.BI \-cost-max
+Largest cost to be considered.
+.TP
+.BI \-disjuncts
+Display of disjuncts used.
+.TP
+.BI \-echo
+Echo input sentence.
+.TP
+.BI \-graphics
+Enable graphical display of linkage.
+.TP
+.BI \-islands-ok
+Use null-linked islands.
+.TP
+.BI \-limit
+Limit the maximum linkages processed.
+.TP
+.BI \-links
+Enable display of complete link data.
+.TP
+.BI \-max-length
+Set maximum sentence length.
+.TP
+.BI \-memory
+Set maximum memory usage allowed.
+.TP
+.BI \-null
+Allow null links.
+.TP
+.BI \-null-block
+Size of blocks with null count 1.
+.TP
+.BI \-panic
+Use "panic mode" if a parse cannot be quickly found.
+.TP
+.BI \-postscript
+Generate postscript output.
+.TP
+.BI \-senses
+Display word senses.
+.TP
+.BI \-short
+Max length of short links.
+.TP
+.BI \-spell
+Use spell-guesser for unknown words.
+.TP
+.BI \-timeout
+Abort parsing after this many seconds.
+.TP
+.BI \-union
+Display of 'union' linkage.
+.TP
+.BI \-use-fat
+Use fat links when parsing (deprecated).
+.TP
+.BI \-verbosity
+Level of detail in output.
+.TP
+.BI \-walls
+Display wall words.
+.TP
+.BI \-width
+The width of the display.
+
+
+.SH SEE ALSO
+.br
+Information on the shared\-library API and the link types used in the 
+parse is avavailable at the Abiword website at 
+.B http://www.abisource.com/projects/link-grammar/
+.br
+Peer\-reviewed papers explaining link\-parser can be found at 
+the original CMU site at
+.B http://www.link.cs.cmu.edu/link/papers/index.html.
+.SH AUTHOR
+.nh
+link\-parser was written by Daniel Sleator <sleator@cs.cmu.edu>, 
+Davy Temperley <dtemp@theory.esm.rochester.edu>, and John Lafferty 
+<lafferty@cs.cmu.edu>
+.PP
+This manual page was written by Ken Bloom <kbloom@gmail.com>,
+for the Debian project, and updated by Linas Vepstas
+<linasvepstas@gmail.com>.

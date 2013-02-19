@@ -1,0 +1,1002 @@
+
+                       Link Grammar Parser
+                       -------------------
+                          Version 4.7.9
+
+The Link Grammar Parser implements the Sleator/Temperley/Lafferty
+theory of natural language parsing. This version of the parser is
+an extended, expanded version of the last official CMU release, and
+includes many enhancements and fixes created by many different
+developers.  This latest version incorporates a substantial part (but
+not all) of the BioLG project.
+
+This code is released under the BSD license (which is GPL compatible),
+making it freely available for private and commercial use, with
+few restrictions.  The terms of the license are given in the
+LICENSE file included with this software, and also available at
+http://www.link.cs.cmu.edu/link/license.html.
+
+Please see the web page http://www.abisource.com/projects/link-grammar/
+for more information.  This version is a continuation of the original
+parser posted at http://www.link.cs.cmu.edu/link
+
+CONTENTS of this directory:
+---------------------------
+   LICENSE                  The license describing terms of use
+
+   link-grammar/*.c         The program.  (Written in ANSI-C)
+   link-grammar/autoit/*    Optional AutoIt language bindings.
+   link-grammar/corpus/*.c  Optional corpus statistics database.
+   link-grammar/java/*      Optional Java language bindings.
+   link-grammar/minisat/*   Optional SAT Solver. (Written in C++)
+   link-grammar/sat-solver  Optional SAT Solver. (Written in C++)
+
+   data/en/*                English language dictionaries.
+   data/en/4.0.dict         The file containing the dictionary definitions.
+   data/en/4.0.knowledge    The post-processing knowledge file.
+   data/en/4.0.constituents The constituent knowledge file.
+   data/en/4.0.affix        The affix file.
+   data/en/4.0.regex        Regex-based morphology guesser.
+   data/en/tiny.dict        A small sample dictionary.
+   data/en/words/*          A directory full of word lists.
+   data/en/4.0*.batch       These files contain sentences (both grammatical
+                            and ungrammatical ones) that are handled correctly
+                            by this release of the system.  These can be
+                            run through the parser with the command
+                            "./link-parser < 4.0.*.batch"
+
+   COPYING                  The license for this code and data
+   ChangeLog                A compendium of recent changes.
+   configure                The GNU configuration script
+   autogen.sh               Developer's configure maintenance tool
+   msvc6, msvc9             Microsoft Visual-C project files
+
+
+UNPACKING and signature verification:
+-------------------------------------
+   The system is distributed using the normal tar.gz format; it can be
+   extracted using the "tar -zxf link-grammar.tar.gz" command at the
+   command line.
+
+   The files have been digitally signed to make sure that there was no
+   corruption of the dataset during download, and to help ensure that
+   no malicious changes were made to the code internals by third
+   parties. The signatures can be checked with the gpg command:
+
+   gpg --verify link-grammar-4.7.8.tar.gz.asc
+
+   which should generate output identical to (except for the date):
+
+   gpg: Signature made Thu 26 Apr 2012 12:45:31 PM CDT using RSA key ID E0C0651C
+   gpg: Good signature from "Linas Vepstas (Hexagon Architecture Patches) <linas@codeaurora.org>"
+   gpg:                 aka "Linas Vepstas (LKML) <linasvepstas@gmail.com>"
+
+   Alternately, the md5 checksums can be verified. These do not provide
+   cryptographic security, but they can detect simple corruption. To
+   verify the checksums, issue "md5sum -c MD5SUM" at the command line.
+
+
+CREATING the system:
+--------------------
+   To compile the link-grammar shared library and demonstration program,
+   at the command line, type:
+
+        ./configure
+        make
+
+   To install, change user to "root" and say
+
+        make install
+        ldconfig
+
+   This will install the lib-link-grammar.so library into /usr/local/lib,
+   the header files in /usr/local/include/link-grammar, and the
+   dictionaries into /usr/local/share/link-grammar.  Running 'ldconfig'
+   will rebuild the shared library cache.
+
+   By default, the Makefiles attempt to build the Java bindings.
+   The use of the Java bindings is *OPTIONAL*; you do not need these if
+   you do not plan to use link-grammar with Java.  You can skip building
+   the Java bindings by disabling as follows:
+
+      ./configure --disable-java-bindings
+
+   The /usr/local install target can be over-ridden using the
+   standard GNU configure --prefix option, so for example:
+
+      ./configure --prefix=/opt/link-grammar
+
+   By using pkg-config (see below), non-standard install locations
+   can be automatically detected.
+
+   Additional config options are printed by
+
+      ./configure --help
+
+   The system has been tested and works well on 32 and 64-bit Linux
+   systems, FreeBSD, MacOSX, as well as on many Microsoft Windows
+   systems, under various different Windows development environments.
+   Specific OS-dependent notes follow.
+
+
+BUILDING on MacOS:
+------------------
+   Apple MacOSX users will probably need to obtain missing packages
+   from MacPorts in order to successfully build on MacOS. See
+   http://www.macports.org/ for details.
+
+   See also:
+   http://trac.macports.org/browser/trunk/dports/textproc/link-grammar/Portfile
+
+   A MacOS project file can be found in the directory link-grammar.xcode
+   It is probably stale and out-of-date; can someone send me a new one?
+
+   Users who intend to use the java bindings with java6 will need to
+   make sure to compile link-grammar to produce a 64-bit binary, as
+   this is not automatic on OSX. Do this during configure:
+
+      ./configure CFLAGS="-arch x86_64"
+
+   Be sure to set the JDK_HOME environment variable to wherever
+   <Headers/jni.h> is.   Set the JAVA_HOME variable to the location of
+   the java compiler.
+
+
+BUILDING on Windows
+-------------------
+   There are three different ways in which link-grammr can be compiled
+   on Windows. One way is to use Cygwin, which provides a Linux
+   compatibility layer for Windows. Unfortunately, the Cygwin system
+   is not compatible with Java for Windows.  Another way is use the
+   MSVC system. A third way is to use the MinGW system, which uses the
+   Gnu toolset to compile windows programs.
+
+   Link-grammar now requires a working version of POSIX-standard regex
+   libraries. Since these are not provided by Microsoft, a copy must be
+   obtained elsewhere. One possibility is from the gnuwin32 system:
+   http://gnuwin32.sourceforge.net/packages/regex.htm
+   http://ftp.gnome.org/pub/gnome/binaries/win32/dependencies/regex.README
+   See also:
+   http://www.pcre.org/ Perl-Compatible Regular Expressions.
+
+   These different build methods are NOT regularly tested, and some
+   linkgrammar versions may have build issues.  If you are an
+   experienced Windows developer who knows how to make things work
+   in the Microsoft environment, we need your help!
+
+
+BUILDING on Windows (Cygwin)
+----------------------------
+   The easiest way to have link-grammar working on MS Windows is to
+   use Cygwin, a Linux-like environment for Windows making it possible
+   to port software running on POSIX systems to Windows.  Download and
+   install Cygwin from http://www.cygwin.com/
+
+   Unfortunately, the Cygwin system is not compatible with Java, so if
+   you need the Java bindings, you must use MSVC or MinGW, below.
+
+
+BUILDING on Windows (MinGW)
+---------------------------
+   Another way to build link-grammar is to use the MinGW/MSYS, which
+   uses the Gnu toolset to compile Windows programs for Windows. This
+   is probably the easiest way to obtain workable Java bindings for
+   Windows.  Download and install MinGW, MSYS and MSYS-DTK from
+   http://mingw.org.
+
+   Then build and install link-grammar with
+
+       ./configure
+       make
+       make install
+
+   If you used the standard installation paths, the directory /usr/ is
+   mapped to C:\msys\1.0, so after 'make install', the libraries and
+   executable will be found at C:\msys\1.0\local\bin and the dictionary
+   files at C:\msys\1.0\local\share\link-grammar.
+
+   In order to use the Java bindings you'll need to build two extra
+   DLLs, by running the following commands from the link-grammar base
+   directory:
+
+       cd link-grammar
+
+       gcc -g -shared -Wall -D_JNI_IMPLEMENTATION_ -Wl,--kill-at \
+       .libs/analyze-linkage.o .libs/and.o .libs/api.o \
+       .libs/build-disjuncts.o .libs/constituents.o \
+       .libs/count.o .libs/disjuncts.o .libs/disjunct-utils.o \
+       .libs/error.o .libs/expand.o .libs/extract-links.o \
+       .libs/fast-match.o .libs/idiom.o .libs/massage.o \
+       .libs/post-process.o .libs/pp_knowledge.o .libs/pp_lexer.o \
+       .libs/pp_linkset.o .libs/prefix.o .libs/preparation.o \
+       .libs/print-util.o .libs/print.o .libs/prune.o \
+       .libs/read-dict.o .libs/read-regex.o .libs/regex-morph.o \
+       .libs/resources.o .libs/spellcheck-aspell.o \
+       .libs/spellcheck-hun.o .libs/string-set.o .libs/tokenize.o \
+       .libs/utilities.o .libs/word-file.o .libs/word-utils.o \
+       -o /usr/local/bin/link-grammar.dll
+
+       gcc -g -shared -Wall -D_JNI_IMPLEMENTATION_ -Wl,--kill-at \
+       .libs/jni-client.o /usr/local/bin/link-grammar.dll \
+       -o /usr/local/bin/link-grammar-java.dll
+
+   This will create link-grammar.dll and link-grammar-java.dll in the
+   directory c:\msys\1.0\local\bin . These files, together with
+   link-grammar-*.jar, will be used by Java programs.
+
+   Make sure that this directory is in the %PATH setting, as otherwise,
+   the DLL's will not be found.
+
+
+BUILDING on Windows (MSVC)
+--------------------------
+   Microsoft Visual C/C++ project files can be found in the msvc6 and
+   msvc9 directories.
+
+   Please note that the regex package, which includes libraries and
+   header files, must be seperately downloaded and installed, as
+   described above.  The MSVC project files *MUST* be modified to
+   indicate the correct location of the regex libraries.
+
+   The build files make use of two environment variables, GNUREGEX and
+   JAVA_HOME.
+   -- GNUREGEX must be pointing to an unzipped gnuwin32-regex
+      distribution.
+   -- JAVA_HOME must be pointing to a locally installed JDK.
+
+   Those two can be set either as system environment variables (Windows
+   users are supposed to know how to do this :) or as MSVC9 user macros.
+   But just in case you don't, here's how:
+
+   1) Start > Control Panel > System (remember in Vista or 7 you need
+      to switch to "Classic View" or "Large icons" respectively to see
+      the System icon).
+   2) "Advanced system settings" (or "Advanced" tab under XP)
+   3) On all versions you will see a button with the caption
+      "Environment Variables", press it.... (ALL REMAINING STEPS
+      CORRELATE ON XP, VISTA, AND 7)
+   4) You now see two lists of environment variables... the top one
+      says "User variables for <yourusernamehere>" and is localized to
+      your user account, the other says "System variables" and applies
+      to ALL user accounts on that computer.
+   5) Press the "New ..." button corresponding to whether or not you
+      want the variables to be valid on ALL accounts or just your own
+      (either way the following steps remain the same)
+   6) In the "Variable name:" box, enter "GNUREGEX".
+   7) In the "Variable value" box, enter the path to your installation
+      of GNUREGEX (on my system this is "C:\Program Files (x86)\GnuWin32"
+      as I am on Windows 7 Ultimate x64) then press "OK"
+   8) Press the same "New ..." button and this time in the "Variable
+      name" box enter "JAVA_HOME", and in the "Variable value" box
+      enter the path to your Java SDK root folder. (IMPORTANT NOTE: On
+      some systems this variable may already be defined automatically
+      by the JAVA SDK installation! You should check the variables
+      lists before creating a new one to avoid any conflict).
+   9) Press "OK" and close all Windows opened during the above steps.
+
+   If you were running MSVC++ or your chosen development environment
+   whilst performing the above steps, you should restart it! Once
+   restarted you should be able to build the latest version of the
+   code.
+
+
+RUNNING the program:
+--------------------
+   To run the program issue the Unix command:
+
+       ./link-parser
+
+   This starts the program.  The program has many user-settable variables
+   and options. These can be displayed by entering !var at the link-parser
+   prompt.  Entering !help will display some additional commands.
+
+   The dictionaries contain some utf-8 punctuation. These may generate
+   errors for users in a non-utf-8 locale, such as the "C" locale.
+   The locale can be set, for example, by saying
+
+       export LANG=en_US.UTF-8
+
+   at the shell prompt.
+
+   By default, the parser will use dictionaries at the installed location
+   (typically in /usr/local/share). Other locations can be specified on
+   the command line; for example:
+
+      link-parser ../path/to-my/modified/data/en
+
+   When accessing dictionaries in non-standard locations, the standard
+   filenames are still assumed (i.e. 4.0.dict, 4.0.affix, etc.)
+
+   If you see errors similar to this:
+
+       Warning: The word "encyclop" found near line 252 of en/4.0.dict
+       matches the following words:
+       encyclop
+       This word will be ignored.
+
+   then your UTF-8 locales are either not installed or not configured.
+   The shell command `locale -a` should list en_US.utf8 as a locale.
+   If not, then you need to `dpkg-reconfigure locales` and/or run
+   `update-locale` or possibly `apt-get install locales`, or
+   combinations or variants of these, depending on your operating
+   system.
+
+
+TESTING the program:
+--------------------
+   The program can run in batch mode for testing the system on a large
+   number of sentences.  The following command runs the parser on
+   a file called 4.0.batch
+
+       ./link-parser < 4.0.batch
+
+   The line "!batch" near the top of 4.0.batch turns on batch mode.  In
+   this mode sentences labeled with an initial "*" should be rejected
+   and those not starting with a "*" should be accepted.  The current
+   batch file does report some errors, as do the files "4.0.biolg.batch"
+   and "4.0.fixes.batch".  Work is ongoing to fix these.
+
+   The "4.0.fixes.batch" file contains sentences that have been fixed
+   since the original 4.1 release of link-grammar. The "4.0.biolg.batch"
+   contains biology/medical-text sentences from the BioLG project.
+
+
+USING the parser in your own applications:
+------------------------------------------
+   There is an API (application program interface) to the parser.  This
+   makes it easy to incorporate it into your own applications.  The API
+   is documented on the web site.
+
+
+USING pkg-config:
+-----------------
+   To make compiling and linking easier, the current release uses
+   the pkg-config system. To determine the location of the link-grammar
+   header files, say `pkg-config --cflags link-grammar`  To obtain
+   the location of the libraries, say `pkg-config --libs link-grammar`
+   Thus, for example, a typical makefile might include the targets:
+
+      .c.o:
+         cc -O2 -g -Wall -c $< `pkg-config --cflags link-grammar`
+
+      $(EXE): $(OBJS)
+         cc -g -o $@ $^ `pkg-config --libs link-grammar`
+
+
+JAVA bindings:
+--------------
+   This release includes Java bindings.  Their use is optional.
+
+   The bindings will be built automatically if jni.h can be found.
+   Some common java JVM distributions (most notably, the ones from Sun)
+   place this file in unusual locations, where it cannot be
+   automatically found.  To remedy this, make sure that JAVA_HOME is
+   set. The configure script looks for jni.h in $JAVA_HOME/Headers
+   and in $JAVA_HOME/include; it also examines corresponding locations
+   for $JDK_HOME.  If jni.h still cannot be found, specify the location
+   with the CPPFLAGS variable: so, for example,
+
+      export CPPFLAGS="-I/opt/jdk1.5/include/:/opt/jdk1.5/include/linux"
+   or
+      export CPPFLAGS="-I/c/java/jdk1.6.0/include/ -I/c/java/jdk1.6.0/include/win32/"
+
+   Please note that the use of /opt is non-standard, and most system
+   tools will fail to find packages installed there.
+
+   The building of the Java bindings can be disabled by configuring as
+   below:
+
+      ./configure --disable-java-bindings
+
+
+Spell Checking:
+---------------
+   The parser will run a spell-checker at an early stage, if it
+   encounters a word that it does not know, and cannot guess, based on
+   morphology.  The configure script looks for the aspell or hunspell
+   spell-checkers; if the aspell devel environment is found, then
+   aspell is used, else hunspell is used.
+
+   Spell checking may be disabled at runtime, in the link-parser client
+   with the !spell flag.  Enter !help for more details.
+
+
+Corpus Statistics:
+------------------
+   The parser now contains some experimental code for using corpus
+   statistics to provide a parse ranking, and to assign WordNet word
+   senses to word, based on their grammatical usage.  An overview of
+   the idea is given on the OpenCog blog, here:
+
+   http://brainwave.opencog.org/2009/01/12/determining-word-senses-from-grammatical-usage/
+
+   It is planned that the Corpus statistics database will be used to
+   guide the SAT solver.
+
+   To enable the corpus statistics, specify
+
+      ./configure --enable-corpus-stats
+
+   prior to compiling.  The database itself can be downloaded from
+
+      http://www.abisource.com/downloads/link-grammar/sense-dictionary/
+   or
+      http://gnucash.org/linas/nlp/data/linkgrammar-wsd/
+
+   The data is contained in an sqlite3 database file,
+
+      disjuncts.20090430.db.bz2
+
+   Unzip this file (using bunzip2) rename it to "disjuncts.db", and
+   place it in the subdirectory "sql", in the same directory that
+   contains the "en" directory. For default unix installations, the
+   final location would be
+
+       /usr/local/share/link-grammar/sql/disjuncts.db
+
+   where, by comparison, the usual dictionary would be at
+
+      /usr/local/share/link-grammar/en/4.0.dict
+
+   After this is installed, parse ranking scores should be printed
+   automatically, as floating-point numbers: for example:
+
+      Unique linkage, cost vector = (CORP=4.4257 UNUSED=0 DIS=1 AND=0 LEN=5)
+
+   Lower numbers are better.  The scores can be interpreted as -log_2
+   of a certain probability, so the lower the number, the higher the
+   probability.
+
+   The display of disjunct scores can be enabled with the !disjuncts
+   flag, and senses with the !senses flag, at the link-parser prompt.
+   Entering !var and !help will show all flags.  Multiple parses are
+   sorted and displayed in order from lowest to highest cost; the sort
+   of can be set by saying !cost=1 for the traditional sort, and
+   !cost=2 for corpus-based cost.  Output similar to the below should
+   be printed:
+
+      linkparser> !disjunct
+      Showing of disjunct used turned on.
+      linkparser> !cost=2
+      cost set to 2
+      linkparser> !sense
+      Showing of word senses turned on.
+      linkparser> this is a test
+      Found 1 linkage (1 had no P.P. violations)
+      Unique linkage, cost vector = (CORP=4.4257 UNUSED=0 DIS=1 AND=0 LEN=5)
+
+               +--Ost--+
+         +-Ss*b+  +-Ds-+
+         |     |  |    |
+      this.p is.v a test.n
+
+      2 is.v dj=Ss*b- Ost+  sense=be%2:42:02:: score=2.351568
+      2 is.v dj=Ss*b- Ost+  sense=be%2:42:05:: score=2.143989
+      2 is.v dj=Ss*b- Ost+  sense=be%2:42:03:: score=1.699292
+      4 test.n dj=Ost- Ds-  sense=test%1:04:00:: score=0.000000
+                     this.p      0.0  0.695 Wd- Ss*b+
+                       is.v      0.0  7.355 Ss*b- Ost+
+                          a      0.0  0.502 Ds+
+                     test.n      1.0  9.151 Ost- Ds-
+
+
+   Note that the sense labels are not terribly accurate; the verb "to be"
+   is particularly hard to tag correctly.
+
+
+MULTI-THREADED USE:
+-------------------
+   The link-grammar library should be thread-safe as of version 4.3.6,
+   although this has not yet been tested very well, and may possibly be
+   buggy.  To enable the thread-safe version of the library, run
+   ./configure like so:
+
+      ./configure --enable-pthreads
+
+   The resulting library is thread-safe for all parsing and general
+   use, with the exception of the startup/initialization code.  That
+   is, the initial open/creation of the parser dictionary should be
+   done only once, from a single thread, and parsing should not be
+   started until after the dictionary has been read and initialized.
+
+   Parse options can be set on a per-thread basis, with the exception
+   of verbosity, which is treated as a global.
+
+   The library uses pthreads for the few spots where it needs to manage
+   per-thread storage. It is possibly quite reasonable to abolish these
+   few spots, thus making the library not only thread-safe, but thread
+   agnostic (i.e. not require pthreads).
+
+   The following exceptions and special notes apply:
+
+      utilities.c -- has global "verbosity". Uses pthreads for tracking
+                     memory usage. The memory usage code is just about
+                     obsolete, and could probably be discarded.
+      jni-client.c - uses per-thread struct, but needs to be attached
+                     to JNIEnv somehow.
+      malloc-dbg.c - not thread safe, not normally used;
+                     only for debugging.
+      prefix.c     - not thread-safe, but doesn't need to be; used only
+                     during initialization, and only if binreloc turned
+                     on.
+      pp_lexer.c  -- autogened code, original lex sources lost.
+                     This is only used when reading dictionaries,
+                     during initialization, and so doesn't need
+                     to be thread safe.
+
+
+BioLG merger:
+-------------
+   Much of the BioLG project changes have been merged into this version.
+   The current version of link-grammar has superior parse coverage to BioLG
+   on all texts, including biomedical texts.  The original BioLG test suite
+   can be found in data/en/4.0.biolg.batch.
+
+   The following changes in BioLG have NOT been merged:
+   -- Part of speech hinting. The BioLG code can accept part-of-speech
+      hints for unknown words.
+   -- XML I/O. The BioLG code can output parsed text in a certain
+      idiosyncratic XML format.
+   -- "term support". Link-grammar does support "entity placeholders",
+      which provides an equivalant function.
+   -- The link type CH. This was a large, intrusive, incompatible change
+      to the dictionary, and it is not strictly required -- there is a
+      better, alternative way of handling adj-noun-adj-noun chains commonly
+      seen in biomedical text, and this has been implemented.
+
+   All other BioLG changes, and in particular, extensive dictionary fixes,
+   as well as regex morphology handling, have been incorporated.
+
+
+Medical Terms Merger
+--------------------
+Many, but not all, of the "medical terms" from Peter Szolovits have been
+merged into version 4.3.1 (January 2008) of link-grammar. The origiginal
+project page was at:
+
+   http://groups.csail.mit.edu/medg/projects/text/lexicon.html
+
+The following "extra" files were either merged directly, renamed, or
+skipped (omitted):
+
+/extra.1: -- merged
+/extra.2: -- skip, too big
+/extra.3: -- skip, too big
+/extra.4: -- /en/words/words-medical.v.4.2:
+/extra.5: -- /en/words/words-medical.v.4.1:
+/extra.6: -- /en/words/words-medical.adj.2:
+/extra.7: -- /en/words/words-medical.n.p
+/extra.8: -- skip, too big
+/extra.9: -- skip, random names
+/extra.10: -- /en/words/words-medical.adv.1:
+/extra.11: -- /en/words/words-medical.v.4.5:
+/extra.12: -- skip, too big
+/extra.13: -- /en/words/words-medical.v.4.3:
+/extra.14: -- /en/words/words-medical.prep.1
+/extra.15: -- /en/words/words-medical.adj.3:
+/extra.16: -- /en/words/words-medical.v.2.1:
+/extra.17: -- skip, too big
+
+The make use of the "skipped" files, download the original extension,
+gut the contents of "extra.dict" except for the parts refering to the
+skipped files above, and then append to 4.0.dict (as per original
+instructions).
+
+
+Fat Links:
+----------
+   As of version 4.7.0, parsing using "fat links" has been disabled
+   by default, and is now deprecated.  The function is still there,
+   and can be turned on by specifying the !use-fat=1 command, or by
+   calling parse_options_use_fat_links(TRUE) from programs.
+
+   Older versions of the link-grammar parser used "fat links" to
+   support conjunctions (and, or, but, ...). However, this lead
+   to a number of complications, including poor performance due to
+   a combinatorial explosion of linkage possibilities, as well as
+   an excessively complex parse algorithm.  As a result, the function
+   is now deprecated, and will be removed in version 4.8.
+
+
+SAT solver:
+-----------
+   The current parser uses an algorithm that runs in O(N^3) time, for
+   a sentence containing N words. This algorithm is more or less a
+   chart parser, a variant of the Earley parser.
+
+   The SAT solver aims to replace the chart parser with an algorithm
+   based on Boolean Satisfiability Theory; specifically using the
+   MiniSAT solver. The SAT solver has a bit more overhead for shorter
+   sentences, but is significantly faster for long sentences.  To work
+   properly, it needs to be attached to a parse ranking system.  This
+   work is incomplete, although the prototype works.  it is not yet
+   well-integrated with the system, and needs cleanup.
+
+   The SAT solver is enabled by specifying
+
+      ./configure --enable-sat-solver
+
+   prior to compiling.
+
+
+COMMERCIAL use:
+---------------
+   The original authors would be pleased to discuss alternate
+   licensing terms and/or additional research work, with those
+   wanting to use this system under a paid contract.
+
+   Academic products or papers should reference the various
+   link grammar publications.
+
+
+ADDRESSES
+---------
+   If you have any questions, or find any bugs, please feel free
+   to send a note to the mailing list:
+
+      link-grammar@googlegroups.com
+
+   Although all messages should go to the mailing list, the current
+   maintainers can be contacted at:
+
+     Linas Vepstas - <linasvepstas@gmail.com>
+     Dom Lachowicz - <domlachowicz@gmail.com>
+
+   The original authors of the Link Grammar parser are:
+
+     Daniel Sleator                    sleator@cs.cmu.edu
+     Computer Science Department       412-268-7563
+     Carnegie Mellon University        www.cs.cmu.edu/~sleator
+     Pittsburgh, PA 15213
+
+     Davy Temperley                    dtemp@theory.esm.rochester.edu
+     Eastman School of Music           716-274-1557
+     26 Gibbs St.                      www.link.cs.cmu.edu/temperley
+     Rochester, NY 14604
+
+     John Lafferty                     lafferty@cs.cmu.edu
+     Computer Science Department       412-268-6791
+     Carnegie Mellon University        www.cs.cmu.edu/~lafferty
+     Pittsburgh, PA 15213
+
+
+TODO -- Working Notes:
+----------------------
+  Some working notes.
+
+  Easy to fix: provide a more uniform API to the constituent tree.
+  i.e provide word index.   Also .. provide a clear word API,
+  showing word extent, suffix, etc.
+
+  Head words:
+    The head-word of a sentences is usually the verb; head-words should
+    attach to walls, and not nouns, the way the current link-grammar
+    does it.  Why?  Because this allows for a more correct handling of
+    many clause openers, such as "the blah being blah, ..." e.g
+      * Cutting was difficult, the knife being dull.
+    In the above, "being" can only be used in this way, in such compound
+    sentences.  The head-word is already correctly linked with C for
+    subordinate clauses.  "I told him I was angry", with "told" being the
+    head-word.
+
+  Zero/phantom words:  Expressions such as "Looks good" have an implicit
+    "it" (also called a zero-it or phantom-it) in them; that is, the
+    sentence should really parse as "(it) looks good".  The dictionary
+    could be simplified by admitting such phantom words explicitly,
+    rather than modifying the grammar rules to allow such constructions.
+    Other examples, with the phantom word in parenthesis, include:
+    * I ate all (of) the cookies.
+    * I taught him (how) to swim.
+
+
+  Bad grammar: When a sentence fails to parse, look for:
+    * confused words: its/it's, there/their, to/too, your/you're ...
+    * missing apostrophes in possessives: "the peoples desires"
+    * determiner agreement errors: "a books"
+    * aux verb agreement errors: "to be hooks up"
+
+  A/An determiners before consonants/vowels:  fix this. Just adding
+    linkages in a naive way is not enough, because there's no restriction
+    on neighboring words: "I ate an apple." vs. "I ate a green apple".
+    Should this be done in post-processing? or in pre-processing?
+    (maybe easier to post-process, but more biologically natural as
+    a pre-process step.)
+
+
+  Poor linkage choices:
+    Compare "she will be happier than before" to "she will be more happy
+    than before." Current parser makes "happy" the head word, and "more"
+    a modifier w/EA link.  I beleive the correct solution would be to
+    make "more" the head (link it as a comparative), and make "happy"
+    the dependent.  This would harmonize rules for comparatives... and
+    would eliminate/simplify rules for less,more.
+
+
+  Repulsive parses: Sometimes, the existance of one parse should suggest
+    that another parse must surely be wrong: if one parse is possible,
+    then the other parses must surely be unlikely. For example: the
+    conjunction and.j-g allows the "The Great Southern and Western
+    Railroad" to be parsed as the single name of an entity. However,
+    it also provides a pattern match for "John and Mike" as a single
+    entity, which is almost certainly wrong. But "John and Mike" has
+    an alternative parse, as a conventional-and -- a list of two people,
+    and so the existance of this alternaive (and correct) parse suggests
+    that perhaps the entity-and is really very much the wrong parse.
+    That is, the mere possibility of certain parses should strongly
+    disfavour other possible parses. (Exception: Ben & Jerry's ice
+    cream; however, in this case, we could recognize Ben & Jerry as the
+    name of a proper brand; but this is outside of the "normal"
+    dictionary (?) (but maybe should be in the dictionary!))
+
+    More examples: "high water" can have A joining high.a and AN joining
+    high.n; these two should either be collapsed into one, or one should
+    be eliminated.
+
+
+  Wordnet hinting:
+    Use wordnet to reduce the number for parses for sentences containing
+    compound verb phrases, such as "give up", "give off", etc.
+
+  incremental parsing: to avoid a combinatorial explosion of parses,
+    it would be nice to have an incremental parsing, phrase by phrase,
+    using a Viterbi-like algorithm to obtain the parse. Thus, for example,
+    the parse of the last half of a long, run-on sentence should not be
+    sensitive to the parse of the beginning of the sentence.
+
+    Doing so would help with combinatorial explosion. So, for example,
+    if the first half of a sentence has 4 plausible parses, and the
+    last half has 4 more, then link-grammar reports 16 parses total.
+    It would be much, much more useful to instead be given the
+    factored results: i.e. the four plausible parses for the
+    first half, and the four plausible parses for the last half.
+    The lower combinatoric stress would ease the burden on
+    downstream users of link-grammar.
+
+    (This somewhat resembles the application of construction grammar
+    ideas to the link-grammar dictionary).
+
+     Caution: watch out for garden-path sentences:
+     The horse raced past the barn fell.
+     The old man the boat.
+     The cotton clothing is made of grows in Mississippi.
+     The current parser parses these perfectly; a viterbi parsr could
+     trip on these.
+
+   Other benefits of a Viterbi decoder:
+   * Less sensitive to sentence boundaries: this would allow longer,
+     run-on sentences to be parsed far more quickly.
+   * Could do better with slang, hip-speak.
+   * Would enable co-reference resultion across sentences (resolve
+     pronouns, etc.)
+   * Would allow richer state to be passed up to higher layers:
+     specifically, alternate parses for fractions of a sentence,
+     alternate refernce resolutions.
+   * Would allow plug-in architecture, so that plugins, employing
+     some alternate, higher-level logic, could disambiguate (e.g.
+     by making use of semantic content).
+   * Eliminate many of the hard-coded array sizes in the code.
+   * Fixes the word-count problem during spell-guessing. So, for
+     example, if the mis-spelled word "dont" shows up in the input, it
+     could be issued as one word ("done") or two ("do n't") and the
+     current suffix-stripping/word-issueing algo cannot deal with this
+     correctly. By contrast, this should not be an issue for the 
+     Viterbi algo, as it could explore both states at once.
+ 
+   One may argue that Viterbi is a more natural, biological way of
+   working with sequences.  Some experimental, psychological support
+   for this can be found here:
+   http://www.sciencedaily.com/releases/2012/09/120925143555.htm
+   per Morten Christiansen, Cornell professor of psychology.
+
+
+   Registers:
+      Consider the sentence "Thieves rob bank" -- a typical newspaper
+      headline. LG currently fails to parse this, because the determiner
+      is missing ("bank" is a count noun, not a mass noun, and thus
+      requires a determiner. By contrast, "thieves rob water" parses
+      just fine.) A fix for this would be to replace mandatory
+      determiner links by (D- or {[[()]] & headline-flag}) which allows
+      the D link to be ommitted if the headline-flag bit is set.
+      Here, "headline-flag" could be a new link-type, but one that is
+      not subject to planarity constraints.
+
+      Note that this is easier said than done: if one simply adds a
+      high-cost null link, and no headline-flag, then all sorts of
+      ungrammatical sentences parse, with strange parses; while some
+      grammatical sentences, which should parse, but currently don't,
+      become parseable, but with crazy results.
+
+
+   Hand-refining verb patterns:
+      A good reference for refining verb usage patterns is:
+      COBUILD GRAMMAR PATTERNS 1: VERBS
+      from THE COBUILD SERIES /from/ THE BANK OF ENGLISH
+      HARPER COLLINS
+      online at https://arts-ccr-002.bham.ac.uk/ccr/patgram/
+      http://www.corpus.bham.ac.uk/publications/index.shtml
+
+
+   Quotations: Currently, tokenize.c ignores all ASCII double-quotes
+      (grep for "quote_found" in the source). However, it does not do this
+      for the various "curly" UTF8 quotes, such as ‘these’ and “these”.
+      This results is some ugly parsing for sentences containing such
+      quotes. (Note that these are in 4.0.affix).
+
+
+   no-links-cross: Link Grammar uses a constraint that all linkages must
+      be planar graphs. While this is mostly correct, it would probably
+      be more correct to use "landmark transitivity" as articulated by
+      Hudson in the Word Grammar theory.  This might allow the elimination
+      of most or all post-processing rules.
+
+      This is done by making each link directional: one end of the link
+      is the parent. (e.g. noun, noun-modifier: the noun is the parent).
+      Parents are landmarks for children.  Transitivity is applied to
+      parent-child relationships. Specifically, the no-links-cross
+      rule is replaced by two landmark transitivity rules:
+
+      -- If B is a landmark for C, then  A is also a type-L landmark for C
+      -- If A is a landmark for C, then B is also a landmark for C
+
+      where type-L means either a right-going or left-going link.
+
+     See http://goertzel.org/ProwlGrammar.pdf for details.
+     See also: http://www.phon.ucl.ac.uk/home/dick/enc/syntax.htm
+
+  "to be fishing": Link grammar offers four parses of "I was fishing for
+     evidence", two of which are given low scores, and two are given
+     high scores. Of the two with high scores, one parse is clearly bad.
+     Its links "to be fishing.noun" as opposed to the correct
+     "to be fishing.gerund". That is, I can be happy, healthy and wise,
+     but I certainly cannot be fishing.noun.  This is perhaps not
+     just a bug in the structure of the dictionary, but is perhaps
+     deeper: link-grammar has little or no concept of lexical units
+     (i.e. collocations, idioms, institutional phrases), which thus
+     allows parses with bad word-senses to sneak in.
+
+     The goal is to introduce more knowledge of lexical units into LG.
+
+     Different word senses can have different grammar rules (and thus,
+     the links employed reveal the sense of the word): for example:
+     "I tend to agree" vs. "I tend to the sheep" -- these employ two
+     different meanings for the verb "tend", and the grammatical
+     constructions allowed for one meaning are not the same as those
+     allowed for the other. Yet, the link rules for "tend.v" have
+     to accommodate both senses, thus making the rules rather complex.
+     Worse, it potentially allows for non-sense constructions.
+     If, instead, we allowed the dictionary to contain different
+     rules for "tend.meaning1" and "tend.meaning2", the rules would
+     simplify (at the cost of inflating the size of the dictionary).
+
+     Another example: "I fear so" -- the word "so" is only allowed
+     with some, but not all, lexical senses of "fear". So e.g.
+     "I fear so" is in the same semantic class as "I think so" or
+     "I hope so", although other meanings of these verbs are
+     otherwise quite different.
+
+     [Sin2004] "New evidence, new priorities, new attitudes" in J.
+     Sinclair, (ed) (2004) How to use corpora in language teaching,
+     Amsterdam: John Benjamins
+
+     See also: Pattern Grammar: A Corpus-Driven Approach to the Lexical
+     Grammar of English Susan Hunston and Gill Francis (University of
+     Birmingham) Amsterdam: John Benjamins (Studies in corpus linguistics,
+     edited by Elena Tognini-Bonelli, volume 4), 2000
+
+  "holes" in collocations (aka "set phrases" of "phrasemes"):
+     The link-grammar provides several mechanisms to support
+     circumpositions or even more complicated multi-word structures.
+     One mechanism is by ordinary links; see the V, XJ and RJ links.
+     The other mechanism is by means of post-processing rules.
+     However, rules for many common forms have not yet been written.
+     The general problem is of supporting structures that have "holes"
+     in the middle. For example, the adposition:
+
+        ... from [xxx] on.
+
+            "He never said another word from then on."
+            "I promise to be quiet from now on."
+            "Keep going straight from that point on."
+            "We went straight from here on."
+            ... from there on.
+            "We went straight, from the house on to the woods."
+            "We drove straight, from the hill onwards."
+
+    Note that multiple words can fit in the slot [xxx].
+    Note the tangling of another prepositional phrase:
+    "... from [xxx] on to [yyy]"
+
+    More complicated collocations with holes include
+    "First.. next..."
+    "If ... then ..."
+
+    'Then' is optional, for example:
+    "If it is raining, stay inside!"
+
+    "if ... only ..." "If there were only more like you!"
+    "... not only, ... but also ..."
+
+    "Either ... or ..."
+    "Both ... and  ..."  "Both June and Tom are coming"
+    "ought ... if ..." "That ought to be the case, if John is not lying"
+
+    "Someone ... who ..."
+    "Someone is outside who wants to see you"
+
+    The above are not currently supported. An example that is supported
+    is the "non-referential it", e.g.
+    "It ... that ..."
+    "It seemed likely that John would go"
+
+    The above is supported by means of special disjuncts for 'it' and
+    'that', which must occur in the same post-processing domain.
+
+    See also:
+    http://www.phon.ucl.ac.uk/home/dick/enc/syntax.htm#relative-clause
+    http://www.phon.ucl.ac.uk/home/dick/enc/syntax.htm#extraposition
+
+    "...from X and from Y"
+    "By X, and by Y, ..."
+    Here, X and Y might be rather long phrases, containing other
+    prepositions. In this case, the usual link-grammar linkage rules
+    will typically conjoin "and from Y" to some preposition in X,
+    instead of the correct link to "from X". Although adding a cost to
+    keep the lengths of X and Y approximately equal can help, it would
+    be even better to recognize the "...from ... and from..." pattern.
+
+    One possible way to implement this would be to give preference to
+    and-links that have the same word on either end.
+
+    More idiomatic than the above examples:
+    "...the chip on X's shoulder"
+    "to do X a favour"
+    "to give X a look"
+
+    The above are all examples of "set phrases" or "phrasemes", and are
+    most commonly discussed in the context of MTT or Meaning-Text Theory
+    of Igor Mel'cuk et al (search for "MTT Lexical Function" for more
+    info). Mel'cuk treats set phrases as lexemes, and, for parsing, this
+    is not directly relevent. However, insofar as phrasemes have a high
+    mutual information content, they can dominate the syntactic
+    structure of a sentence.
+
+    MTT suggests that perhaps the correct way to understand the contents
+    of the post-processing rules is as an implementation of 'lexical
+    functions' projected onto syntax.  That is, the post-processing
+    rules allow only certain syntactical constructions, and these are
+    the kinds of constructions one typically sees in certain kinds
+    of lexical functions.
+
+    Alternately, link-grammar suffers from a combinatoric explosion
+    of possible parses of a given sentence. It would seem that lexical
+    functions could be used to rule out many of these parses.  On the
+    other hand, the results are likely to be similar to that of
+    statistical pare ranking (which presumably captures such
+    quasi-idiomatic collocations at least weakly).
+
+    Ref. I. Mel'cuk: "Collocations and Lexical Functions", in ''Phraseology:
+    theory, analysis, and applications'' Ed. Anthony Paul Cowie (1998)
+    Oxford University Press pp. 23-54.
+
+  Conjunction cleanup: parser has some special-case code for dealing
+    with conjunctions. Unfortunately, some of this code has hard-wired
+    English words in them. These are in construct_either() and in
+    set_is_conjunction().  Actually, all of massage.c Grep for XXX FIXME.
+    All of this can now be deleted for version 5.0.
+
+
+   Assorted minor cleanup:
+      -- Should provide a query that returns compile-time consts,
+         e.g. the max number of characters in a word, or max words
+         in a sentence
+      -- Should remove compile-time constants, e.g. max words, max
+         length etc.
+      -- Split out parse-options, so that the command-line client
+         options are not in the parse-options struct.
+
+  Version 5.0 TODO list:
+    Version 5.0 will completely eliminate both fat links, and vestiges thereof.
+    In particular, this will get rid of sublinkages, and all uses thereof.
+    -- in api.c, change many linkage_*() funs to linkage_get_*() funs
+    -- get rid of sublinkages.
+    -- Change Sentence, Linkage etc. to not be pointers.
