@@ -6,6 +6,9 @@
 ;; local emacs extensions
 (add-to-list 'load-path "~/.emacs.d")
 
+;; generic key settings
+(require 'keymap)
+
 ;; word count
 (autoload 'word-count-mode "word-count"
           "Minor mode to count words." t nil)

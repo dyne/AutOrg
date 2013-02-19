@@ -24,6 +24,15 @@ cat <<EOF > $appbase/$autorg/.emacs
 (require 'osx)
 EOF
 
-export PATH=$PATH:/usr/texbin
+export PATH=$PATH:$appbase/$autorg:/usr/texbin
+# export LANG=en_US
+# export LC_CTYPE=UTF-8
+cat <<EOF > $appbase/$autorg/.aspell.conf
+dict-dir $appbase/$autorg/dict
+data-dir $appbase/$autorg/dict
+#add-extra-dicts en
+#add-extra-dicts grc
+home-dir $HOME
+EOF
 HOME=$appbase/$autorg $appbin/Emacs $@
 

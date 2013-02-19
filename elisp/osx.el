@@ -14,9 +14,6 @@
 
 (global-set-key [(hyper h)] 'help)
 
-; justify paragraph keys
-(global-set-key (kbd "A-q") 'fill-paragraph)
-(global-set-key (kbd "C-j") 'fill-paragraph)
 
 ; scrolling
 (global-set-key [(hyper up)] 'backward-paragraph)
@@ -36,12 +33,23 @@
 (global-set-key [next] 'sfp-page-down)
 (global-set-key [prior] 'sfp-page-up)
 
+; switching windows
+(global-set-key [(hyper \`)] 'other-window)
+(global-set-key [(hyper \])] 'other-window)
+(global-set-key [(hyper \[)] 'other-window)
+
+; switch buffer
+(global-set-key [(hyper backspace)] 'ido-switch-buffer)
+(global-set-key [(hyper =)] 'ido-switch-buffer)
 
 
 (global-set-key [(hyper a)] 'mark-whole-buffer)
 (global-set-key [(hyper v)] 'yank)
+
 (global-set-key [(hyper c)] 'kill-ring-save)
 (global-set-key [(hyper x)] 'kill-region)
+(global-set-key [(hyper k)] 'kill-buffer)
+
 (global-set-key [(hyper s)] 'save-buffer)
 (global-set-key [(hyper l)] 'goto-line)
 (global-set-key [(hyper o)] 'ns-open-file-using-panel)
@@ -61,10 +69,10 @@
 ; compat with old-school emacs behaviour and swap of hyper - alt
 (global-set-key [(hyper w)] 'kill-ring-save)
 (global-set-key (kbd "C-w") 'kill-region)
-; if you are an hardcore osx user you might want to comment out the
-; following:
+
 (global-set-key [(hyper y)] 'yank)
 (global-set-key [(hyper /)] 'complete-symbol)
+(global-set-key [(hyper \\)] 'complete-symbol)
 
 (defun maximize-frame () 
   (interactive)

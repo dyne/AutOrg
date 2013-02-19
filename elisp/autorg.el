@@ -4,8 +4,30 @@
 
 (provide 'autorg)
 
+; load generic keymaps
+(require 'keymap)
+
 ; remember extension
 (require 'remember)
+
+; flyspell extension
+(autoload 'flyspell-mode "flyspell" "On-the-fly spelling checker." t)
+
+; aspell dictionary list
+; (require 'dictionaries)
+
+; grammar parser
+(require 'grammar)
+
+; frame zooming
+(require 'zoom-frm)
+(global-set-key (if (boundp 'mouse-wheel-down-event) ; Emacs 22+
+		    (vector (list 'control mouse-wheel-down-event))
+		  [C-mouse-wheel])    ; Emacs 20, 21
+		'zoom-in)
+(when (boundp 'mouse-wheel-up-event) ; Emacs 22+
+  (global-set-key (vector (list 'control mouse-wheel-up-event))
+		  'zoom-out))
 
 ; load org-mode first
 (add-to-list 'load-path (concat AutOrgRes "/org-mode/lisp"))
@@ -114,7 +136,7 @@ org-crypt org-remember org-agenda)))
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
-
+ '(ispell-library-directory (concat AutOrgRes "/dict"))
  '(browse-url-firefox-program "open")
  '(column-number-mode t)
  '(keyboard-coding-system (quote mule-utf-8))
@@ -217,7 +239,7 @@ org-crypt org-remember org-agenda)))
 ; load color-themes extension
 (require 'color-theme)
 (color-theme-initialize)
-(color-theme-emacs-nw)
+(color-theme-classic)
 ; (color-theme-gray30)
 ; (color-theme-matrix)
 ; (color-theme-blippblopp)
@@ -225,7 +247,7 @@ org-crypt org-remember org-agenda)))
 
 ;; set our favourite: Anonymous!
 (set-face-font
-'default "-*-AnonymousPro-normal-normal-normal-*-13-*-*-*-*-*-*")
+'default "-*-Inconsolata-normal-normal-normal-*-18-*-*-*-*-*-*")
 
 ; transparency (thanks dreamer!)
 (set-frame-parameter (selected-frame) 'alpha '(95 50))
