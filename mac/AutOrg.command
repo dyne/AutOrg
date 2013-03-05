@@ -28,7 +28,7 @@ if [ -r $HOME/.emacs ]; then
 	cat $HOME/.emacs >> $appbase/$autorg/.emacs
 fi
 
-export PATH=$PATH:$appbase/$autorg:/usr/texbin
+export PATH="$PATH:$appbase/$autorg:/usr/texbin:/Applications/LibreOffice.app/Contents/MacOS"
 # export LANG=en_US
 # export LC_CTYPE=UTF-8
 cat <<EOF > $appbase/$autorg/.aspell.conf
