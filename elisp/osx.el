@@ -14,6 +14,8 @@
 
 (global-set-key [(hyper h)] 'help)
 
+; remove toolbar
+(ns-toggle-toolbar)
 
 ; scrolling
 (global-set-key [(hyper up)] 'backward-paragraph)
@@ -74,26 +76,22 @@
 (global-set-key [(hyper /)] 'complete-symbol)
 (global-set-key [(hyper \\)] 'complete-symbol)
 
-(defun maximize-frame () 
+(require 'maxframe)
+(defvar my-fullscreen-p t "Check if fullscreen is on or off")
+
+(defun my-toggle-fullscreen ()
   (interactive)
-  (set-frame-position (selected-frame) 0 0)
-  (set-frame-size (selected-frame) 1000 1000))
-(global-set-key [(hyper return)] 'maximize-frame)
-(global-set-key [(hyper f)] 'maximize-frame)
+  (setq my-fullscreen-p (not my-fullscreen-p))
+  (if my-fullscreen-p
+	  (restore-frame)
+	(maximize-frame)))
+
+(global-set-key [(hyper return)] 'my-toggle-fullscreen)
+(global-set-key [(hyper m)] 'my-toggle-fullscreen)
 
 ; save as with cocoa dialog
-; (defun ns-save-file-using-panel ()
-;    (interactive)
-;    (let ((file (do-applescript "try
-;  POSIX path of (choose file name with prompt \"Save As...\")
-;  end try")))
-;      (if (> (length file) 3)
-;          (setq file
-; 	       (substring file 1 (- (length file) 1))
-; 	       ))
-;      (if (not (equal file ""))
-;          (write-file file)
-;        (beep))
-;      ))
-;; appeltje + S
-; (global-set-key [(hyper s)] 'ns-save-file-using-panel)
+(global-set-key [(hyper shift s)] 'ns-write-file-using-panel)
+
+; print
+(global-set-key [(hyper p)] 'ns-print-buffer)
+

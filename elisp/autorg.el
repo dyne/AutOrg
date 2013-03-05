@@ -55,8 +55,16 @@ org-crypt org-remember org-agenda)))
 			    (r org-export-blocks-format-R nil)
 			    (R org-export-blocks-format-R nil))))
 
+;; use texi2dvi to process with bibtex and makeindex
+(setq org-latex-to-pdf-process '("texi2dvi --pdf --clean --verbose --batch %f"))
+
 ;; org protocol helps setting communications outside of Emacs
 (require 'org-protocol)
+
+;; Ebib bibliografy manager
+(require 'ebib)
+(org-add-link-type "ebib" 'ebib)
+(require 'natbib)
 
 ;; freemind export
 (require 'freemind)
@@ -252,6 +260,14 @@ org-crypt org-remember org-agenda)))
 ; transparency (thanks dreamer!)
 (set-frame-parameter (selected-frame) 'alpha '(95 50))
 (add-to-list 'default-frame-alist '(alpha 95 50))
+
+; creator tag in exported
+(custom-set-variables
+ '(org-export-latex-hyperref-options-format "\\hypersetup{
+  pdfkeywords={%s},
+  pdfsubject={%s},
+  pdfcreator={AutOrg (org-mode %s) <http://autorg.dyne.org>}}
+"))
 
 
 

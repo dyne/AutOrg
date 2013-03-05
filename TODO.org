@@ -1,0 +1,32 @@
+
+* bibliographic handling:
+
+http://ebib.sourceforge.net
+
+chapter 17.2 in
+http://orgmode.org/worg/org-tutorials/org-latex-export.html
+
+
+auxiliary
+
+http://bibdesk.sourceforge.net (OSX)
+
+http://jabref.sourceforge.net (cross)
+
+
+
+* grammar parsing
+
+
+** link
+
+   fix the .el
+
+** diction
+
+http://www.gnu.org/software/diction/diction.html
+
+https://github.com/grundprinzip/emacsdir/blob/master/elisp/diction.el
+
+
+

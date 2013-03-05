@@ -1,3 +1,10 @@
+5 Mar 2013 - 0.4 - Backend and export updates
+	Emacs is now upgraded to version 24.2
+	Multilanguage typing works also in Arabic
+	Hebrew and other right-to-left languages.
+	Export to ODT via LibreOffice was added
+	Work in progress on biblatex integration.
+
 19 Feb 2013 - 0.3 - Language capabilities
 	Included aspell and english dictionary
 	Included link-grammar checker (experimental)
