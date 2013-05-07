@@ -43,4 +43,9 @@ cp ../spell/ispell AutOrg.app/Contents/Resources/AutOrg/
 # cp ../spell/dictionaries.el AutOrg.app/Contents/Resources/AutOrg/
 rsync -ra ../spell/dict AutOrg.app/Contents/Resources/AutOrg/
 
+# GnuPG for EPA encryption (provided by brew)
+if [ -r AutOrg.app/Contents/Resources/AutOrg/gpg ]; then
+  chmod +w AutOrg.app/Contents/Resources/AutOrg/gpg; fi
+cp /usr/local/bin/gpg AutOrg.app/Contents/Resources/AutOrg/
+
 echo "Done."

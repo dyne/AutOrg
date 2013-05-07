@@ -70,12 +70,17 @@ org-crypt org-remember org-agenda)))
 (require 'freemind)
 
 ; Encryption
-(require 'pgg)
+(require 'epa)
+(require 'epa-file)
+(epa-file-enable)
+(add-to-list 'auto-mode-alist '("\\.gpg\\(~\\|\\.~[0-9]+~\\)?\\'" nil epa-file))
+;; (require 'pgg)
 (require 'org-crypt)
 (org-crypt-use-before-save-magic)
 
-; enables semantic mode for completion
-(semantic-mode t)
+; enables semantic mode
+; (semantic-mode t)
+;
 
 ; load HTML, PHP and related variou syntax support
 (load (concat AutOrgRes "/nxhtml/autostart.el"))

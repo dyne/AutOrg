@@ -5,6 +5,8 @@
 # GNU GPL V3 (see COPYING)
 
 appbin="${0%/*}"
+# appbase is the directory containing AutOrg.app
+# most commonly this will be /Applications
 appbase=$(dirname $(dirname $(dirname $appbin)))
 autorg=AutOrg.app/Contents/Resources/AutOrg
 
@@ -29,6 +31,7 @@ if [ -r $HOME/.emacs ]; then
 fi
 
 export PATH="$PATH:$appbase/$autorg:/usr/texbin:/Applications/LibreOffice.app/Contents/MacOS"
+export GNUPGHOME="$HOME/.gnupg"
 # export LANG=en_US
 # export LC_CTYPE=UTF-8
 cat <<EOF > $appbase/$autorg/.aspell.conf
