@@ -73,10 +73,14 @@ org-crypt org-remember org-agenda)))
 (require 'epa)
 (require 'epa-file)
 (epa-file-enable)
-(add-to-list 'auto-mode-alist '("\\.gpg\\(~\\|\\.~[0-9]+~\\)?\\'" nil epa-file))
+(setq epa-armor t) ; armor in ascii for mobile-org compat
+(add-to-list 'auto-mode-alist '("\\(\\.gpg\\|\\.asc\\)\\(~\\|\\.~[0-9]+~\\)?\\'" nil epa-file))
 ;; (require 'pgg)
 (require 'org-crypt)
 (org-crypt-use-before-save-magic)
+
+; password generation
+(require 'pwgen)
 
 ; enables semantic mode
 ; (semantic-mode t)
@@ -152,6 +156,7 @@ org-crypt org-remember org-agenda)))
  '(ispell-library-directory (concat AutOrgRes "/dict"))
  '(browse-url-firefox-program "open")
  '(column-number-mode t)
+ '(epa-file-name-regexp "\\(\\.gpg\\|\\.asc\\)\\(~\\|\\.~[0-9]+~\\)?\\'")
  '(keyboard-coding-system (quote mule-utf-8))
  '(line-number-mode t)
  '(nil nil t)
@@ -164,6 +169,14 @@ org-crypt org-remember org-agenda)))
  '(word-count-non-character-regexp "[
 ]")
  '(x-select-enable-clipboard t)
+
+ ; creator tag in exported
+ (custom-set-variables
+  '(org-export-latex-hyperref-options-format "\\hypersetup{
+  pdfkeywords={%s},
+  pdfsubject={%s},
+  pdfcreator={AutOrg (org-mode %s) <http://autorg.dyne.org>}}
+"))
 )
 
 ;; X selection manipulation
@@ -247,7 +260,16 @@ org-crypt org-remember org-agenda)))
 (ido-mode t)
 (setq ido-enable-flex-matching t)
 
-; appearance
+; folding mode
+(require 'folding)
+; (folding-mode-add-find-file-hook)
+(global-set-key [backtab] 'folding-toggle-show-hide)
+;; (put 'narrow-to-defun 'disabled nil)
+;; (put 'narrow-to-page 'disabled nil)
+;; (put 'narrow-to-region 'disabled nil)
+
+
+;;;; appearance
 
 ; load color-themes extension
 (require 'color-theme)
@@ -261,20 +283,12 @@ org-crypt org-remember org-agenda)))
 ;; set our favourite: Anonymous!
 (set-face-font
 'default "-*-Anonymous-normal-normal-normal-*-13-*-*-*-*-*-*")
+; another lovely typeface for coding is Inconsolata
+; 'default "-*-Inconsolata-normal-normal-normal-*-18-*-*-*-*-*-*")
 
 ; transparency (thanks dreamer!)
 (set-frame-parameter (selected-frame) 'alpha '(95 50))
 (add-to-list 'default-frame-alist '(alpha 95 50))
-
-; creator tag in exported
-(custom-set-variables
- '(org-export-latex-hyperref-options-format "\\hypersetup{
-  pdfkeywords={%s},
-  pdfsubject={%s},
-  pdfcreator={AutOrg (org-mode %s) <http://autorg.dyne.org>}}
-"))
-
-
 
 ; start listening to commandline invokations
 (server-start)

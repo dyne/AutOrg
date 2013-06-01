@@ -61,9 +61,7 @@
                 (lambda () (interactive) (kill-buffer (current-buffer))))
 (global-set-key [(hyper .)] 'keyboard-quit)
 ;; I disabled this since I want to avoid hitting Cmd-q accidentally.
-(global-set-key [(hyper q)] 'save-buffers-kill-emacs)
-;; I disabled this since I want to avoid hitting Cmd-q accidentally.
-(global-set-key [(hyper q)] 'save-buffers-kill-emacs)
+; (global-set-key [(hyper q)] 'save-buffers-kill-emacs)
 ; (require 'redo)
 (global-set-key [(hyper z)] 'undo)
 (global-set-key [(hyper shift z)] 'redo)
