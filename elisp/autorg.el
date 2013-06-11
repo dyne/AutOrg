@@ -48,7 +48,7 @@ org-crypt org-remember org-agenda)))
   "<p class=\"xhtml-validation\"><a href=\"http://validator.w3.org/check?uri=referer\">Validate XHTML 1.0</a></p>")
 
 ;; extra export formats
-(require 'org-export-generic)
+; (require 'org-export-generic)
 '(org-export-blocks (quote ((comment org-export-blocks-format-comment t)
 			    (ditaa org-export-blocks-format-ditaa t)
 			    (dot org-export-blocks-format-dot t)
@@ -64,7 +64,7 @@ org-crypt org-remember org-agenda)))
 ;; Ebib bibliografy manager
 (require 'ebib)
 (org-add-link-type "ebib" 'ebib)
-(require 'natbib)
+; (require 'natbib)
 
 ;; freemind export
 (require 'freemind)

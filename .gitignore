@@ -4,8 +4,6 @@
 *.sha
 *.asc
 *~
-*.sh
-!autogen.sh
 *.do
 *.o
 *.lo
