@@ -82,6 +82,11 @@ org-crypt org-remember org-agenda)))
 ; password generation
 (require 'pwgen)
 
+; default tramp config
+(require 'tramp)
+(setq tramp-default-method "ssh2")
+(setq tramp-auto-save-directory "~/.emacs-backups")
+
 ; enables semantic mode
 ; (semantic-mode t)
 ;
@@ -264,6 +269,7 @@ org-crypt org-remember org-agenda)))
 (require 'folding)
 ; (folding-mode-add-find-file-hook)
 (global-set-key [backtab] 'folding-toggle-show-hide)
+(global-set-key [(hyper -)] 'folding-toggle-show-hide)
 ;; (put 'narrow-to-defun 'disabled nil)
 ;; (put 'narrow-to-page 'disabled nil)
 ;; (put 'narrow-to-region 'disabled nil)
