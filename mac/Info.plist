@@ -29,6 +29,25 @@ along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
+				<string>org</string>
+				<string>org.asc</string>
+				<string>org.gpg</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>AutOrg</string>
+			<key>CFBundleTypeName</key>
+			<string>AutOrg document</string>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>TEXT</string>
+				<string>utxt</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
 				<string>text</string>
 				<string>txt</string>
 			</array>
