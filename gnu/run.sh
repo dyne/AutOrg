@@ -1,10 +1,11 @@
 #!/bin/sh
 
-EMACS=emacs23-nox
-AUTORG="$HOME/autorg"
+EMACS=emacs
+AUTORG="`dirname $0 | sed 's/\/gnu$//'`"
 TMP="/tmp/autorg"
 mkdir -p $TMP
 
+echo "Starting autorg in $AUTORG"
 # generate the emacs initialization
 rm -f $TMP/.emacs
 cat <<EOF > $TMP/.emacs
