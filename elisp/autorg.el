@@ -138,10 +138,49 @@ org-crypt org-remember org-agenda)))
 ;; faster file open
 (global-set-key (kbd "C-f") 'find-file)
 
+
+;; sloppy goto line with both command and alt
 (global-set-key [(meta g)] `goto-line)
+(global-set-key (kbd "s-g") `goto-line)
+
+;;;;;;;;;;;;;;;
+; switch buffer
+(global-set-key (kbd "s-=") 'ido-switch-buffer)
+(global-set-key (kbd "s-`") 'next-multiframe-window)
+
+
+;;;;;;;;;;;
+; scrolling
+(global-set-key (kbd "s-<up>") 'backward-paragraph)
+(global-set-key (kbd "s-<down>") 'forward-paragraph)
+(global-set-key (kbd "M-<up>") 'backward-page)
+(global-set-key (kbd "M-<down>") 'forward-page)
+
+;;;;;;;;;;;;;
+; cut & paste
+(global-set-key (kbd "s-c") 'kill-ring-save)
+(global-set-key (kbd "s-v") 'yank)
+(global-set-key (kbd "s-y") 'yank-pop)
+; sloppy hyper - alt swap
+
+
+; Compat with sloppy and swap of hyper - alt
+
+(global-set-key (kbd "s-w") 'kill-ring-save)
+
+;;;;;;;;;;;;
+; completion
+
+; completion
+(global-set-key (kbd "M-/") 'complete-symbol)
+(global-set-key (kbd "s-/") 'complete-symbol)
+(global-set-key (kbd "M-\\") 'complete-symbol)
+(global-set-key (kbd "s-\\") 'complete-symbol)
+
+
 (defun switch-to-other-buffer () (interactive) (switch-to-buffer (other-buffer)))
 (global-set-key [(meta control ?l)] `switch-to-other-buffer)
-					; (global-set-key [(control tab)] `other-window)
+		; (global-set-key [(control tab)] `other-window)
 (global-set-key [(meta O) ?H] 'beginning-of-line)
 (global-set-key [home] 'beginning-of-line)
 (global-set-key [(meta O) ?F] 'end-of-line)
@@ -149,7 +188,6 @@ org-crypt org-remember org-agenda)))
 (setq next-line-add-newlines nil)
 ; C-c c to either comment out a region or uncomment it depending on context.
 (global-set-key (kbd "C-c c") 'comment-dwim)
-; Shift-arrows a la windows...
 
 
 
@@ -287,10 +325,9 @@ org-crypt org-remember org-agenda)))
 ; (color-theme-dark-laptop)
 
 ;; set our favourite: Anonymous!
-(set-face-font
-'default "-*-Anonymous-normal-normal-normal-*-13-*-*-*-*-*-*")
-; another lovely typeface for coding is Inconsolata
-; 'default "-*-Inconsolata-normal-normal-normal-*-18-*-*-*-*-*-*")
+;(set-face-font
+;'default "-*-Terminus-normal-normal-normal-*-13-*-*-*-*-*-*")
+
 
 ; transparency (thanks dreamer!)
 (set-frame-parameter (selected-frame) 'alpha '(95 50))

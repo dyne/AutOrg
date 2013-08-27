@@ -70,7 +70,7 @@
 (global-set-key [(hyper w)] 'kill-ring-save)
 (global-set-key (kbd "C-w") 'kill-region)
 
-(global-set-key [(hyper y)] 'yank)
+(global-set-key [(hyper y)] 'yank-pop)
 (global-set-key [(hyper /)] 'complete-symbol)
 (global-set-key [(hyper \\)] 'complete-symbol)
 
@@ -92,4 +92,10 @@
 
 ; print
 (global-set-key [(hyper p)] 'ns-print-buffer)
+
+;; set our favourite: Anonymous!
+(set-face-font
+'default "-*-Anonymous-normal-normal-normal-*-13-*-*-*-*-*-*")
+; another lovely typeface for coding is Inconsolata
+; 'default "-*-Inconsolata-normal-normal-normal-*-18-*-*-*-*-*-*")
 
