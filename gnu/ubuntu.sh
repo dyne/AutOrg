@@ -1,4 +1,6 @@
 #!/bin/sh
+# launch script for Ubuntu 12.04
+# assuming org-mode is installed
 
 EMACS=emacs
 AUTORG="`dirname $0 | sed 's/\/gnu$//'`"
@@ -12,7 +14,6 @@ cat <<EOF > $TMP/.emacs
 (setq default-directory "$HOME" )
 (setq AutOrgRes "$AUTORG/elisp")
 (add-to-list 'load-path AutOrgRes)
-(add-to-list 'load-path "$AUTORG/elisp/org-mode/lisp")
 (require 'autorg)
 EOF
 
