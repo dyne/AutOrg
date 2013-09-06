@@ -1,0 +1,103 @@
+#!/bin/zsh
+
+
+# standard output message routines
+autoload colors; colors
+# it's always useful to wrap them, in case we change behaviour later
+notice() { print "$fg_bold[green][*]$fg_no_bold[default] $1" >&2 }
+error()  { print "$fg[red][!]$fg[default] $1" >&2 }
+func()   { if [[ $DEBUG == 1 ]]; then print "$fg[blue][D]$fg[default] $1" >&2; fi }
+act()    {
+    if [ "$1" = "-n" ]; then
+	print -n "$fg_bold[white] . $fg_no_bold[default] $2" >&2;
+    else
+	print "$fg_bold[white] . $fg_no_bold[default] $1" >&2;
+    fi
+}
+
+{ test "$1" = "" } && {
+  error "usage: autorg-new-article filename.org"
+  return 1 }
+
+{ test -r "$1" } && {
+    error "file already exists: $1"
+    return 1 }
+
+notice "AutOrg wizard - initialize a new article"
+
+fullname=`rlwrap -S 'Author full > ' -H ~/.autorg-wizard -o cat`
+shortname=`rlwrap -S 'Author abbreviated > ' -H ~/.autorg-wizard -o cat`
+title=`rlwrap -S 'Title of article > ' -H ~/.autorg-wizard -o cat`
+editor=`rlwrap -S 'Name of editor > ' -H ~/.autorg-wizard -o cat`
+
+
+
+cat <<EOF > $1
+#+TITLE: $title
+#+AUTHOR: $fullname
+#+DATE: `date '+%e +%B +%Y`
+
+#+OPTIONS: H:3 num:t toc:t \n:nil @:t ::t |:t ^:t f:t TeX:t
+
+#+LaTeX_CLASS: article
+#+LaTeX_CLASS_OPTIONS: [a4,onecolumn,portrait]
+#+LATEX_HEADER: \usepackage[greek, english]{babel}
+
+#+LATEX_HEADER: \usepackage{ucs}
+#+LATEX_HEADER: \usepackage{inputenc}
+#+LATEX_HEADER: \usepackage{fontenc}
+#+LATEX_HEADER: \usepackage{hyperref}
+#+LATEX_HEADER: \usepackage{graphicx}
+
+#+LATEX_HEADER: \usepackage{lmodern}
+#+LATEX_HEADER: \usepackage[hang,small]{caption}
+#+LATEX_HEADER: \usepackage{float}
+
+#+LATEX_HEADER: \usepackage[textheight=1.8\textwidth, lmargin=20mm, rmargin=20mm, driver=pdftex, heightrounded, headsep=7mm, footskip=11mm, vmarginratio=1:1]{geometry}
+
+#+LATEX_HEADER: \usepackage{fancyhdr}
+#+LATEX_HEADER: \setlength{\headheight}{18pt}
+#+LATEX_HEADER: \pagestyle{fancyplain}
+
+
+#+LATEX: \fancyhf{}
+#+LATEX: \fancyhead[L]{\rule[-2ex]{0pt}{2ex}\small $title} 
+#+LATEX: \fancyhead[R]{\rule[-2ex]{0pt}{2ex}\small $shortname}
+#+LATEX: \fancyfoot[C]{-- \thepage\ --}
+#+LATEX: \fancyfoot[R]{\small `date '+%e +%b +%Y`} 
+#+LATEX: \fancyfoot[L]{\small $editor} 
+
+#+LATEX: \renewcommand{\headrulewidth}{0.4pt}
+#+LATEX: \renewcommand{\footrulewidth}{0.4pt}
+
+
+*Abstract*:
+
+#+KEYWORDS: 
+*Keywords*: 
+
+#+EXCLUDE_KEYWORD: noexport
+
+[TABLE-OF-CONTENTS]
+
+#+LATEX: \newpage
+
+* Acknowledgments
+#+LATEX: \begin{minipage}[t]{0.6\textwidth}
+#+BEGIN_EXAMPLE
+
+$title
+
+© `date '+%Y'` $editor
+
+Author: $fullname
+
+
+#+END_EXAMPLE
+#+LATEX: \end{minipage}
+
+
+#+LATEX: \newpage
+
+
+EOF

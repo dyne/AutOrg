@@ -1,0 +1,58 @@
+#!/usr/bin/env zsh
+
+# standard output message routines
+autoload colors; colors
+# it's always useful to wrap them, in case we change behaviour later
+notice() { print "$fg_bold[green][*]$fg_no_bold[default] $1" >&2 }
+error()  { print "$fg[red][!]$fg[default] $1" >&2 }
+func()   { if [[ $DEBUG == 1 ]]; then print "$fg[blue][D]$fg[default] $1" >&2; fi }
+act()    {
+    if [ "$1" = "-n" ]; then
+	print -n "$fg_bold[white] . $fg_no_bold[default] $2" >&2;
+    else
+	print "$fg_bold[white] . $fg_no_bold[default] $1" >&2;
+    fi
+}
+
+
+{ test "$1" = "" } && {
+  error "usage: $0 filename.tex"
+  return 1 }
+
+notice "Rendering Tex file into PDF: $1"
+
+file="${1%%.tex}"
+
+{ test -r "${file}.pdf" } && {
+    error "file already exists: ${file}.pdf"
+    return 1 }
+
+touch ${file}.log
+
+act "First pass with LaTex"
+latex $1 >> ${file}.log
+
+act "Generating the Index"
+makeindex ${file}.idx >> ${file}.log
+
+act "Including the Index"
+cat $1 | awk '
+/\\printindex/ {  system("cat '"$file.ind"'"); next }
+{ print $0 }' > ${file}.full.tex
+
+
+act "Rendering the PDF"
+texi2dvi --pdf  --verbose --batch ${file}.full.tex >> ${file}.log
+
+act "cleaning up leftovers"
+
+{ test -r ${file}.full.pdf } && {
+    mv ${file}.full.pdf ${file}.pdf }
+
+for i in aux dvi out ilg idx idxs ind toc; do
+    rm -f ${file}.${i}
+    rm -f ${file}.full.${i}
+done
+
+notice "Rendering done:"
+act "`ls -lh ${file}.pdf`"
