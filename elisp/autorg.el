@@ -17,7 +17,7 @@
 ; (require 'dictionaries)
 
 ; grammar parser
-(require 'grammar)
+; (require 'grammar)
 
 ; frame zooming
 (require 'zoom-frm)
@@ -30,13 +30,11 @@
 		  'zoom-out))
 
 ; load org-mode first
-(add-to-list 'load-path (concat AutOrgRes "/org-mode/lisp"))
-(add-to-list 'load-path (concat AutOrgRes "/org-mode/contrib/lisp"))
 '(org-modules (quote (org-bbdb org-bibtex org-gnus org-info
 org-jsinfo org-irc org-w3m org-mouse org-eval org-eval-light
 org-exp-bibtex org-man org-mtags org-panel org-R
 org-special-blocks org-exp-blocks org-mobile org-odt org2blog
-org-crypt org-remember org-agenda)))
+org-crypt org-remember org-agenda org-export org-beamer)))
 (require 'org)
 (org-remember-insinuate)
 
@@ -59,7 +57,7 @@ org-crypt org-remember org-agenda)))
 (setq org-latex-to-pdf-process '("texi2dvi --pdf --clean --verbose --batch %f"))
 
 ;; org protocol helps setting communications outside of Emacs
-(require 'org-protocol)
+; (require 'org-protocol)
 
 ;; Ebib bibliografy manager
 (require 'ebib)
@@ -92,7 +90,7 @@ org-crypt org-remember org-agenda)))
 ;
 
 ; load HTML, PHP and related variou syntax support
-(load (concat AutOrgRes "/nxhtml/autostart.el"))
+; (load (concat AutOrgRes "/nxhtml/autostart.el"))
 
 ; LUA mode
 (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
