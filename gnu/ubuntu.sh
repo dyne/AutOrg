@@ -22,16 +22,6 @@ if [ -r $HOME/.emacs ]; then
 	cat $HOME/.emacs >> $TMP/.emacs
 fi
 
-
 export PATH="$PATH:$AUTORG:/usr/texbin"
 export GNUPGHOME="$HOME/.gnupg"
-# export LANG=en_US
-# export LC_CTYPE=UTF-8
-cat <<EOF > $AUTORG/.aspell.conf
-dict-dir $AUTORG/dict
-data-dir $AUTORG/dict
-#add-extra-dicts en
-#add-extra-dicts grc
-home-dir $HOME
-EOF
 HOME=$TMP $EMACS $@
