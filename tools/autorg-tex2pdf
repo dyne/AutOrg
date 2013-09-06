@@ -19,6 +19,11 @@ act()    {
   error "usage: $0 filename.tex"
   return 1 }
 
+file $1 | grep -i latex > /dev/null
+{ test "$?" = "0" } || {
+    error "not a latex file: $1"
+    return 1 }
+
 notice "Rendering Tex file into PDF: $1"
 
 file="${1%%.tex}"
@@ -30,24 +35,33 @@ file="${1%%.tex}"
 touch ${file}.log
 
 act "First pass with LaTex"
-latex $1 >> ${file}.log
+latex -interaction nonstopmode $1 >> ${file}.log
 
-act "Generating the Index"
-makeindex ${file}.idx >> ${file}.log
+if [ -r ${file}.idx ]; then
+    act "Generating the Index"
+    makeindex ${file}.idx >> ${file}.log
 
-act "Including the Index"
-cat $1 | awk '
+    act "Including the Index"
+    cat $1 | awk '
 /\\printindex/ {  system("cat '"$file.ind"'"); next }
 { print $0 }' > ${file}.full.tex
 
+else # nothing to add to the latex
+
+    cp ${file}.tex ${file}.full.tex
+
+fi
+
+act "Second pass with LaTex"
+latex -interaction nonstopmode ${file}.full.tex >> ${file}.full.log
 
 act "Rendering the PDF"
-texi2dvi --pdf  --verbose --batch ${file}.full.tex >> ${file}.log
+texi2dvi --pdf --batch ${file}.full.tex >> ${file}.full.log
+
+act "Optimizing the PDF"
+qpdf --linearize ${file}.full.pdf ${file}.pdf
 
 act "cleaning up leftovers"
-
-{ test -r ${file}.full.pdf } && {
-    mv ${file}.full.pdf ${file}.pdf }
 
 for i in aux dvi out ilg idx idxs ind toc; do
     rm -f ${file}.${i}

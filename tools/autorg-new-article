@@ -49,6 +49,9 @@ cat <<EOF > $1
 #+LATEX_HEADER: \usepackage{hyperref}
 #+LATEX_HEADER: \usepackage{graphicx}
 
+#+LATEX_HEADER: \usepackage{makeidx}
+#+LATEX_HEADER: \makeindex
+
 #+LATEX_HEADER: \usepackage{lmodern}
 #+LATEX_HEADER: \usepackage[hang,small]{caption}
 #+LATEX_HEADER: \usepackage{float}
@@ -99,5 +102,23 @@ Author: $fullname
 
 #+LATEX: \newpage
 
+
+
+* Introduction
+
+
+: Write your article here
+: Leave printindex as last
+
+
+* Conclusion
+
+* Contributor details
+
+* References
+
+
+
+#+LATEX: \printindex
 
 EOF
