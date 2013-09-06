@@ -194,7 +194,6 @@ org-crypt org-remember org-agenda org-export org-beamer)))
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(ispell-library-directory (concat AutOrgRes "/dict"))
  '(browse-url-firefox-program "open")
  '(column-number-mode t)
  '(epa-file-name-regexp "\\(\\.gpg\\|\\.asc\\)\\(~\\|\\.~[0-9]+~\\)?\\'")
