@@ -57,12 +57,12 @@
 
 (defun figlet (s &optional font)
   (interactive 
-   (if current-prefix-arg
+ ;  (if current-prefix-arg
        (let 
 	   ((font (read-figlet-font "Font: "))
 	    (text (read-string "FIGlet Text: ")))
-	 (list text font))
-     (list (read-string "FIGlet Text: ") nil)))
+	 (list text font)))
+;     (list (read-string "FIGlet Text: ") nil)))
   (save-excursion
     (call-figlet font s)
     (figlet-block-comment-region)
@@ -71,3 +71,5 @@
 (defun banner (s) 
   (interactive "sBanner Text: ")
   (figlet s "banner"))
+
+(provide 'figlet)
