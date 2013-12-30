@@ -30,7 +30,8 @@ if [ -r $HOME/.emacs ]; then
 	cat $HOME/.emacs >> $appbase/$autorg/.emacs
 fi
 
-export PATH="$PATH:$appbase/$autorg:/usr/texbin:/Applications/LibreOffice.app/Contents/MacOS"
+export
+PATH="$PATH:$appbase/$autorg:/usr/texbin:/usr/local/bin:/opt/local/bin:/Applications/LibreOffice.app/Contents/MacOS"
 export GNUPGHOME="$HOME/.gnupg"
 # export LANG=en_US
 # export LC_CTYPE=UTF-8
