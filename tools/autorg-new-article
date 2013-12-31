@@ -35,7 +35,7 @@ editor=`rlwrap -S 'Name of editor > ' -H ~/.autorg-wizard -o cat`
 cat <<EOF > $1
 #+TITLE: $title
 #+AUTHOR: $fullname
-#+DATE: `date '+%e +%B +%Y`
+#+DATE: `date '+%e %B %Y'`
 
 #+OPTIONS: H:3 num:t toc:t \n:nil @:t ::t |:t ^:t f:t TeX:t
 
@@ -62,17 +62,15 @@ cat <<EOF > $1
 #+LATEX_HEADER: \setlength{\headheight}{18pt}
 #+LATEX_HEADER: \pagestyle{fancyplain}
 
-
 #+LATEX: \fancyhf{}
 #+LATEX: \fancyhead[L]{\rule[-2ex]{0pt}{2ex}\small $title} 
 #+LATEX: \fancyhead[R]{\rule[-2ex]{0pt}{2ex}\small $shortname}
 #+LATEX: \fancyfoot[C]{-- \thepage\ --}
-#+LATEX: \fancyfoot[R]{\small `date '+%e +%b +%Y`} 
+#+LATEX: \fancyfoot[R]{\small `date '+%e %b %Y'`} 
 #+LATEX: \fancyfoot[L]{\small $editor} 
 
 #+LATEX: \renewcommand{\headrulewidth}{0.4pt}
 #+LATEX: \renewcommand{\footrulewidth}{0.4pt}
-
 
 *Abstract*:
 
@@ -95,20 +93,21 @@ $title
 
 Author: $fullname
 
-
 #+END_EXAMPLE
 #+LATEX: \end{minipage}
 
-
 #+LATEX: \newpage
-
-
 
 * Introduction
 
-
 : Write your article here
+
 : Leave printindex as last
+
+: Intex terms using #+INDEX:
+: and nest index levels with
+: #+INDEX: Term!subterm
+
 
 
 * Conclusion
@@ -116,8 +115,6 @@ Author: $fullname
 * Contributor details
 
 * References
-
-
 
 #+LATEX: \printindex
 
