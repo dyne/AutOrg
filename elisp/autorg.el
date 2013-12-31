@@ -10,6 +10,9 @@
 ; remember extension
 (require 'remember)
 
+; markdown
+(require 'markdown)
+
 ; flyspell extension
 (autoload 'flyspell-mode "flyspell" "On-the-fly spelling checker." t)
 

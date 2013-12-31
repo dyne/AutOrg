@@ -83,3 +83,10 @@
 (global-set-key (kbd "M-q") 'justify-toggle-block)
 (global-set-key (kbd "C-j") 'justify-toggle-block)
 
+
+; exit to a emacsclient caller
+(global-set-key [(control return)] 'server-edit)
+
+; run the spellchecker
+(global-set-key (kbd "s-SPC") 'ispell-word)
+
