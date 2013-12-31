@@ -1,22 +1,52 @@
-AutOrg is a writing, organizing and publishing system for documents
-based on emacs org-mode.
 
-It is ready to be run on Apple OSX
+    _____             ___
+   (, /  |          /(,  )
+     /---|     _/_ /    / __  _
+  ) /    |_(_(_(__/    / / (_(_/_
+ (_/             (___ /     .-/
+  v0.5.1 distributed by    (_/
+   Dyne.org software foundry
 
-All sources are provided too.
+:: INTRODUCTION
 
-For more informations and a manual go to http://autorg.dyne.org
+AutOrg is a powerful editor for writing and organizing both public and
+private documents, based on Emacs Org-mode.
 
-To start the application on Mac OSX, just move AutOrg in /Applications
-then run it.
+AutOrg is distributed both in source (without Emacs) and as an app ready
+to be run on Apple OSX (wich includes Emacs and other needed binaries).
 
-To use this on GNU/Linux or other BSD systems, use the code that
-is published on code.dyne.org/autorg you can clone it with git:
 
- git://code.dyne.org/autorg.git
+:: FEATURES
 
-Inside the elisp directory are found most sources, so far this
-consists just of a pre-configured Emacs editor, but its growing.
+ - Advanced Emacs environment, ready for use
+ - GnuPG integration for secure document storage
+ - Rendering of documents in various formats (PDF, ODT, HTML, etc.)
+ - Completely open source and based on very old and stable software
+ - Full interoperability with other applications (it's all plain text!)
+
+For more informations go to http://autorg.dyne.org
+
+:: INSTALL 
+
+Apple users can just grab the app and move it into /Applications.
+
+GNU/Linux users are supposed to install dependencies using the package
+manager of their distribution. deps: emacs, texlive, pwgen, pdfutils..
+After installing all dependencies, start AutOrg using the scripts inside
+the gnu/ directory in the source distribution, be sure to use a full
+path command and not just ./ubuntu.sh or ./debian.sh. Aliases help, i.e:
+ alias autorg=/home/luther/autorg/gnu/ubuntu.sh
+
+:: SOURCES
+
+AutOrg code is is published both on http://code.dyne.org and GitHub:
+
+ https://github.com/dyne/AutOrg
+
+Most of it consists of ELisp sources written by many people around the
+world and collected in an integrated and ready to use fashion.
+
+AutOrg is designed and maintained by Denis Roio <jaromil@dyne.org>
 
 For licensing information see the COPYING file.
 
