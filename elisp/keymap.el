@@ -44,6 +44,15 @@
 (global-set-key (kbd "s-y") 'yank-pop)
 ; sloppy hyper - alt swap
 (global-set-key (kbd "s-w") 'kill-ring-save)
+; intuitive command names
+(defun cut () (interactive)
+  (if (region-active-p)
+      (clipboard-kill-region (region-beginning) (region-end)) ))
+(defun copy () (interactive)
+  (if (region-active-p)
+      (clipboard-kill-ring-save (region-beginning) (region-end)) ))
+(defun paste () (interactive) (clipboard-yank) )
+
 
 
 ; M-g to go to specified line in buffer.
