@@ -19,9 +19,14 @@ EOF
 
 # honor user's configuration
 if [ -r $HOME/.emacs ]; then
-	cat $HOME/.emacs >> $TMP/.emacs
+	# check if there is X, else don't use custom fonts
+	if [ "$DISPLAY" = "" ]; then
+	  cat $HOME/.emacs | grep -v '^(set-face-font' >> $TMP/.emacs
+	else
+	  cat $HOME/.emacs >> $TMP/.emacs
+	fi
 fi
 
-export PATH="$PATH:$AUTORG:/usr/texbin"
+export PATH="$PATH:$AUTORG:$AUTORG/tools:/usr/texbin"
 export GNUPGHOME="$HOME/.gnupg"
 HOME=$TMP $EMACS $@

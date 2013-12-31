@@ -57,7 +57,7 @@ org-crypt org-remember org-agenda org-export org-beamer)))
 			    (R org-export-blocks-format-R nil))))
 
 ;; use texi2dvi to process with bibtex and makeindex
-(setq org-latex-to-pdf-process '("texi2dvi --pdf --clean --verbose --batch %f"))
+(setq org-latex-to-pdf-process '("autorg-tex2pdf %f"))
 
 ;; org protocol helps setting communications outside of Emacs
 ; (require 'org-protocol)

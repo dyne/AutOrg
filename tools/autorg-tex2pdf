@@ -1,16 +1,14 @@
 #!/usr/bin/env zsh
 
-# standard output message routines
-autoload colors; colors
 # it's always useful to wrap them, in case we change behaviour later
-notice() { print "$fg_bold[green][*]$fg_no_bold[default] $1" >&2 }
-error()  { print "$fg[red][!]$fg[default] $1" >&2 }
-func()   { if [[ $DEBUG == 1 ]]; then print "$fg[blue][D]$fg[default] $1" >&2; fi }
+notice() { print "[*] $1" >&2 }
+error()  { print "[!] $1" >&2 }
+func()   { if [[ $DEBUG == 1 ]]; then print "[D] $1" >&2; fi }
 act()    {
     if [ "$1" = "-n" ]; then
-	print -n "$fg_bold[white] . $fg_no_bold[default] $2" >&2;
+	print -n " .  $2" >&2;
     else
-	print "$fg_bold[white] . $fg_no_bold[default] $1" >&2;
+	print " .  $1" >&2;
     fi
 }
 
@@ -28,9 +26,9 @@ notice "Rendering Tex file into PDF: $1"
 
 file="${1%%.tex}"
 
-{ test -r "${file}.pdf" } && {
-    error "file already exists: ${file}.pdf"
-    return 1 }
+# { test -r "${file}.pdf" } && {
+#     error "file already exists: ${file}.pdf"
+#     return 1 }
 
 touch ${file}.log
 
