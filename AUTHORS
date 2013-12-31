@@ -1,14 +1,12 @@
 
-AutOrg is written by
-	Denis Roio <Jaromil@dyne.org>
-    and Hellekin O. Wolf <hellekin@riseup.net>
-Includes documentation and ideas by Yaakov Nemoy
+AutOrg is designed and maintained by Denis Roio <Jaromil@dyne.org>
 
-Emacs was written by Richard M. Stallman and several contributors.
+It was initially conceived together with Hellekin O. Wolf,
+with documentation and ideas contributed by Yaakov Nemoy.
 
-Org-mode is an Emacs extension written by Carsten Dominik.
+Emacs was written by Richard M. Stallman and several other contributors.
 
-AutOrg redistributes fonts by Mark Simonson and Raph Levien.
+Org-mode is a brilliant Emacs extension written by Carsten Dominik.
 
 AutOrg also includes various other Emacs extensions not yet documented here,
 but this list should be expanded soon.

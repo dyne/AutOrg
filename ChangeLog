@@ -1,8 +1,14 @@
+31 Dec 2013 - 0.5.1 - Usability improvements
+	New PDF rendering wrapper supports makeindex
+	Now using system-wide GnuPG into EPA
+	Cut/Paste and server-edit aliases and shortcuts
+	Markdown mode include
+
 27 Jun 2013 - 0.5 - Crypto functions
 	Support for new EPA mode using GnuPG
 	Integration of pwgen for password generation
 	Folding mode for code organization
-	
+
 5 Mar 2013 - 0.4 - Backend and export updates
 	Emacs is now upgraded to version 24.2
 	Multilanguage typing works also in Arabic

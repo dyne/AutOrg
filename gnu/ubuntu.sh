@@ -1,11 +1,20 @@
-#!/bin/sh
+#!/usr/bin/env zsh
 # launch script for Ubuntu 12.04
 # assuming org-mode is installed
+# this script must be launched using full path
 
 EMACS=emacs
 AUTORG="`dirname $0 | sed 's/\/gnu$//'`"
 TMP="/tmp/autorg"
 mkdir -p $TMP
+
+if [ "$AUTORG[1]" = "." ]; then
+	echo "Error: this script must be launched specifiying its full path. I.e:"
+	echo "  `pwd`/`basename $0`"
+	echo "Or configuring a shell alias with:"
+	echo "  alias autorg=`pwd`/`basename $0`"
+	return 0
+fi
 
 echo "Starting autorg in $AUTORG"
 # generate the emacs initialization
