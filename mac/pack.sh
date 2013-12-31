@@ -23,6 +23,9 @@ else
 	exit 1
 fi
 
+# clean old signatures
+rm -rf AutOrg.app/Contents/_CodeSignature
+
 # make sure we use our own org-mode
 if [ -r AutOrg.app/Contents/Resources/lisp/org ]; then
 	rm -rf AutOrg.app/Contents/Resources/lisp/org
@@ -33,14 +36,8 @@ cp -f AutOrg.icns AutOrg.app/Contents/Resources/
 mkdir -p AutOrg.app/Contents/Resources/AutOrg
 rsync -a ../elisp/* AutOrg.app/Contents/Resources/AutOrg/
 
-# grammar parser
-rsync -r ../grammar/data/en AutOrg.app/Contents/Resources/AutOrg/
-cp ../grammar/grammar-filter/grammar-filter AutOrg.app/Contents/Resources/AutOrg/
-
-# aspell
-cp ../spell/aspell AutOrg.app/Contents/Resources/AutOrg/
-cp ../spell/ispell AutOrg.app/Contents/Resources/AutOrg/
-# cp ../spell/dictionaries.el AutOrg.app/Contents/Resources/AutOrg/
-rsync -ra ../spell/dict AutOrg.app/Contents/Resources/AutOrg/
+# pwgen
+cp brew/pwgen AutOrg.app/Contents/Resources/AutOrg/
+cp ../tools/autorg-* AutOrg.app/Contents/Resources/AutOrg/
 
 echo "Done."

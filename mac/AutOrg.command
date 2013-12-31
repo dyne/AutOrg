@@ -22,6 +22,8 @@ cat <<EOF > $appbase/$autorg/.emacs
 (setq default-directory "$HOME" )
 (setq AutOrgRes "$appbase/$autorg")
 (add-to-list 'load-path AutOrgRes)
+(add-to-list 'load-path (concat AutOrgRes "/org-mode/lisp"))
+(add-to-list 'load-path (concat AutOrgRes "/org-mode/contrib/lisp"))
 (require 'autorg)
 (require 'osx)
 EOF
