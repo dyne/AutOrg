@@ -48,6 +48,7 @@ cat <<EOF > $1
 #+LATEX_HEADER: \usepackage{fontenc}
 #+LATEX_HEADER: \usepackage{hyperref}
 #+LATEX_HEADER: \usepackage{graphicx}
+#+LATEX_HEADER: \usepackage{parskip}
 
 #+LATEX_HEADER: \usepackage{makeidx}
 #+LATEX_HEADER: \makeindex
